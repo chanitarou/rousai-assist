@@ -188,7 +188,7 @@ async function sendMessage() {
 
     // 送信ボタンを有効化
     sendButton.disabled = false;
-    input.focus();
+    // input.focus(); // スマホでキーボードが自動表示されるのを防ぐため無効化
 }
 
 // クイック質問を送信

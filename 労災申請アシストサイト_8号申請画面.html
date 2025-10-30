@@ -3491,7 +3491,7 @@
                 const response = await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${postalCode}`);
                 const data = await response.json();
 
-                if (data.status === 200 && data.results) {
+                if (data.status === 200 && data.results && data.results.length > 0) {
                     const result = data.results[0];
                     const autoAddress = result.address1 + result.address2 + result.address3;
                     address1Input.value = autoAddress;
