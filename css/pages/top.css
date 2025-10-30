@@ -389,67 +389,97 @@
 @media (max-width: 768px) {
     /* ヒーローセクション */
     .hero {
-        padding: var(--spacing-xl) 0;
+        padding: 24px 0 28px;
     }
 
     .hero-content {
-        padding: 0 var(--spacing-md);
+        padding: 0 12px;
     }
 
     .hero-title {
-        font-size: 24px;
-        line-height: 1.3;
+        font-size: 1.375rem;
+        line-height: 1.35;
+        margin-bottom: 12px;
+        word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .hero-description {
-        font-size: var(--font-size-body);
-        margin-bottom: var(--spacing-lg);
+        font-size: 0.9375rem;
+        line-height: 1.65;
+        margin-bottom: 20px;
     }
 
     .hero-buttons {
-        flex-direction: column;
+        flex-direction: row;
         width: 100%;
+        gap: 10px;
     }
 
     .hero-buttons .btn {
-        width: 100%;
-        font-size: var(--font-size-body);
-        padding: var(--spacing-md) var(--spacing-lg);
+        flex: 1;
+        font-size: 0.9375rem;
+        padding: 12px 16px;
+        min-height: 46px;
+        white-space: nowrap;
     }
 
     /* お知らせバナー */
+    .alert-banner {
+        padding: 10px 0;
+    }
+
     .alert-banner-content {
-        padding: 0 var(--spacing-md);
-        flex-direction: column;
-        text-align: center;
+        padding: 0 12px;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .alert-text {
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        text-align: left;
     }
 
     /* セクション */
     .section {
-        padding: var(--spacing-xl) 0;
+        padding: 28px 0;
     }
 
     .section-content {
-        padding: 0 var(--spacing-md);
+        padding: 0 12px;
+    }
+
+    .section-header {
+        margin-bottom: 20px;
     }
 
     .section-title {
-        font-size: 24px;
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .section-subtitle {
+        font-size: 0.875rem;
+        line-height: 1.6;
     }
 
     /* サービスグリッド */
     .service-grid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+        gap: 12px;
     }
 
     .service-card {
-        padding: var(--spacing-lg);
+        padding: 18px;
     }
 
     .service-icon {
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 12px;
     }
 
     .service-icon svg {
@@ -457,38 +487,70 @@
         height: 24px;
     }
 
+    .service-card-title {
+        font-size: 1.0625rem;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    .service-card-description {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+
+    .service-link-text {
+        font-size: 0.875rem;
+    }
+
     /* お知らせセクション */
     .news-section {
-        padding: var(--spacing-xl) 0;
+        padding: 28px 0;
     }
 
     .news-header {
-        flex-direction: column;
-        gap: var(--spacing-md);
-        align-items: flex-start;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
     }
 
     .news-item {
         flex-direction: column;
-        padding: var(--spacing-md);
-        gap: var(--spacing-sm);
+        padding: 14px;
+        gap: 10px;
+        align-items: flex-start;
     }
 
     .news-date {
         align-self: flex-start;
+        font-size: 0.75rem;
+        padding: 6px 10px;
+    }
+
+    .news-category {
+        font-size: 0.6875rem;
+        padding: 3px 8px;
+        margin-right: 8px;
+    }
+
+    .news-link {
+        font-size: 0.875rem;
+        line-height: 1.6;
     }
 
     /* フローティングボタン */
     .floating-chat-btn {
-        width: 56px;
-        height: 56px;
+        width: 54px;
+        height: 54px;
         bottom: 16px;
-        right: 16px;
+        right: 12px;
     }
 
     .floating-chat-btn svg {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
     }
 
     .floating-chat-tooltip {
@@ -497,35 +559,92 @@
 
     /* ログインメニュー */
     .login-menu {
-        left: 0;
-        right: 0;
+        left: 12px;
+        right: 12px;
         min-width: auto;
-        width: calc(100% - var(--spacing-lg));
-        margin: 0 auto;
+        width: auto;
     }
 
     .login-menu-item {
-        padding: var(--spacing-md);
-        /* タッチターゲット最低44px */
+        padding: 12px;
         min-height: 44px;
+        font-size: 0.9375rem;
     }
 }
 
 /* 小型スマートフォン向け */
 @media (max-width: 375px) {
+    .hero {
+        padding: 20px 0 24px;
+    }
+
+    .hero-content {
+        padding: 0 10px;
+    }
+
     .hero-title {
-        font-size: 20px;
+        font-size: 1.1875rem;
+        line-height: 1.3;
+        margin-bottom: 10px;
+    }
+
+    .hero-description {
+        font-size: 0.875rem;
+        margin-bottom: 16px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        font-size: 0.875rem;
+        padding: 11px 14px;
+        min-height: 44px;
+    }
+
+    .section {
+        padding: 24px 0;
+    }
+
+    .section-content {
+        padding: 0 10px;
     }
 
     .section-title {
-        font-size: 20px;
+        font-size: 1.125rem;
+        line-height: 1.3;
+    }
+
+    .section-subtitle {
+        font-size: 0.8125rem;
+    }
+
+    .service-card {
+        padding: 16px;
     }
 
     .service-card-title {
-        font-size: var(--font-size-lg);
+        font-size: 1rem;
+        line-height: 1.35;
+    }
+
+    .service-card-description {
+        font-size: 0.8125rem;
+    }
+
+    .news-item {
+        padding: 12px;
     }
 
     .news-category {
-        font-size: 10px;
+        font-size: 0.625rem;
+        padding: 2px 6px;
+    }
+
+    .news-link {
+        font-size: 0.8125rem;
     }
 }

@@ -540,81 +540,6 @@
             flex-shrink: 0;
         }
 
-        .error-summary {
-            display: none;
-            padding: var(--spacing-4);
-            background-color: var(--color-error-bg);
-            border: 2px solid var(--color-error);
-            border-radius: var(--radius-base);
-            margin-bottom: var(--spacing-6);
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.1);
-        }
-
-        .error-summary.show {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .error-summary-header {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-2);
-            margin-bottom: var(--spacing-3);
-        }
-
-        .error-summary-icon,
-        .error-icon {
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-            color: var(--color-error);
-        }
-
-        .error-summary-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-error);
-        }
-
-        .error-summary-description {
-            font-size: var(--font-size-sm);
-            color: var(--color-error);
-            margin-bottom: var(--spacing-3);
-        }
-
-        .error-summary-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            color: var(--color-error);
-        }
-
-        .error-summary-list li {
-            padding: var(--spacing-2) var(--spacing-3);
-            margin-bottom: var(--spacing-1);
-            background-color: white;
-            border-radius: var(--radius-base);
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-2);
-        }
-
-        .error-summary-list li::before {
-            content: '•';
-            font-weight: bold;
-            flex-shrink: 0;
-        }
 
         /* ============================================
            ボタン - デジタル庁デザインシステム準拠
@@ -1145,17 +1070,6 @@
                         <p class="card-description">申請者の基本情報を入力してください</p>
                     </div>
 
-                    <div class="error-summary" id="errorSummary1">
-                        <div class="error-summary-header">
-                            <svg class="error-summary-icon" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            <h3 class="error-summary-title">入力内容にエラーがあります</h3>
-                        </div>
-                        <p class="error-summary-description">以下の項目を修正してください：</p>
-                        <ul class="error-summary-list" id="errorList1"></ul>
-                    </div>
-
                     <form>
                         <div class="form-row">
                             <div class="form-group">
@@ -1264,17 +1178,6 @@
                         <p class="card-description">労働保険番号と職種情報を入力してください</p>
                     </div>
 
-                    <div class="error-summary" id="errorSummary2">
-                        <div class="error-summary-header">
-                            <svg class="error-summary-icon" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            <h3 class="error-summary-title">入力内容にエラーがあります</h3>
-                        </div>
-                        <p class="error-summary-description">以下の項目を修正してください：</p>
-                        <ul class="error-summary-list" id="errorList2"></ul>
-                    </div>
-
                     <form>
                         <div class="form-group">
                             <label class="form-label form-label-required">労働保険番号</label>
@@ -1324,17 +1227,6 @@
                         <span class="badge badge-primary">被災労働者</span>
                         <h2 class="card-title">災害情報</h2>
                         <p class="card-description">労働災害の詳細情報を入力してください</p>
-                    </div>
-
-                    <div class="error-summary" id="errorSummary3">
-                        <div class="error-summary-header">
-                            <svg class="error-summary-icon" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            <h3 class="error-summary-title">入力内容にエラーがあります</h3>
-                        </div>
-                        <p class="error-summary-description">以下の項目を修正してください：</p>
-                        <ul class="error-summary-list" id="errorList3"></ul>
                     </div>
 
                     <form>
@@ -1437,17 +1329,6 @@
                         <span class="badge badge-primary">被災労働者</span>
                         <h2 class="card-title">振込先情報</h2>
                         <p class="card-description">給付金の振込先口座を入力してください</p>
-                    </div>
-
-                    <div class="error-summary" id="errorSummary4">
-                        <div class="error-summary-header">
-                            <svg class="error-summary-icon" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            <h3 class="error-summary-title">入力内容にエラーがあります</h3>
-                        </div>
-                        <p class="error-summary-description">以下の項目を修正してください：</p>
-                        <ul class="error-summary-list" id="errorList4"></ul>
                     </div>
 
                     <form>
@@ -1591,17 +1472,6 @@
                     </div>
 
                     <form>
-                        <!-- エラーサマリー -->
-                        <div class="error-summary" id="errorSummaryCirculation">
-                            <div class="error-summary-header">
-                                <svg class="error-icon" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span>入力内容に不備があります</span>
-                            </div>
-                            <ul class="error-summary-list" id="errorListCirculation"></ul>
-                        </div>
-
                         <div class="notification notification-info">
                             <svg class="notification-icon" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
@@ -1650,17 +1520,6 @@
                         <span class="badge badge-warning">事業主</span>
                         <h2 class="card-title">事業主記入欄</h2>
                         <p class="card-description">事業主による証明情報を入力してください</p>
-                    </div>
-
-                    <!-- エラーサマリー -->
-                    <div class="error-summary" id="errorSummaryStep6" style="display: none;">
-                        <div class="error-summary-header">
-                            <svg class="error-icon" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>入力内容に不備があります</span>
-                        </div>
-                        <ul class="error-summary-list" id="errorListStep6"></ul>
                     </div>
 
                     <div class="form-group">
@@ -1749,17 +1608,6 @@
                         <p class="card-description">医療機関の基本情報を入力してください</p>
                     </div>
 
-                    <!-- エラーサマリー -->
-                    <div class="error-summary" id="errorSummaryStep7" style="display: none;">
-                        <div class="error-summary-header">
-                            <svg class="error-icon" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>入力内容に不備があります</span>
-                        </div>
-                        <ul class="error-summary-list" id="errorListStep7"></ul>
-                    </div>
-
                     <div class="form-group">
                         <label for="medicalDate" class="form-label form-label-required">記入日</label>
                         <input type="date" id="medicalDate" class="form-input" placeholder="例：2025-01-15">
@@ -1840,17 +1688,6 @@
                         <span class="badge badge-success">医療機関</span>
                         <h2 class="card-title">診断証明</h2>
                         <p class="card-description">診断内容を入力してください</p>
-                    </div>
-
-                    <!-- エラーサマリー -->
-                    <div class="error-summary" id="errorSummaryStep8" style="display: none;">
-                        <div class="error-summary-header">
-                            <svg class="error-icon" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            <span>入力内容に不備があります</span>
-                        </div>
-                        <ul class="error-summary-list" id="errorListStep8"></ul>
                     </div>
 
                     <div class="form-group">
@@ -2781,10 +2618,7 @@
         // バリデーション
         function validateCurrentStep() {
             const stepElement = document.getElementById(`step-${currentStep}`);
-            const errorSummary = document.getElementById(`errorSummary${currentStep}`);
-            const errorList = document.getElementById(`errorList${currentStep}`);
             let isValid = true;
-            const errors = [];
 
             // エラー状態をリセット
             stepElement.querySelectorAll('.form-input, .form-select').forEach(input => {
@@ -2793,15 +2627,6 @@
             stepElement.querySelectorAll('.error-message').forEach(msg => {
                 msg.classList.remove('show');
             });
-
-            // エラーサマリーをリセット
-            if (errorSummary) {
-                errorSummary.classList.remove('show');
-                errorSummary.style.display = 'none';
-            }
-            if (errorList) {
-                errorList.innerHTML = '';
-            }
 
             // 郵便番号・電話番号の複合バリデーション（ステップ1の場合）
             if (currentStep === 1) {
@@ -2815,7 +2640,6 @@
                         genderError.textContent = '【性別】を選択してください。';
                         genderError.classList.add('show');
                     }
-                    errors.push('性別を選択してください');
                     isValid = false;
                 }
 
@@ -2843,7 +2667,6 @@
                         postalError.textContent = '【郵便番号】は前半3桁、後半4桁で入力してください。例：123-4567';
                         postalError.classList.add('show');
                     }
-                    errors.push('郵便番号をすべて入力してください');
                     isValid = false;
                 }
 
@@ -2872,7 +2695,6 @@
                         telError.textContent = '【電話番号】はすべての項目を入力してください。3つの入力欄すべてに入力してください。';
                         telError.classList.add('show');
                     }
-                    errors.push('電話番号のすべての項目を入力してください');
                     isValid = false;
                 }
             }
@@ -2903,7 +2725,6 @@
                         insuranceError.textContent = '【労働保険番号】はすべての項目を入力してください。前半11桁と後半3桁の両方を正しく入力してください。';
                         insuranceError.classList.add('show');
                     }
-                    errors.push('労働保険番号のすべての項目を入力してください');
                     isValid = false;
                 }
             }
@@ -2922,7 +2743,6 @@
                         timeError.textContent = '【災害発生時刻】の時と分の両方を選択してください。';
                         timeError.classList.add('show');
                     }
-                    errors.push('災害発生時刻を選択してください（時・分）');
                     isValid = false;
                 }
             }
@@ -2938,7 +2758,6 @@
                         accountTypeError.textContent = '【口座種別】を選択してください。';
                         accountTypeError.classList.add('show');
                     }
-                    errors.push('口座種別を選択してください');
                     isValid = false;
                 }
             }
@@ -2969,7 +2788,6 @@
                         postalError.textContent = '【医療機関 郵便番号】は前半3桁、後半4桁で入力してください。例：123-4567';
                         postalError.classList.add('show');
                     }
-                    errors.push('医療機関の郵便番号をすべて入力してください');
                     isValid = false;
                 }
 
@@ -2997,7 +2815,6 @@
                         telError.textContent = '【電話番号】をすべて入力してください';
                         telError.classList.add('show');
                     }
-                    errors.push('医療機関の電話番号をすべて入力してください');
                     isValid = false;
                 }
             }
@@ -3043,8 +2860,6 @@
                                 errorElement.textContent = errorMessage;
                                 errorElement.classList.add('show');
                             }
-
-                            errors.push(errorMessage);
                         }
                     }
                 } else if (radioButtons.length > 0) {
@@ -3064,36 +2879,23 @@
                                 errorElement.textContent = `【${labelText}】を選択してください。`;
                                 errorElement.classList.add('show');
                             }
-                            errors.push(`${labelText}を選択してください`);
                         }
                     }
                 }
             });
 
-            // エラーサマリーの表示
-            if (!isValid && errorSummary && errorList) {
-                errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
-                errorSummary.classList.add('show');
-                errorSummary.style.display = 'block';
-
-                // エラーサマリーまでスムーズスクロール
-                setTimeout(() => {
-                    errorSummary.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }, 100);
-
-                // 最初のエラーフィールドにフォーカス（少し遅延させて）
+            // 最初のエラーフィールドにフォーカス
+            if (!isValid) {
                 setTimeout(() => {
                     const firstErrorField = stepElement.querySelector('.form-input.error, .form-select.error');
                     if (firstErrorField) {
+                        firstErrorField.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
                         firstErrorField.focus();
                     }
-                }, 500);
-            } else if (errorSummary) {
-                errorSummary.classList.remove('show');
-                errorSummary.style.display = 'none';
+                }, 100);
             }
 
             return isValid;
@@ -3946,10 +3748,7 @@
         // 回覧依頼を送信
         function submitCirculation() {
             const circulationSection = document.getElementById('circulation-section');
-            const errorSummary = document.getElementById('errorSummaryCirculation');
-            const errorList = document.getElementById('errorListCirculation');
             let isValid = true;
-            const errors = [];
 
             // エラー状態をリセット
             circulationSection.querySelectorAll('.form-input').forEach(input => {
@@ -3987,8 +3786,6 @@
                         errorElement.textContent = errorMessage;
                         errorElement.classList.add('show');
                     }
-
-                    errors.push(errorMessage);
                 }
             }
 
@@ -4006,36 +3803,20 @@
                     errorElement.textContent = '【労災保険指定医療機関】を検索して選択してください。検索ボタンを押して一覧から選択してください。';
                     errorElement.classList.add('show');
                 }
-
-                errors.push('労災保険指定医療機関を検索して選択してください');
             }
 
-            // エラーサマリーの表示
-            if (!isValid && errorSummary && errorList) {
-                errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
-                errorSummary.classList.add('show');
-
-                // エラーサマリーまでスムーズスクロール
-                setTimeout(() => {
-                    errorSummary.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }, 100);
-
-                // 最初のエラーフィールドにフォーカス（少し遅延させて）
+            // 最初のエラーフィールドにフォーカス
+            if (!isValid) {
                 setTimeout(() => {
                     const firstErrorField = circulationSection.querySelector('.form-input.error');
                     if (firstErrorField) {
+                        firstErrorField.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
                         firstErrorField.focus();
                     }
-                }, 500);
-            } else if (errorSummary) {
-                errorSummary.classList.remove('show');
-            }
-
-            // バリデーションが通った場合のみ送信処理
-            if (!isValid) {
+                }, 100);
                 return;
             }
 
@@ -4272,9 +4053,6 @@
 
         // 事業主フォーム送信
         function submitEmployerForm() {
-            const errorSummary = document.getElementById('errorSummaryStep6');
-            const errorList = document.getElementById('errorListStep6');
-            const errors = [];
 
             // バリデーション
             const employerDate = document.getElementById('employerDate').value;
@@ -4294,22 +4072,24 @@
             document.querySelectorAll('#step-6 .error-message').forEach(el => el.classList.remove('show'));
             document.querySelectorAll('#step-6 .form-input').forEach(el => el.classList.remove('error'));
 
+            let hasError = false;
+
             if (!employerDate) {
-                errors.push('記入日を入力してください');
+                hasError = true;
                 document.getElementById('employerDate').classList.add('error');
                 document.getElementById('employerDate-error').textContent = '【記入日】を入力してください';
                 document.getElementById('employerDate-error').classList.add('show');
             }
 
             if (!businessName) {
-                errors.push('事業の名称を入力してください');
+                hasError = true;
                 document.getElementById('businessName').classList.add('error');
                 document.getElementById('businessName-error').textContent = '【事業の名称】を入力してください';
                 document.getElementById('businessName-error').classList.add('show');
             }
 
             if (!businessPostalCode1 || !businessPostalCode2) {
-                errors.push('郵便番号を入力してください');
+                hasError = true;
                 if (!businessPostalCode1) document.getElementById('businessPostalCode1').classList.add('error');
                 if (!businessPostalCode2) document.getElementById('businessPostalCode2').classList.add('error');
                 document.getElementById('businessPostalCode-error').textContent = '【郵便番号】を入力してください';
@@ -4317,21 +4097,21 @@
             }
 
             if (!businessAddress1) {
-                errors.push('事業の所在地（都道府県・市区町村）を入力してください');
+                hasError = true;
                 document.getElementById('businessAddress1').classList.add('error');
                 document.getElementById('businessAddress1-error').textContent = '【事業の所在地（都道府県・市区町村）】を入力してください';
                 document.getElementById('businessAddress1-error').classList.add('show');
             }
 
             if (!businessAddress2) {
-                errors.push('事業の所在地（番地・建物名等）を入力してください');
+                hasError = true;
                 document.getElementById('businessAddress2').classList.add('error');
                 document.getElementById('businessAddress2-error').textContent = '【事業の所在地（番地・建物名等）】を入力してください';
                 document.getElementById('businessAddress2-error').classList.add('show');
             }
 
             if (!employerPosition || !employerLastName || !employerFirstName) {
-                errors.push('事業主の氏名をすべて入力してください');
+                hasError = true;
                 if (!employerPosition) {
                     document.getElementById('employerPosition').classList.add('error');
                     document.getElementById('employerPosition-error').textContent = '【役職】を入力してください';
@@ -4350,7 +4130,7 @@
             }
 
             if (!employerTel1 || !employerTel2 || !employerTel3) {
-                errors.push('電話番号をすべて入力してください');
+                hasError = true;
                 if (!employerTel1) document.getElementById('employerTel1').classList.add('error');
                 if (!employerTel2) document.getElementById('employerTel2').classList.add('error');
                 if (!employerTel3) document.getElementById('employerTel3').classList.add('error');
@@ -4358,10 +4138,14 @@
                 document.getElementById('employerTel-error').classList.add('show');
             }
 
-            if (errors.length > 0) {
-                errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
-                errorSummary.style.display = 'block';
-                errorSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (hasError) {
+                setTimeout(() => {
+                    const firstErrorField = document.querySelector('#step-6 .form-input.error');
+                    if (firstErrorField) {
+                        firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstErrorField.focus();
+                    }
+                }, 100);
                 return;
             }
 
@@ -4372,10 +4156,6 @@
 
         // 医療機関フォーム送信
         function submitMedicalForm() {
-            const errorSummary = document.getElementById('errorSummaryStep8');
-            const errorList = document.getElementById('errorListStep8');
-            const errors = [];
-
             // バリデーション
             const injuryPart = document.getElementById('injuryPart').value;
             const treatmentStartDate = document.getElementById('treatmentStartDate').value;
@@ -4390,36 +4170,38 @@
             document.querySelectorAll('#step-8 .error-message').forEach(el => el.classList.remove('show'));
             document.querySelectorAll('#step-8 .form-input, #step-8 .form-select, #step-8 .form-radio').forEach(el => el.classList.remove('error'));
 
+            let hasError = false;
+
             if (!injuryPart) {
-                errors.push('傷病の部位及び傷病名を入力してください');
+                hasError = true;
                 document.getElementById('injuryPart').classList.add('error');
                 document.getElementById('injuryPart-error').textContent = '【傷病の部位及び傷病名】を入力してください';
                 document.getElementById('injuryPart-error').classList.add('show');
             }
 
             if (!treatmentStartDate) {
-                errors.push('療養の開始日を入力してください');
+                hasError = true;
                 document.getElementById('treatmentStartDate').classList.add('error');
                 document.getElementById('treatmentStartDate-error').textContent = '【開始日】を入力してください';
                 document.getElementById('treatmentStartDate-error').classList.add('show');
             }
 
             if (!treatmentEndDate) {
-                errors.push('療養の終了日を入力してください');
+                hasError = true;
                 document.getElementById('treatmentEndDate').classList.add('error');
                 document.getElementById('treatmentEndDate-error').textContent = '【終了日】を入力してください';
                 document.getElementById('treatmentEndDate-error').classList.add('show');
             }
 
             if (!treatmentDays) {
-                errors.push('診療実日数を入力してください');
+                hasError = true;
                 document.getElementById('treatmentDays').classList.add('error');
                 document.getElementById('treatmentDays-error').textContent = '【診療実日数】を入力してください';
                 document.getElementById('treatmentDays-error').classList.add('show');
             }
 
             if (!treatmentStatus) {
-                errors.push('療養の現況を選択してください');
+                hasError = true;
                 // ラジオボタン全体にエラーを表示
                 treatmentStatusRadios.forEach(radio => {
                     radio.classList.add('error');
@@ -4428,10 +4210,14 @@
                 document.getElementById('treatmentStatus-error').classList.add('show');
             }
 
-            if (errors.length > 0) {
-                errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
-                errorSummary.style.display = 'block';
-                errorSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (hasError) {
+                setTimeout(() => {
+                    const firstErrorField = document.querySelector('#step-8 .form-input.error, #step-8 .form-select.error');
+                    if (firstErrorField) {
+                        firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstErrorField.focus();
+                    }
+                }, 100);
                 return;
             }
 

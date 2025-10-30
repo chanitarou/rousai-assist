@@ -289,111 +289,255 @@ body {
 @media (max-width: 768px) {
     /* ヘッダーユーザー情報 */
     .header-user {
-        flex-direction: column;
-        gap: var(--spacing-sm);
+        flex-direction: row;
+        gap: 12px;
         width: 100%;
+        justify-content: space-between;
     }
 
     .user-info {
-        text-align: center;
+        text-align: left;
+        flex: 1;
+    }
+
+    .user-name {
+        font-size: 0.9375rem;
+        line-height: 1.3;
+    }
+
+    .user-role {
+        font-size: 0.8125rem;
+        line-height: 1.3;
     }
 
     .btn-logout {
-        width: 100%;
-        justify-content: center;
-        /* タッチターゲット最低44px */
-        min-height: 44px;
+        flex-shrink: 0;
+        padding: 8px 16px;
+        min-height: 40px;
+        font-size: 0.875rem;
+        white-space: nowrap;
     }
 
     /* メインコンテンツ */
     .main-container {
-        padding: var(--spacing-md);
+        padding: 12px;
     }
 
     .page-header {
-        padding: var(--spacing-lg) var(--spacing-md);
+        padding: 20px 16px;
+        margin-bottom: 16px;
     }
 
     .page-title {
-        font-size: 24px;
+        font-size: 1.375rem;
+        line-height: 1.3;
+        margin-bottom: 10px;
+        word-break: keep-all;
+        overflow-wrap: break-word;
     }
 
     .page-description {
-        font-size: var(--font-size-body);
+        font-size: 0.9375rem;
+        line-height: 1.6;
     }
 
     /* フィルター */
     .filter-section {
-        padding: var(--spacing-md);
+        padding: 16px 12px;
+        margin-bottom: 16px;
     }
 
     .filter-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--spacing-sm);
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .filter-title {
+        font-size: 0.9375rem;
+        gap: 6px;
+    }
+
+    .filter-count {
+        padding: 3px 10px;
+        font-size: 0.75rem;
     }
 
     .filter-tags {
         width: 100%;
+        gap: 6px;
     }
 
     .filter-tag {
         flex: 1;
         text-align: center;
-        /* タッチターゲット最低44px */
+        padding: 10px 8px;
         min-height: 44px;
+        font-size: 0.8125rem;
         display: flex;
         align-items: center;
         justify-content: center;
+        line-height: 1.3;
+        word-break: keep-all;
     }
 
     /* 手続きグリッド */
     .procedures-grid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+        gap: 16px;
     }
 
     .procedure-card {
-        font-size: var(--font-size-small);
+        font-size: 0.9375rem;
     }
 
     .procedure-header {
-        padding: var(--spacing-md);
+        padding: 16px;
+    }
+
+    .procedure-type {
+        padding: 4px 10px;
+        font-size: 0.6875rem;
+        margin-bottom: 10px;
+    }
+
+    .procedure-number {
+        font-size: 0.8125rem;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .procedure-title {
+        font-size: 1.0625rem;
+        line-height: 1.3;
+        margin-bottom: 8px;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+    }
+
+    .procedure-subtitle {
+        font-size: 0.875rem;
+        line-height: 1.5;
     }
 
     .procedure-body {
-        padding: var(--spacing-md);
+        padding: 16px;
+    }
+
+    .procedure-info {
+        gap: 12px;
+    }
+
+    .info-row {
+        gap: 10px;
+    }
+
+    .info-label {
+        font-size: 0.6875rem;
+        margin-bottom: 4px;
+    }
+
+    .info-value {
+        font-size: 0.875rem;
+        line-height: 1.45;
     }
 
     .procedure-footer {
-        padding: var(--spacing-md);
+        padding: 16px;
     }
 
     .procedure-action {
-        flex-direction: column;
-        gap: var(--spacing-md);
+        flex-direction: row;
+        gap: 12px;
+        align-items: center;
     }
 
     .btn-start {
-        width: 100%;
+        flex: 1;
         justify-content: center;
-        /* タッチターゲット最低44px */
         min-height: 48px;
-        font-size: var(--font-size-body);
+        padding: 12px 20px;
+        font-size: 0.9375rem;
+        white-space: nowrap;
     }
 }
 
 /* 小型スマートフォン向け */
 @media (max-width: 375px) {
-    .page-title {
-        font-size: 20px;
+    .header-user {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
     }
 
-    .procedure-title {
-        font-size: var(--font-size-lg);
+    .btn-logout {
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
+    }
+
+    .page-header {
+        padding: 16px 12px;
+    }
+
+    .page-title {
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+    }
+
+    .page-description {
+        font-size: 0.875rem;
+        line-height: 1.55;
+    }
+
+    .filter-section {
+        padding: 12px;
+    }
+
+    .filter-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
 
     .filter-tag {
         font-size: 0.75rem;
+        padding: 8px 6px;
+        min-height: 40px;
+    }
+
+    .procedure-header {
+        padding: 12px;
+    }
+
+    .procedure-title {
+        font-size: 1rem;
+    }
+
+    .procedure-subtitle {
+        font-size: 0.8125rem;
+    }
+
+    .procedure-body {
+        padding: 12px;
+    }
+
+    .info-value {
+        font-size: 0.8125rem;
+    }
+
+    .procedure-footer {
+        padding: 12px;
+    }
+
+    .procedure-action {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn-start {
+        width: 100%;
     }
 }
