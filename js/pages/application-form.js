@@ -14,6 +14,12 @@ let currentStep = 1;
 const totalSteps = 9;
 let formData = {};
 
+// モバイルデバイス判定（スマホ・タブレット対応）
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           (window.innerWidth <= 768);
+}
+
 // ステップ情報の定義
 const steps = [
     { id: 1, label: '基本情報', role: 'worker' },
@@ -1068,7 +1074,7 @@ function validateCurrentStep() {
         }
     });
 
-    // 最初のエラーフィールドにフォーカス
+    // 最初のエラーフィールドにスクロール（モバイルではフォーカスしない）
     if (!isValid) {
         setTimeout(() => {
             const firstErrorField = stepElement.querySelector('.form-input.error, .form-select.error');
@@ -1077,7 +1083,10 @@ function validateCurrentStep() {
                     behavior: 'smooth',
                     block: 'center'
                 });
-                firstErrorField.focus();
+                // スマホではキーボード自動表示を防ぐためフォーカスしない
+                if (!isMobileDevice()) {
+                    firstErrorField.focus();
+                }
             }
         }, 100);
     }
@@ -1640,9 +1649,9 @@ async function searchAddress() {
                 address1Error.classList.remove('show');
             }
 
-            // 下段（番地等）の入力欄にフォーカス
+            // 下段（番地等）の入力欄にフォーカス（モバイルではフォーカスしない）
             const address2Input = document.getElementById('address2');
-            if (address2Input) {
+            if (address2Input && !isMobileDevice()) {
                 address2Input.focus();
             }
         } else {
@@ -1833,8 +1842,10 @@ function clearMedicalSelection() {
         errorElement.classList.remove('show');
     }
 
-    // 検索フィールドにフォーカス
-    medicalSearchField.focus();
+    // 検索フィールドにフォーカス（モバイルではフォーカスしない）
+    if (!isMobileDevice()) {
+        medicalSearchField.focus();
+    }
 }
 
 // 回覧セクションを表示
@@ -1989,7 +2000,7 @@ function submitCirculation() {
         }
     }
 
-    // 最初のエラーフィールドにフォーカス
+    // 最初のエラーフィールドにスクロール（モバイルではフォーカスしない）
     if (!isValid) {
         setTimeout(() => {
             const firstErrorField = circulationSection.querySelector('.form-input.error');
@@ -1998,7 +2009,10 @@ function submitCirculation() {
                     behavior: 'smooth',
                     block: 'center'
                 });
-                firstErrorField.focus();
+                // スマホではキーボード自動表示を防ぐためフォーカスしない
+                if (!isMobileDevice()) {
+                    firstErrorField.focus();
+                }
             }
         }, 100);
         return;
@@ -2327,7 +2341,10 @@ function submitEmployerForm() {
             const firstErrorField = document.querySelector('#step-6 .form-input.error');
             if (firstErrorField) {
                 firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                firstErrorField.focus();
+                // スマホではキーボード自動表示を防ぐためフォーカスしない
+                if (!isMobileDevice()) {
+                    firstErrorField.focus();
+                }
             }
         }, 100);
         return;
@@ -2399,7 +2416,10 @@ function submitMedicalForm() {
             const firstErrorField = document.querySelector('#step-8 .form-input.error, #step-8 .form-select.error');
             if (firstErrorField) {
                 firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                firstErrorField.focus();
+                // スマホではキーボード自動表示を防ぐためフォーカスしない
+                if (!isMobileDevice()) {
+                    firstErrorField.focus();
+                }
             }
         }, 100);
         return;
