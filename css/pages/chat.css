@@ -479,154 +479,153 @@ body {
         white-space: nowrap;
     }
 
-    /* ウェルカムセクション */
+    /* ウェルカムセクション - コンパクトに */
     .welcome-section {
-        padding: 28px 20px;
+        padding: 16px 16px;
+        display: none; /* スマホでは完全に非表示にして画面を広く使う */
     }
 
     .welcome-title {
-        font-size: 1.5rem;
-        line-height: 1.5;
-        margin-bottom: 16px;
+        font-size: 1.125rem;
+        line-height: 1.4;
+        margin-bottom: 10px;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .welcome-description {
-        font-size: 1rem;
-        line-height: 1.7;
-        margin-bottom: 20px;
+        display: none; /* 説明文を非表示 */
     }
 
     .quick-questions {
         grid-template-columns: 1fr;
-        gap: 14px;
+        gap: 8px;
     }
 
     .quick-question-btn {
-        padding: 16px;
-        min-height: 54px;
-        font-size: 1rem;
-        line-height: 1.5;
+        padding: 10px 12px;
+        min-height: 44px;
+        font-size: 0.875rem;
+        line-height: 1.4;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     /* サジェスチョン */
     .suggestions-section {
-        padding: 20px;
+        padding: 16px;
     }
 
     .suggestions-title {
-        font-size: 0.9375rem;
-        margin-bottom: 12px;
+        font-size: 0.875rem;
+        margin-bottom: 10px;
     }
 
     .suggestions-grid {
-        gap: 10px;
+        gap: 8px;
     }
 
     .suggestion-chip {
-        padding: 12px 16px;
-        min-height: 48px;
-        font-size: 1rem;
+        padding: 10px 14px;
+        min-height: 44px;
+        font-size: 0.9375rem;
         white-space: nowrap;
     }
 
     /* メッセージエリア */
     .messages-area {
-        padding: 20px;
-        gap: 20px;
+        padding: 16px;
+        gap: 16px;
     }
 
     .message {
-        max-width: 92%;
-        gap: 12px;
+        max-width: 90%;
+        gap: 10px;
     }
 
     .message-content {
-        padding: 16px;
-        font-size: 1rem;
-        line-height: 1.7;
+        padding: 14px;
+        font-size: 0.9375rem;
+        line-height: 1.6;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .message-avatar {
-        width: 44px;
-        height: 44px;
-    }
-
-    .message-avatar svg {
-        width: 24px;
-        height: 24px;
-    }
-
-    .message-meta {
-        font-size: 0.875rem;
-        padding: 0 8px;
-    }
-
-    /* 関連リンク */
-    .related-links {
-        gap: 12px;
-        margin-top: 16px;
-    }
-
-    .related-link-card {
-        padding: 16px;
-        min-height: 76px;
-        gap: 16px;
-    }
-
-    .related-link-icon {
         width: 40px;
         height: 40px;
     }
 
-    .related-link-icon svg {
+    .message-avatar svg {
         width: 22px;
         height: 22px;
     }
 
+    .message-meta {
+        font-size: 0.8125rem;
+        padding: 0 6px;
+    }
+
+    /* 関連リンク */
+    .related-links {
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .related-link-card {
+        padding: 14px;
+        min-height: 68px;
+        gap: 12px;
+    }
+
+    .related-link-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .related-link-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
     .related-link-title {
-        font-size: 1.0625rem;
-        margin-bottom: 6px;
+        font-size: 1rem;
+        margin-bottom: 4px;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .related-link-description {
-        font-size: 0.9375rem;
-        line-height: 1.6;
+        font-size: 0.875rem;
+        line-height: 1.5;
     }
 
     /* 入力エリア */
     .input-area {
-        padding: 20px;
+        padding: 16px;
     }
 
     .input-container {
         flex-direction: row;
         align-items: flex-end;
-        gap: 14px;
+        gap: 12px;
     }
 
     .message-input {
-        padding: 16px;
-        font-size: 1.0625rem;
-        min-height: 56px;
-        max-height: 140px;
-        line-height: 1.6;
+        padding: 14px;
+        font-size: 1rem;
+        min-height: 50px;
+        max-height: 120px;
+        line-height: 1.5;
     }
 
     .btn-send {
         flex-shrink: 0;
         justify-content: center;
-        min-height: 56px;
-        min-width: 96px;
-        padding: 16px 24px;
-        font-size: 1.0625rem;
+        min-height: 50px;
+        min-width: 80px;
+        padding: 14px 20px;
+        font-size: 1rem;
         white-space: nowrap;
     }
 }

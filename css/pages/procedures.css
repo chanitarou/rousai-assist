@@ -290,7 +290,7 @@ body {
     /* ヘッダーユーザー情報 */
     .header-user {
         flex-direction: row;
-        gap: 16px;
+        gap: 12px;
         width: 100%;
         justify-content: space-between;
     }
@@ -301,165 +301,165 @@ body {
     }
 
     .user-name {
-        font-size: 1.0625rem;
-        line-height: 1.4;
+        font-size: 1rem;
+        line-height: 1.3;
     }
 
     .user-role {
-        font-size: 0.9375rem;
-        line-height: 1.4;
+        font-size: 0.875rem;
+        line-height: 1.3;
     }
 
     .btn-logout {
         flex-shrink: 0;
-        padding: 12px 20px;
-        min-height: 48px;
-        font-size: 1rem;
+        padding: 10px 16px;
+        min-height: 44px;
+        font-size: 0.9375rem;
         white-space: nowrap;
     }
 
     /* メインコンテンツ */
     .main-container {
-        padding: 20px;
+        padding: 16px;
     }
 
     .page-header {
-        padding: 28px 24px;
-        margin-bottom: 20px;
+        padding: 24px 20px;
+        margin-bottom: 16px;
     }
 
     .page-title {
-        font-size: 1.625rem;
-        line-height: 1.4;
-        margin-bottom: 14px;
+        font-size: 1.5rem;
+        line-height: 1.3;
+        margin-bottom: 12px;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .page-description {
-        font-size: 1.0625rem;
-        line-height: 1.7;
+        font-size: 1rem;
+        line-height: 1.6;
     }
 
     /* フィルター */
     .filter-section {
-        padding: 20px 16px;
-        margin-bottom: 20px;
+        padding: 16px;
+        margin-bottom: 16px;
     }
 
     .filter-header {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 16px;
+        gap: 10px;
+        margin-bottom: 12px;
     }
 
     .filter-title {
-        font-size: 1.0625rem;
-        gap: 10px;
+        font-size: 1rem;
+        gap: 8px;
     }
 
     .filter-count {
-        padding: 5px 14px;
-        font-size: 0.875rem;
+        padding: 4px 12px;
+        font-size: 0.8125rem;
     }
 
     .filter-tags {
         width: 100%;
-        gap: 10px;
+        gap: 8px;
     }
 
     .filter-tag {
         flex: 1;
         text-align: center;
-        padding: 14px 12px;
-        min-height: 52px;
-        font-size: 0.9375rem;
+        padding: 12px 10px;
+        min-height: 48px;
+        font-size: 0.875rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        line-height: 1.4;
+        line-height: 1.3;
         word-break: keep-all;
     }
 
     /* 手続きグリッド */
     .procedures-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 16px;
     }
 
     .procedure-card {
-        font-size: 1rem;
+        font-size: 0.9375rem;
     }
 
     .procedure-header {
-        padding: 20px;
+        padding: 16px;
     }
 
     .procedure-type {
-        padding: 6px 14px;
-        font-size: 0.875rem;
-        margin-bottom: 14px;
+        padding: 5px 12px;
+        font-size: 0.8125rem;
+        margin-bottom: 12px;
     }
 
     .procedure-number {
-        font-size: 0.9375rem;
-        margin-bottom: 12px;
-        line-height: 1.6;
+        font-size: 0.875rem;
+        margin-bottom: 10px;
+        line-height: 1.5;
     }
 
     .procedure-title {
-        font-size: 1.25rem;
-        line-height: 1.4;
-        margin-bottom: 12px;
+        font-size: 1.125rem;
+        line-height: 1.3;
+        margin-bottom: 10px;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .procedure-subtitle {
-        font-size: 1rem;
-        line-height: 1.7;
+        font-size: 0.9375rem;
+        line-height: 1.6;
     }
 
     .procedure-body {
-        padding: 20px;
+        padding: 16px;
     }
 
     .procedure-info {
-        gap: 16px;
+        gap: 12px;
     }
 
     .info-row {
-        gap: 14px;
+        gap: 12px;
     }
 
     .info-label {
-        font-size: 0.875rem;
-        margin-bottom: 6px;
+        font-size: 0.8125rem;
+        margin-bottom: 5px;
     }
 
     .info-value {
-        font-size: 1rem;
-        line-height: 1.7;
+        font-size: 0.9375rem;
+        line-height: 1.6;
     }
 
     .procedure-footer {
-        padding: 20px;
+        padding: 16px;
     }
 
     .procedure-action {
         flex-direction: row;
-        gap: 16px;
+        gap: 12px;
         align-items: center;
     }
 
     .btn-start {
         flex: 1;
         justify-content: center;
-        min-height: 56px;
-        padding: 16px 24px;
-        font-size: 1.0625rem;
+        min-height: 50px;
+        padding: 14px 20px;
+        font-size: 1rem;
         white-space: nowrap;
     }
 }

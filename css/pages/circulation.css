@@ -152,7 +152,7 @@ body {
 
     .header-content {
         flex-direction: row !important;
-        gap: 10px !important;
+        gap: 8px !important;
         padding: 0 12px !important;
         align-items: center !important;
         justify-content: flex-start !important;
@@ -192,39 +192,39 @@ body {
 
     /* コンテナ */
     .container {
-        padding: 28px 20px;
+        padding: 24px 16px;
     }
 
     /* ステータスバナー */
     .status-banner {
-        padding: 28px 24px;
-        margin-bottom: 28px;
+        padding: 24px 20px;
+        margin-bottom: 24px;
     }
 
     .status-title {
-        font-size: 1.5rem;
-        line-height: 1.4;
-        margin-bottom: 14px;
+        font-size: 1.375rem;
+        line-height: 1.3;
+        margin-bottom: 12px;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .status-message {
-        font-size: 1.0625rem;
-        line-height: 1.7;
-        margin-bottom: 16px;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 14px;
     }
 
     .application-number {
-        padding: 12px 16px;
-        font-size: 1rem;
+        padding: 10px 14px;
+        font-size: 0.9375rem;
         display: inline-block;
     }
 
     /* テーブルをカード形式に変換 */
     .status-table {
         border: none;
-        margin-top: 20px;
+        margin-top: 16px;
     }
 
     .status-table thead {
@@ -237,29 +237,29 @@ body {
 
     .status-table tr {
         display: block;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
         background: white;
         border: 1px solid var(--color-border);
         border-radius: var(--border-radius-md);
-        padding: 20px;
+        padding: 16px;
     }
 
     .status-table td {
         display: block;
-        padding: 12px 0;
+        padding: 10px 0;
         border: none;
         text-align: left;
-        font-size: 1.0625rem;
-        line-height: 1.7;
+        font-size: 1rem;
+        line-height: 1.6;
     }
 
     .status-table td::before {
         content: attr(data-label);
         display: block;
         font-weight: 600;
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         color: var(--color-text-secondary);
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         text-transform: uppercase;
         letter-spacing: 0.02em;
     }
@@ -283,31 +283,31 @@ body {
     /* ステータスバッジ */
     .status-badge {
         display: inline-block;
-        margin-top: 6px;
-        padding: 7px 16px;
-        font-size: 0.9375rem;
+        margin-top: 4px;
+        padding: 6px 14px;
+        font-size: 0.875rem;
     }
 
     /* 通知ボックス */
     .notice-box {
-        padding: 20px;
-        margin-top: 28px;
+        padding: 16px;
+        margin-top: 24px;
     }
 
     .notice-title {
-        font-size: 1.0625rem;
-        margin-bottom: 12px;
-        line-height: 1.5;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        line-height: 1.4;
     }
 
     .notice-box ul {
-        margin-left: 28px;
-        font-size: 0.9375rem;
-        line-height: 1.7;
+        margin-left: 24px;
+        font-size: 0.875rem;
+        line-height: 1.6;
     }
 
     .notice-box ul li {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
@@ -315,16 +315,16 @@ body {
     /* アクションボタン */
     .action-buttons {
         flex-direction: row;
-        gap: 14px;
-        margin-top: 20px;
+        gap: 12px;
+        margin-top: 16px;
     }
 
     .action-buttons .btn {
         flex: 1;
-        min-height: 56px;
+        min-height: 50px;
         justify-content: center;
-        font-size: 1.0625rem;
-        padding: 16px 20px;
+        font-size: 1rem;
+        padding: 14px 16px;
         white-space: nowrap;
     }
 }

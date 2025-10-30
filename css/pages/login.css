@@ -258,7 +258,7 @@ body {
 /* レスポンシブ（モバイル対応強化） */
 @media (max-width: 768px) {
     .main-container {
-        padding: 20px;
+        padding: 16px;
     }
 
     .login-container {
@@ -267,71 +267,71 @@ body {
     }
 
     .login-left, .login-right {
-        padding: 32px 24px;
+        padding: 28px 20px;
     }
 
     .login-title {
-        font-size: 1.625rem;
-        line-height: 1.4;
-        margin-bottom: 16px;
+        font-size: 1.5rem;
+        line-height: 1.3;
+        margin-bottom: 12px;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .login-subtitle {
-        font-size: 1.0625rem;
-        line-height: 1.7;
-        margin-bottom: 28px;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 24px;
     }
 
     .auth-badge {
-        padding: 16px;
-        margin-bottom: 32px;
+        padding: 14px;
+        margin-bottom: 28px;
     }
 
     .auth-badge-title {
-        font-size: 1.0625rem;
-        margin-bottom: 10px;
+        font-size: 1rem;
+        margin-bottom: 8px;
     }
 
     .auth-badge-text {
-        font-size: 0.9375rem;
-        line-height: 1.7;
+        font-size: 0.875rem;
+        line-height: 1.6;
     }
 
     .benefits-list {
-        margin-bottom: 32px;
+        margin-bottom: 28px;
     }
 
     .benefits-list li {
-        padding: 14px 0;
-        font-size: 1.0625rem;
-        gap: 14px;
-        line-height: 1.7;
+        padding: 10px 0;
+        font-size: 1rem;
+        gap: 12px;
+        line-height: 1.6;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .benefits-list li::before {
-        width: 28px;
-        height: 28px;
-        font-size: 0.875rem;
+        width: 24px;
+        height: 24px;
+        font-size: 0.8125rem;
     }
 
     .qr-code {
-        width: 260px;
-        height: 260px;
+        width: 240px;
+        height: 240px;
     }
 
     .qr-container {
-        padding: 20px;
-        margin-bottom: 32px;
+        padding: 16px;
+        margin-bottom: 28px;
     }
 
     .qr-instructions h3 {
-        font-size: 1.25rem;
-        line-height: 1.5;
-        margin-bottom: 16px;
+        font-size: 1.125rem;
+        line-height: 1.4;
+        margin-bottom: 12px;
     }
 
     .qr-instructions ol {
@@ -339,52 +339,52 @@ body {
     }
 
     .qr-instructions li {
-        padding: 14px 0;
-        font-size: 1rem;
-        line-height: 1.7;
-        padding-left: 40px;
+        padding: 10px 0;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        padding-left: 36px;
         word-break: keep-all;
         overflow-wrap: break-word;
     }
 
     .qr-instructions li::before {
-        top: 14px;
-        width: 28px;
-        height: 28px;
-        font-size: 0.875rem;
+        top: 10px;
+        width: 24px;
+        height: 24px;
+        font-size: 0.8125rem;
     }
 
     .app-download {
-        margin-top: 32px;
-        padding: 16px;
+        margin-top: 28px;
+        padding: 14px;
     }
 
     .app-download-title {
-        font-size: 1rem;
-        margin-bottom: 16px;
+        font-size: 0.9375rem;
+        margin-bottom: 12px;
     }
 
     .app-buttons {
         flex-direction: row;
-        gap: 14px;
+        gap: 12px;
         width: 100%;
     }
 
     .app-button {
         flex: 1;
-        padding: 16px 20px;
-        min-height: 52px;
-        font-size: 1rem;
+        padding: 14px 16px;
+        min-height: 48px;
+        font-size: 0.9375rem;
         white-space: nowrap;
     }
 
     .qr-timer {
-        margin-top: 16px;
-        font-size: 0.9375rem;
+        margin-top: 12px;
+        font-size: 0.875rem;
     }
 
     .timer-value {
-        font-size: 1.125rem;
+        font-size: 1rem;
     }
 }
 
