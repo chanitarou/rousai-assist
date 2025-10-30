@@ -557,38 +557,38 @@
         display: none;
     }
 
-    /* ログインメニュー - 2列グリッドレイアウトに変更 */
+    /* ログインメニュー - 超コンパクト1列リスト */
     .login-menu {
         left: 16px;
         right: 16px;
         min-width: auto;
         width: auto;
-        padding: 8px;
-        max-width: 400px;
+        padding: 4px;
+        max-width: 280px;
         margin: 0 auto;
-        display: grid !important;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
     }
 
     .login-menu-item {
-        padding: 12px 8px;
-        min-height: 60px;
-        font-size: 0.8125rem;
-        gap: 6px;
-        flex-direction: column;
-        text-align: center;
-        justify-content: center;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        padding: 8px 10px !important;
+        min-height: 40px !important;
+        font-size: 0.875rem !important;
+        gap: 10px !important;
     }
 
     .login-menu-item svg {
-        width: 20px;
-        height: 20px;
-        flex-shrink: 0;
+        width: 16px !important;
+        height: 16px !important;
+        flex-shrink: 0 !important;
     }
 
     .login-menu-divider {
-        display: none;
+        margin: 2px 0 !important;
+        height: 1px !important;
     }
 }
 
@@ -668,27 +668,27 @@
         font-size: 0.8125rem;
     }
 
-    /* ログインメニュー - 2列グリッドでさらにコンパクト化 */
+    /* ログインメニュー - さらにコンパクト化 */
     .login-menu {
-        left: 10px;
-        right: 10px;
-        padding: 6px;
-        gap: 6px;
+        left: 10px !important;
+        right: 10px !important;
+        padding: 3px !important;
+        max-width: 260px !important;
     }
 
     .login-menu-item {
-        padding: 10px 6px;
-        min-height: 56px;
-        font-size: 0.75rem;
-        gap: 4px;
+        padding: 6px 8px !important;
+        min-height: 38px !important;
+        font-size: 0.8125rem !important;
+        gap: 8px !important;
     }
 
     .login-menu-item svg {
-        width: 18px;
-        height: 18px;
+        width: 14px !important;
+        height: 14px !important;
     }
 
     .login-menu-divider {
-        display: none;
+        margin: 1px 0 !important;
     }
 }
