@@ -420,20 +420,29 @@ body {
     fill: currentColor;
 }
 
-/* レスポンシブ */
+/* レスポンシブ（モバイル対応強化） */
 @media (max-width: 768px) {
+    /* ヘッダー */
     .header-content {
         flex-direction: column;
         gap: var(--spacing-md);
+        padding: 0 var(--spacing-md);
     }
 
     .header-actions {
         width: 100%;
         justify-content: space-between;
+        flex-direction: row;
     }
 
+    .header-actions .btn {
+        flex: 1;
+        min-height: 44px;
+    }
+
+    /* ウェルカムセクション */
     .welcome-section {
-        padding: var(--spacing-lg);
+        padding: var(--spacing-lg) var(--spacing-md);
     }
 
     .welcome-title {
@@ -442,16 +451,82 @@ body {
 
     .quick-questions {
         grid-template-columns: 1fr;
+        gap: var(--spacing-md);
     }
 
-    .messages-area {
+    .quick-question-btn {
+        padding: var(--spacing-md);
+        /* タッチターゲット最低44px */
+        min-height: 44px;
+        font-size: var(--font-size-small);
+    }
+
+    /* サジェスチョン */
+    .suggestions-section {
         padding: var(--spacing-md);
     }
 
-    .message {
-        max-width: 90%;
+    .suggestions-grid {
+        gap: var(--spacing-md);
     }
 
+    .suggestion-chip {
+        padding: var(--spacing-md);
+        /* タッチターゲット最低44px */
+        min-height: 44px;
+    }
+
+    /* メッセージエリア */
+    .messages-area {
+        padding: var(--spacing-md);
+        gap: var(--spacing-md);
+    }
+
+    .message {
+        max-width: 95%;
+    }
+
+    .message-content {
+        padding: var(--spacing-md);
+        font-size: var(--font-size-small);
+    }
+
+    .message-avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .message-avatar svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* 関連リンク */
+    .related-link-card {
+        padding: var(--spacing-md);
+        /* タッチターゲット最低44px */
+        min-height: 44px;
+    }
+
+    .related-link-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .related-link-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .related-link-title {
+        font-size: var(--font-size-small);
+    }
+
+    .related-link-description {
+        font-size: 0.75rem;
+    }
+
+    /* 入力エリア */
     .input-area {
         padding: var(--spacing-md);
     }
@@ -459,11 +534,37 @@ body {
     .input-container {
         flex-direction: column;
         align-items: stretch;
+        gap: var(--spacing-md);
+    }
+
+    .message-input {
+        padding: var(--spacing-md);
+        font-size: var(--font-size-body);
+        min-height: 80px;
     }
 
     .btn-send {
         width: 100%;
         justify-content: center;
+        /* タッチターゲット最低44px */
+        min-height: 48px;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+}
+
+/* 小型スマートフォン向け */
+@media (max-width: 375px) {
+    .welcome-title {
+        font-size: 18px;
+    }
+
+    .message-content {
+        font-size: 0.8125rem;
+    }
+
+    .quick-question-btn,
+    .suggestion-chip {
+        font-size: 0.75rem;
     }
 }
 

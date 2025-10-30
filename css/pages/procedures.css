@@ -285,16 +285,88 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* レスポンシブ */
+/* レスポンシブ（モバイル対応強化） */
 @media (max-width: 768px) {
-    .procedures-grid {
-        grid-template-columns: 1fr;
+    /* ヘッダーユーザー情報 */
+    .header-user {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        width: 100%;
     }
 
-    .header-content {
-        flex-direction: column;
-        gap: var(--spacing-md);
+    .user-info {
         text-align: center;
+    }
+
+    .btn-logout {
+        width: 100%;
+        justify-content: center;
+        /* タッチターゲット最低44px */
+        min-height: 44px;
+    }
+
+    /* メインコンテンツ */
+    .main-container {
+        padding: var(--spacing-md);
+    }
+
+    .page-header {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .page-description {
+        font-size: var(--font-size-body);
+    }
+
+    /* フィルター */
+    .filter-section {
+        padding: var(--spacing-md);
+    }
+
+    .filter-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+
+    .filter-tags {
+        width: 100%;
+    }
+
+    .filter-tag {
+        flex: 1;
+        text-align: center;
+        /* タッチターゲット最低44px */
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 手続きグリッド */
+    .procedures-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+
+    .procedure-card {
+        font-size: var(--font-size-small);
+    }
+
+    .procedure-header {
+        padding: var(--spacing-md);
+    }
+
+    .procedure-body {
+        padding: var(--spacing-md);
+    }
+
+    .procedure-footer {
+        padding: var(--spacing-md);
     }
 
     .procedure-action {
@@ -305,5 +377,23 @@ body {
     .btn-start {
         width: 100%;
         justify-content: center;
+        /* タッチターゲット最低44px */
+        min-height: 48px;
+        font-size: var(--font-size-body);
+    }
+}
+
+/* 小型スマートフォン向け */
+@media (max-width: 375px) {
+    .page-title {
+        font-size: 20px;
+    }
+
+    .procedure-title {
+        font-size: var(--font-size-lg);
+    }
+
+    .filter-tag {
+        font-size: 0.75rem;
     }
 }

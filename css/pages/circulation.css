@@ -131,22 +131,110 @@ body {
     margin-top: var(--spacing-md);
 }
 
-/* レスポンシブ */
+/* レスポンシブ（モバイル対応強化） */
 @media (max-width: 768px) {
-    .status-table {
+    /* コンテナ */
+    .container {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    /* ステータスバナー */
+    .status-banner {
+        padding: var(--spacing-lg);
+    }
+
+    .status-title {
+        font-size: 20px;
+    }
+
+    .status-message {
         font-size: var(--font-size-small);
     }
 
-    .status-table th,
-    .status-table td {
-        padding: 12px;
+    /* テーブルをカード形式に変換 */
+    .status-table {
+        border: none;
     }
 
+    .status-table thead {
+        display: none;
+    }
+
+    .status-table tbody {
+        display: block;
+    }
+
+    .status-table tr {
+        display: block;
+        margin-bottom: var(--spacing-md);
+        background: white;
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius-md);
+        padding: var(--spacing-md);
+    }
+
+    .status-table td {
+        display: block;
+        padding: var(--spacing-sm) 0;
+        border: none;
+        text-align: left;
+    }
+
+    .status-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: 500;
+        font-size: var(--font-size-xs);
+        color: var(--color-text-secondary);
+        margin-bottom: 4px;
+        text-transform: uppercase;
+    }
+
+    /* ステータスバッジ */
+    .status-badge {
+        display: inline-block;
+        margin-top: 4px;
+    }
+
+    /* 通知ボックス */
+    .notice-box {
+        padding: var(--spacing-md);
+    }
+
+    .notice-box ul {
+        margin-left: var(--spacing-lg);
+        font-size: 0.75rem;
+    }
+
+    /* アクションボタン */
     .action-buttons {
         flex-direction: column;
+        gap: var(--spacing-md);
     }
 
-    .btn {
+    .action-buttons .btn {
         width: 100%;
+        /* タッチターゲット最低44px */
+        min-height: 44px;
+        justify-content: center;
+    }
+}
+
+/* 小型スマートフォン向け */
+@media (max-width: 375px) {
+    .container {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+
+    .status-banner {
+        padding: var(--spacing-md);
+    }
+
+    .status-title {
+        font-size: 18px;
+    }
+
+    .status-table tr {
+        padding: var(--spacing-sm);
     }
 }

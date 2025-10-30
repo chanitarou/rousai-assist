@@ -255,18 +255,79 @@ body {
     animation: pulse-loading 2s ease-in-out infinite;
 }
 
-/* レスポンシブ */
+/* レスポンシブ（モバイル対応強化） */
 @media (max-width: 768px) {
+    .main-container {
+        padding: var(--spacing-md);
+    }
+
     .login-container {
         flex-direction: column;
         min-height: auto;
     }
 
     .login-left, .login-right {
-        padding: var(--spacing-xl);
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .login-title {
+        font-size: 24px;
+    }
+
+    .login-subtitle {
+        font-size: var(--font-size-small);
+    }
+
+    .benefits-list li {
+        font-size: var(--font-size-small);
+    }
+
+    .qr-code {
+        width: 200px;
+        height: 200px;
+    }
+
+    .qr-container {
+        padding: var(--spacing-md);
+    }
+
+    .qr-instructions h3 {
+        font-size: var(--font-size-lg);
     }
 
     .qr-instructions ol {
         max-width: 100%;
+    }
+
+    .qr-instructions li {
+        font-size: var(--font-size-small);
+    }
+
+    .app-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .app-button {
+        width: 100%;
+        padding: var(--spacing-md);
+        /* タッチターゲット最低44px */
+        min-height: 44px;
+    }
+}
+
+/* 小型スマートフォン向け */
+@media (max-width: 375px) {
+    .login-left, .login-right {
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .login-title {
+        font-size: 20px;
+    }
+
+    .qr-code {
+        width: 180px;
+        height: 180px;
     }
 }
