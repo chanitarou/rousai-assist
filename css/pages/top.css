@@ -563,8 +563,10 @@
         right: 16px;
         min-width: auto;
         width: auto;
+        max-width: calc(100vw - 32px);
         padding: 4px;
         margin: 0 auto;
+        box-sizing: border-box;
     }
 
     .login-menu-item {
@@ -675,7 +677,9 @@
     .login-menu {
         left: 10px !important;
         right: 10px !important;
+        max-width: calc(100vw - 20px) !important;
         padding: 3px !important;
+        box-sizing: border-box !important;
     }
 
     .login-menu-item {
