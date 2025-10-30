@@ -58,6 +58,6 @@ if (procedure166) {
 // ログアウトボタン
 document.querySelector('.btn-logout')?.addEventListener('click', function() {
     if (confirm('ログアウトしてもよろしいですか？')) {
-        window.location.href = '労災申請アシストサイト_TOP画面.html';
+        window.location.href = 'index.html';
     }
 });

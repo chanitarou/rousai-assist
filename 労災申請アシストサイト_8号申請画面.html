@@ -941,6 +941,63 @@
            レスポンシブデザイン
         ============================================ */
         @media (max-width: 768px) {
+            /* ヘッダーを最小限に（スマホで邪魔にならないよう） */
+            .header {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                background: white;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            }
+
+            .header-top {
+                display: none !important; /* 完全に非表示 */
+            }
+
+            .header-main {
+                padding: 6px 0 !important;
+            }
+
+            .header-content {
+                flex-direction: row !important;
+                gap: 10px !important;
+                padding: 0 12px !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+            }
+
+            .site-logo {
+                flex-shrink: 0;
+            }
+
+            .site-logo-icon {
+                width: 28px !important;
+                height: 28px !important;
+            }
+
+            .site-logo-icon svg {
+                width: 18px !important;
+                height: 18px !important;
+            }
+
+            .site-title {
+                display: none !important; /* タイトルを非表示にしてコンパクトに */
+            }
+
+            .header-actions {
+                flex-direction: row !important;
+                gap: 6px !important;
+                flex-shrink: 0;
+                margin-left: auto;
+            }
+
+            .header-actions .btn {
+                padding: 6px 12px !important;
+                min-height: 36px !important;
+                font-size: 0.875rem !important;
+                white-space: nowrap;
+            }
+
             .container {
                 padding: 0 var(--spacing-3);
             }
@@ -1012,7 +1069,7 @@
                 <div class="header-top-content">
                     <span>厚生労働省 労働基準局</span>
                     <nav>
-                        <a href="労災申請アシストサイト_TOP画面.html" aria-label="ホームへ戻る">ホーム</a>
+                        <a href="index.html" aria-label="ホームへ戻る">ホーム</a>
                         <a href="#" aria-label="ヘルプを表示">ヘルプ</a>
                         <a href="#" onclick="logout()" aria-label="ログアウト">ログアウト</a>
                     </nav>
@@ -1810,7 +1867,7 @@
                         
                         <div class="btn-group" style="justify-content: center;">
                             <button class="btn btn-outline" onclick="window.print()">申請書を印刷</button>
-                            <button class="btn btn-primary" onclick="location.href='労災申請アシストサイト_TOP画面.html'">ホームに戻る</button>
+                            <button class="btn btn-primary" onclick="location.href='index.html'">ホームに戻る</button>
                         </div>
                     </div>
                 </div>

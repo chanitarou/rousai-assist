@@ -422,25 +422,60 @@ body {
 
 /* レスポンシブ（モバイル対応強化） */
 @media (max-width: 768px) {
-    /* ヘッダー */
+    /* ヘッダーを最小限に（スマホで邪魔にならないよう） */
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .header-top {
+        display: none !important; /* 完全に非表示 */
+    }
+
+    .header-main {
+        padding: 6px 0 !important;
+    }
+
     .header-content {
-        flex-direction: column;
-        gap: 16px;
-        padding: 0 20px;
+        flex-direction: row !important;
+        gap: 10px !important;
+        padding: 0 12px !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+    }
+
+    .site-logo {
+        flex-shrink: 0;
+    }
+
+    .site-logo-icon {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    .site-logo-icon svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .site-title {
+        display: none !important; /* タイトルを非表示にしてコンパクトに */
     }
 
     .header-actions {
-        width: 100%;
-        justify-content: space-between;
-        flex-direction: row;
-        gap: 14px;
+        flex-direction: row !important;
+        gap: 6px !important;
+        flex-shrink: 0;
+        margin-left: auto;
     }
 
     .header-actions .btn {
-        flex: 1;
-        min-height: 52px;
-        font-size: 1.0625rem;
-        padding: 16px 20px;
+        padding: 6px 12px !important;
+        min-height: 36px !important;
+        font-size: 0.875rem !important;
         white-space: nowrap;
     }
 

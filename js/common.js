@@ -55,7 +55,7 @@ function logout() {
         // LocalStorageをクリア
         localStorage.clear();
         // TOP画面へ遷移
-        window.location.href = '労災申請アシストサイト_TOP画面.html';
+        window.location.href = 'index.html';
     }
 }
 
