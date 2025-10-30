@@ -626,27 +626,40 @@
             border-top: 1px solid var(--color-border);
         }
 
-        /* 開発用スキップボタン */
+        /* 開発用スキップボタン - 目立たなく */
         .dev-skip-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: var(--spacing-1) var(--spacing-3);
-            font-size: var(--font-size-xs);
+            padding: 6px 10px;
+            font-size: 0.625rem;
             font-weight: var(--font-weight-normal);
             font-family: var(--font-family-base);
-            background-color: var(--color-gray-200);
-            color: var(--color-gray-600);
-            border: 1px solid var(--color-gray-300);
+            background-color: transparent;
+            color: var(--color-gray-500);
+            border: 1px dashed var(--color-gray-300);
             border-radius: var(--radius-base);
             cursor: pointer;
             transition: all var(--transition-fast);
-            opacity: 0.6;
+            opacity: 0.4;
         }
 
         .dev-skip-btn:hover {
-            background-color: var(--color-gray-300);
-            opacity: 1;
+            background-color: var(--color-gray-100);
+            opacity: 0.7;
+        }
+
+        /* スマホでさらに小さく目立たなく */
+        @media (max-width: 768px) {
+            .dev-skip-btn {
+                padding: 4px 8px;
+                font-size: 0.5625rem;
+                opacity: 0.3;
+            }
+
+            .dev-skip-btn:hover {
+                opacity: 0.6;
+            }
         }
 
         /* ============================================
