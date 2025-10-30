@@ -341,7 +341,12 @@ async function sendMessage() {
 // クイック質問を送信
 function sendQuickQuestion(question) {
     const input = document.getElementById('messageInput');
-    input.value = question;
+    // 質問を適切な文章形式に変換
+    let formattedQuestion = question;
+    if (!question.includes('？') && !question.includes('?') && !question.includes('教えて') && !question.includes('ください')) {
+        formattedQuestion = question + 'について教えてください';
+    }
+    input.value = formattedQuestion;
     sendMessage();
 }
 
@@ -352,8 +357,9 @@ function clearChat() {
         messagesArea.innerHTML = '';
         const welcomeSection = document.getElementById('welcomeSection');
         const suggestionsSection = document.getElementById('suggestionsSection');
+        // ウェルカムセクションのみ表示、サジェスチョンは非表示にして重複を防ぐ
         if (welcomeSection) welcomeSection.style.display = 'block';
-        if (suggestionsSection) suggestionsSection.style.display = 'block';
+        if (suggestionsSection) suggestionsSection.style.display = 'none';
     }
 }
 

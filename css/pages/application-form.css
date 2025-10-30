@@ -861,6 +861,23 @@ body {
     flex-shrink: 0;
 }
 
+/* モバイル対応: 医療機関検索フォーム */
+@media (max-width: 768px) {
+    .medical-search-container {
+        flex-wrap: wrap;
+    }
+
+    .medical-search-container #medicalSearch {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+
+    .medical-search-container .btn {
+        flex: 1 1 auto;
+        min-width: 100px;
+    }
+}
+
 .medical-results {
     background-color: var(--color-background);
     border: 1px solid var(--color-border);
