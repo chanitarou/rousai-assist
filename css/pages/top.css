@@ -577,7 +577,8 @@
         min-height: 40px !important;
         font-size: 0.875rem !important;
         gap: 10px !important;
-        white-space: nowrap !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
     }
 
     .login-menu-item svg {
@@ -680,7 +681,8 @@
         min-height: 38px !important;
         font-size: 0.8125rem !important;
         gap: 8px !important;
-        white-space: nowrap !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
     }
 
     .login-menu-item svg {
