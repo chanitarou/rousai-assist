@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:rousai-kensaku.mhlw.go.jp)",
+      "Bash(head:*)",
+      "Bash(wc:*)",
+      "Bash(cp:*)",
+      "Bash(split:*)",
+      "Bash(ls:*)",
+      "Bash(dir:*)",
+      "Bash(del:*)",
+      "Bash(rm:*)",
+      "WebFetch(domain:design.digital.go.jp)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "Bash(test:*)",
+      "Bash(mkdir:*)",
+      "Bash(git init:*)",
+      "Bash(git remote:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}

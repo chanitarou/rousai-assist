@@ -1,0 +1,152 @@
+/* ============================================
+   回覧完了画面固有のスタイル
+============================================ */
+
+body {
+    min-height: 100vh;
+}
+
+/* ヘッダーのsticky配置 */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+/* メインコンテンツ */
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--spacing-2xl) var(--spacing-md);
+}
+
+/* ステータスバナー */
+.status-banner {
+    background-color: var(--color-bg-primary);
+    border: 2px solid var(--color-border);
+    padding: var(--spacing-2xl);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.status-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 12px;
+}
+
+.status-message {
+    font-size: var(--font-size-body);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.application-number {
+    display: inline-block;
+    background: var(--color-gray-100);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-small);
+}
+
+/* 回覧ステータステーブル */
+.status-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-md);
+}
+
+.status-table th,
+.status-table td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.status-table th {
+    background-color: var(--color-gray-50);
+    font-weight: 500;
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+}
+
+.status-table td {
+    font-size: var(--font-size-body);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-small);
+    font-weight: 500;
+}
+
+.status-badge.completed {
+    background-color: #F0FDF4;
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+}
+
+.status-badge.pending {
+    background-color: var(--color-gray-100);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+}
+
+/* 通知ボックス */
+.notice-box {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+.notice-title {
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-body);
+}
+
+.notice-box ul {
+    margin-left: var(--spacing-xl);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-small);
+}
+
+.notice-box ul li {
+    margin-bottom: 4px;
+}
+
+/* アクションボタン */
+.action-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-md);
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+    .status-table {
+        font-size: var(--font-size-small);
+    }
+
+    .status-table th,
+    .status-table td {
+        padding: 12px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

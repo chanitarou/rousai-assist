@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* CSS Document */
+body{font-size:75% !important;}
+table{border-spacing:0px !important;border-collapse:collapse !important;}
+th,td{border:solid 1px #666666; !important;}
+
+td.special{border:solid 1px #666666; !important;}
+td.special strong{border:solid #0068b7 !important;;border-width:0 0 0 6px !important;;padding-left:10px !important;;}

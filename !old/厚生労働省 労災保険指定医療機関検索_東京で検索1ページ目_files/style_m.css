@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+/* base */
+body{font-size:90%;}
+
+/* font */
+#font li#font_s a{background:url("images/small.gif") no-repeat 0 0;}
+#font li#font_m a{background:url("images/medium.gif") no-repeat 0 -24px;}
+#font li#font_l a{background:url("images/large.gif") no-repeat 0 0;}

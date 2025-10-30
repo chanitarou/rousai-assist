@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回覧依頼完了 - 労災申請アシストサイト</title>
+
+    <!-- デジタル庁デザインシステム準拠のフォント -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           デジタル庁デザインシステム準拠
+           Design Tokens & CSS Variables
+        ============================================ */
+        :root {
+            /* カラーパレット */
+            --color-blue-700: #1D4ED8;
+            --color-blue-800: #1E40AF;
+
+            --color-gray-50: #F9FAFB;
+            --color-gray-100: #F3F4F6;
+            --color-gray-200: #E5E7EB;
+            --color-gray-300: #D1D5DB;
+            --color-gray-500: #6B7280;
+            --color-gray-600: #4B5563;
+            --color-gray-700: #374151;
+            --color-gray-900: #111827;
+
+            --color-success: #16A34A;
+            --color-success-bg: #F0FDF4;
+
+            --color-primary: var(--color-blue-700);
+            --color-primary-hover: var(--color-blue-800);
+            --color-background: #FFFFFF;
+            --color-surface: var(--color-gray-50);
+            --color-text: var(--color-gray-900);
+            --color-text-secondary: var(--color-gray-600);
+            --color-border: var(--color-gray-300);
+
+            /* Typography */
+            --font-family-base: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-bold: 700;
+
+            --line-height-normal: 1.5;
+
+            /* Spacing */
+            --spacing-1: 0.25rem;
+            --spacing-2: 0.5rem;
+            --spacing-3: 0.75rem;
+            --spacing-4: 1rem;
+            --spacing-5: 1.25rem;
+            --spacing-6: 1.5rem;
+            --spacing-8: 2rem;
+
+            /* Border Radius */
+            --radius-base: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+
+            /* Z-index */
+            --z-index-sticky: 1020;
+
+            /* Transitions */
+            --transition-fast: 150ms ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-normal);
+            color: var(--color-text);
+            background-color: var(--color-surface);
+            min-height: 100vh;
+        }
+
+        /* ============================================
+           ヘッダー
+        ============================================ */
+        .header {
+            background-color: var(--color-background);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-index-sticky);
+        }
+
+        .header-top {
+            background-color: #004C8C;
+            color: white;
+            padding: var(--spacing-2) 0;
+        }
+
+        .header-top-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--font-size-sm);
+        }
+
+        .header-top-content a {
+            color: white;
+            text-decoration: none;
+            margin-left: var(--spacing-6);
+            transition: opacity var(--transition-fast);
+        }
+
+        .header-top-content a:hover {
+            opacity: 0.8;
+        }
+
+        .header-main {
+            padding: var(--spacing-4) 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-4);
+        }
+
+        .header-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-2);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            gap: var(--spacing-2);
+        }
+
+        .breadcrumb a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--color-primary);
+        }
+
+        /* ============================================
+           メインコンテンツ
+        ============================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-8) var(--spacing-4);
+        }
+
+        .card {
+            background-color: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin-bottom: var(--spacing-6);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--spacing-4);
+            padding-bottom: var(--spacing-3);
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        /* ============================================
+           ステータスバナー
+        ============================================ */
+        .status-banner {
+            background-color: var(--color-background);
+            border: 2px solid var(--color-border);
+            padding: var(--spacing-8);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-6);
+        }
+
+        .status-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--spacing-3);
+        }
+
+        .status-message {
+            font-size: var(--font-size-base);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-4);
+        }
+
+        .application-number {
+            display: inline-block;
+            background: var(--color-gray-100);
+            padding: var(--spacing-2) var(--spacing-4);
+            border-radius: var(--radius-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-text);
+            font-size: var(--font-size-sm);
+        }
+
+        /* ============================================
+           回覧ステータステーブル
+        ============================================ */
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-4);
+        }
+
+        .status-table th,
+        .status-table td {
+            padding: var(--spacing-4);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .status-table th {
+            background-color: var(--color-gray-50);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .status-table td {
+            font-size: var(--font-size-base);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .status-badge.completed {
+            background-color: var(--color-success-bg);
+            color: var(--color-success);
+            border: 1px solid var(--color-success);
+        }
+
+        .status-badge.pending {
+            background-color: var(--color-gray-100);
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border);
+        }
+
+        /* ============================================
+           通知ボックス
+        ============================================ */
+        .notice-box {
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-4);
+            margin-top: var(--spacing-6);
+        }
+
+        .notice-title {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+            margin-bottom: var(--spacing-2);
+            font-size: var(--font-size-base);
+        }
+
+        .notice-box ul {
+            margin-left: var(--spacing-6);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .notice-box ul li {
+            margin-bottom: var(--spacing-1);
+        }
+
+        /* ============================================
+           ボタン
+        ============================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-2);
+            padding: var(--spacing-3) var(--spacing-6);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            border-radius: var(--radius-base);
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-gray-200);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-gray-300);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-4);
+            flex-wrap: wrap;
+            margin-top: var(--spacing-4);
+        }
+
+        /* ============================================
+           レスポンシブ
+        ============================================ */
+        @media (max-width: 768px) {
+            .status-table {
+                font-size: var(--font-size-sm);
+            }
+
+            .status-table th,
+            .status-table td {
+                padding: var(--spacing-3);
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-top-content">
+                <span>厚生労働省 労働基準局</span>
+                <nav>
+                    <a href="労災申請アシストサイト_TOP画面.html">ホーム</a>
+                    <a href="#">申請履歴</a>
+                    <a href="#">ヘルプ</a>
+                    <a href="#" onclick="logout()">ログアウト</a>
+                </nav>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-content">
+                <h1 class="header-title">労災申請アシストサイト - 回覧依頼完了</h1>
+                <nav class="breadcrumb">
+                    <a href="労災申請アシストサイト_TOP画面.html">ホーム</a>
+                    <span>></span>
+                    <a href="#">申請一覧</a>
+                    <span>></span>
+                    <span>回覧依頼完了</span>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <div class="container">
+        <!-- ステータスバナー -->
+        <div class="status-banner">
+            <h2 class="status-title">回覧依頼が完了しました</h2>
+            <p class="status-message">
+                事業主と医療機関への回覧依頼を送信しました。<br>
+                各関係者が入力を完了次第、労働基準監督署へ提出できます。
+            </p>
+            <div class="application-number">
+                申請番号: 2024-001234
+            </div>
+        </div>
+
+        <!-- 回覧状況 -->
+        <div class="card">
+            <h3 class="section-title">回覧状況</h3>
+
+            <table class="status-table">
+                <thead>
+                    <tr>
+                        <th>役割</th>
+                        <th>担当者</th>
+                        <th>ステータス</th>
+                        <th>最終更新</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>被災労働者（申請者）</td>
+                        <td>山田 **</td>
+                        <td><span class="status-badge completed">入力完了</span></td>
+                        <td>2025年11月20日 10:30</td>
+                    </tr>
+                    <tr>
+                        <td>事業主</td>
+                        <td>****株式会社</td>
+                        <td><span class="status-badge pending">回覧中</span></td>
+                        <td>2025年11月20日 10:35 回覧依頼送信</td>
+                    </tr>
+                    <tr>
+                        <td>医療機関</td>
+                        <td>****総合病院</td>
+                        <td><span class="status-badge pending">回覧中</span></td>
+                        <td>2025年11月20日 10:35 回覧依頼送信</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="notice-box">
+                <div class="notice-title">回覧依頼について</div>
+                <ul>
+                    <li>事業主と医療機関にメールで回覧依頼を送信しました</li>
+                    <li>各関係者が入力を完了すると、メールで通知されます</li>
+                    <li>全ての関係者が入力を完了後、労働基準監督署へ提出できます</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ページ読み込み時に完了者に応じて表示を更新
+        document.addEventListener('DOMContentLoaded', function() {
+            const completedBy = localStorage.getItem('completedBy');
+
+            if (completedBy === 'employer') {
+                // 事業主が入力完了した場合
+                updateStatusTable([
+                    { role: '被災労働者（申請者）', name: '山田 **', status: 'completed', date: '2025年11月20日 10:30' },
+                    { role: '事業主', name: '****株式会社', status: 'completed', date: '2025年11月20日 14:15 入力完了' },
+                    { role: '医療機関', name: '****総合病院', status: 'pending', date: '2025年11月20日 10:35 回覧依頼送信' }
+                ]);
+                document.querySelector('.status-title').textContent = '事業主による入力が完了しました';
+                document.querySelector('.status-message').innerHTML = '事業主による証明が完了しました。<br>医療機関の入力完了後、労働基準監督署へ提出できます。';
+
+                // 回覧依頼の注意事項を事業主用に更新
+                const noticeList = document.querySelector('.notice-box ul');
+                noticeList.innerHTML = `
+                    <li>事業主による証明が完了しました</li>
+                    <li>医療機関の入力が完了すると、メールで通知されます</li>
+                    <li>医療機関の入力完了後、労働基準監督署へ提出できます</li>
+                `;
+            } else if (completedBy === 'medical') {
+                // 医療機関が入力完了した場合
+                updateStatusTable([
+                    { role: '被災労働者（申請者）', name: '山田 **', status: 'completed', date: '2025年11月20日 10:30' },
+                    { role: '事業主', name: '****株式会社', status: 'pending', date: '2025年11月20日 10:35 回覧依頼送信' },
+                    { role: '医療機関', name: '****総合病院', status: 'completed', date: '2025年11月20日 16:45 入力完了' }
+                ]);
+                document.querySelector('.status-title').textContent = '医療機関による入力が完了しました';
+                document.querySelector('.status-message').innerHTML = '医療機関による診断証明が完了しました。<br>事業主の入力完了後、労働基準監督署へ提出できます。';
+
+                // 回覧依頼の注意事項を医療機関用に更新
+                const noticeList = document.querySelector('.notice-box ul');
+                noticeList.innerHTML = `
+                    <li>医療機関による診断証明が完了しました</li>
+                    <li>事業主の入力が完了すると、メールで通知されます</li>
+                    <li>事業主の入力完了後、労働基準監督署へ提出できます</li>
+                `;
+            }
+
+            // localStorage をクリア（次回表示時のため）
+            localStorage.removeItem('completedBy');
+        });
+
+        // ステータステーブルを更新
+        function updateStatusTable(data) {
+            const tbody = document.querySelector('.status-table tbody');
+            tbody.innerHTML = data.map(item => `
+                <tr>
+                    <td>${item.role}</td>
+                    <td>${item.name}</td>
+                    <td><span class="status-badge ${item.status}">${item.status === 'completed' ? '入力完了' : '回覧中'}</span></td>
+                    <td>${item.date}</td>
+                </tr>
+            `).join('');
+        }
+
+        // 最新状況を確認
+        function checkStatus() {
+            alert('最新の状況を取得しました。\n現在、事業主と医療機関が入力中です。');
+        }
+
+        // 申請内容を編集
+        function editApplication() {
+            if (confirm('申請内容を編集しますか？\n※既に回覧済みの内容は変更できません。')) {
+                window.location.href = '労災アシスト申請画面モック_ver0.04.html';
+            }
+        }
+
+        // ログアウト
+        function logout() {
+            if (confirm('ログアウトしますか？')) {
+                window.location.href = '労災申請アシストサイト_TOP画面.html';
+            }
+        }
+    </script>
+</body>
+</html>

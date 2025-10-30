@@ -1,0 +1,272 @@
+/* ============================================
+   ログイン画面固有のスタイル
+============================================ */
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* メインコンテンツ */
+.main-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+}
+
+.login-container {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    max-width: 900px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    min-height: 550px;
+}
+
+/* 左側 - ログイン情報 */
+.login-left {
+    flex: 1;
+    padding: var(--spacing-2xl);
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-title {
+    font-size: var(--font-size-h1);
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.login-subtitle {
+    font-size: var(--font-size-body);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.8;
+}
+
+.auth-badge {
+    background: #e3f2fd;
+    border-left: 4px solid var(--color-primary);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    border-radius: var(--border-radius);
+}
+
+.auth-badge-title {
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.auth-badge-text {
+    font-size: var(--font-size-small);
+    color: #555;
+    line-height: 1.6;
+}
+
+.benefits-list {
+    list-style: none;
+    margin-bottom: var(--spacing-xl);
+}
+
+.benefits-list li {
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.benefits-list li::before {
+    content: "✓";
+    width: 24px;
+    height: 24px;
+    background: var(--color-success);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* 右側 - QRコード */
+.login-right {
+    flex: 1;
+    padding: var(--spacing-2xl);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #006db7 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.qr-container {
+    background: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.qr-code {
+    width: 250px;
+    height: 250px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.qr-code img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.qr-instructions {
+    text-align: center;
+}
+
+.qr-instructions h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+}
+
+.qr-instructions ol {
+    text-align: left;
+    max-width: 280px;
+    margin: 0 auto;
+    list-style: none;
+    counter-reset: step-counter;
+}
+
+.qr-instructions li {
+    padding: 12px 0;
+    font-size: 0.9rem;
+    position: relative;
+    padding-left: var(--spacing-xl);
+    counter-increment: step-counter;
+    line-height: 1.6;
+}
+
+.qr-instructions li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.75rem;
+}
+
+.app-download {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-md);
+    text-align: center;
+}
+
+.app-download-title {
+    font-size: var(--font-size-small);
+    margin-bottom: var(--spacing-md);
+    opacity: 0.9;
+}
+
+.app-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+}
+
+.app-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--color-primary);
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-slow);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.app-button:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* タイマー */
+.qr-timer {
+    margin-top: var(--spacing-md);
+    text-align: center;
+    font-size: var(--font-size-small);
+    opacity: 0.9;
+}
+
+.timer-value {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* ローディングアニメーション */
+@keyframes pulse-loading {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+.loading {
+    animation: pulse-loading 2s ease-in-out infinite;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .login-left, .login-right {
+        padding: var(--spacing-xl);
+    }
+
+    .qr-instructions ol {
+        max-width: 100%;
+    }
+}

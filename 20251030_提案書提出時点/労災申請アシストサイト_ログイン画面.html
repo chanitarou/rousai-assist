@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>労災申請アシストサイト - ログイン</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ヘッダー */
+        .header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-top {
+            background: #004C8C;
+            color: white;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .header-top-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-top a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+            margin-left: 2rem;
+        }
+
+        .header-top a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .header-main {
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #004292;
+            font-size: 1.2rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-subtitle {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+
+        /* メインコンテンツ */
+        .main-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            min-height: 550px;
+        }
+
+        /* 左側 - ログイン情報 */
+        .login-left {
+            flex: 1;
+            padding: 3rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #004292;
+            margin-bottom: 1rem;
+        }
+
+        .login-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .auth-badge {
+            background: #e3f2fd;
+            border-left: 4px solid #004292;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .auth-badge-title {
+            font-weight: 600;
+            color: #004292;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .auth-badge-text {
+            font-size: 0.875rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .benefits-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* 右側 - QRコード */
+        .login-right {
+            flex: 1;
+            padding: 3rem;
+            background: linear-gradient(135deg, #004292 0%, #006db7 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .qr-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qr-instructions {
+            text-align: center;
+        }
+
+        .qr-instructions h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .qr-instructions ol {
+            text-align: left;
+            max-width: 280px;
+            margin: 0 auto;
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .qr-instructions li {
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: 2rem;
+            counter-increment: step-counter;
+            line-height: 1.6;
+        }
+
+        .qr-instructions li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0.75rem;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        .app-download {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .app-download-title {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .app-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .app-button {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #004292;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .app-button:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* タイマー */
+        .qr-timer {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .timer-value {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* フッター */
+        .footer {
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #004292;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .login-left, .login-right {
+                padding: 2rem;
+            }
+
+            .qr-instructions ol {
+                max-width: 100%;
+            }
+
+            .alternative-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* ローディングアニメーション */
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.6;
+            }
+        }
+
+        .loading {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-top-content">
+                <span>厚生労働省 労働基準局</span>
+                <nav>
+                    <a href="#">文字サイズ変更</a>
+                    <a href="#">English</a>
+                    <a href="#">お問い合わせ</a>
+                </nav>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-content">
+                <div class="header-title">
+                    <div>
+                        <h1>労災申請アシストサイト</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="main-container">
+        <div class="login-container">
+            <!-- 左側 - ログイン情報 -->
+            <div class="login-left">
+                <h2 class="login-title">労災申請をはじめる</h2>
+                <p class="login-subtitle">
+                    デジタル認証アプリを使用して、<br>
+                    安全かつ簡単にログインできます。
+                </p>
+
+                <div class="auth-badge">
+                    <div class="auth-badge-title">
+                        デジタル認証アプリについて
+                    </div>
+                    <div class="auth-badge-text">
+                        マイナンバーカードを使用した公的個人認証により、本人確認を確実に行います。<br>
+                        なりすましや改ざんを防ぎ、安全な申請手続きを実現します。
+                    </div>
+                </div>
+
+                <ul class="benefits-list">
+                    <li>オンラインで24時間いつでも申請可能</li>
+                    <li>書類の記入ミスを自動チェック</li>
+                    <li>申請状況をリアルタイムで確認</li>
+                    <li>過去の申請履歴をいつでも参照</li>
+                </ul>
+            </div>
+
+            <!-- 右側 - QRコード -->
+            <div class="login-right">
+                <div class="qr-container">
+                    <div class="qr-code">
+                        <img src="images/QR_221995.png" alt="QRコード">
+                    </div>
+                </div>
+
+                <div class="qr-instructions">
+                    <h3>認証手順</h3>
+                    <ol>
+                        <li>スマートフォンでデジタル認証アプリを起動</li>
+                        <li>「QRコードを読み取る」をタップ</li>
+                        <li>上記のQRコードをスキャン</li>
+                        <li>アプリで本人確認を完了</li>
+                    </ol>
+                </div>
+
+                <div class="qr-timer loading">
+                    QRコード有効期限: <span class="timer-value">04:32</span>
+                </div>
+
+                <div class="app-download">
+                    <div class="app-download-title">認証アプリをお持ちでない方</div>
+                    <div class="app-buttons">
+                        <a href="#" class="app-button">App Store</a>
+                        <a href="#" class="app-button">Google Play</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">ヘルプ</a>
+            <a href="#">プライバシーポリシー</a>
+            <a href="#">利用規約</a>
+            <a href="#">お問い合わせ</a>
+        </div>
+        <div class="footer-text">
+            © 2025 厚生労働省 労働基準局
+        </div>
+    </footer>
+
+    <script>
+        // QRコードタイマー
+        let seconds = 272; // 4:32
+        const timerElement = document.querySelector('.timer-value');
+        
+        function updateTimer() {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            
+            if (seconds > 0) {
+                seconds--;
+            } else {
+                // QRコード期限切れ処理
+                refreshQRCode();
+            }
+        }
+        
+        function refreshQRCode() {
+            // QRコード更新処理
+            seconds = 300; // 5分にリセット
+            const qrCode = document.querySelector('.qr-code');
+            qrCode.style.opacity = '0.5';
+            setTimeout(() => {
+                qrCode.style.opacity = '1';
+            }, 500);
+        }
+        
+        setInterval(updateTimer, 1000);
+        
+        // QRコードクリックでモック遷移
+        document.querySelector('.qr-container').addEventListener('click', function() {
+            alert('デジタル認証アプリでの認証が完了しました。\n手続き一覧画面に遷移します。');
+            // 実際の実装では認証完了後に手続き一覧画面へ遷移
+            window.location.href = '労災申請アシストサイト_手続き一覧画面.html';
+        });
+
+        // アプリダウンロードボタンのハンドラ
+        document.querySelectorAll('.app-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const store = this.textContent;
+                alert(`${store}のダウンロードページに移動します。\n（モックのため実際には移動しません）`);
+            });
+        });
+    </script>
+</body>
+</html>

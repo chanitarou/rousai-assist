@@ -1,0 +1,503 @@
+/* ============================================
+   AIチャット画面固有のスタイル
+============================================ */
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* チャットコンテナ */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
+    width: 100%;
+    margin: 0 auto;
+    background: var(--color-bg-primary);
+    overflow: hidden;
+}
+
+/* ウェルカムセクション */
+.welcome-section {
+    padding: var(--spacing-xl);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    color: white;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.welcome-title {
+    font-size: var(--font-size-h2);
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+}
+
+.welcome-description {
+    line-height: var(--line-height-body);
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.95;
+}
+
+.quick-questions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.quick-question-btn {
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.quick-question-btn svg {
+    flex-shrink: 0;
+}
+
+.quick-question-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+/* サジェスチョンセクション */
+.suggestions-section {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+}
+
+.suggestions-title {
+    font-size: var(--font-size-small);
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.suggestions-grid {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.suggestion-chip {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: white;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.suggestion-chip:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* メッセージエリア */
+.messages-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.message {
+    display: flex;
+    gap: var(--spacing-md);
+    animation: fadeIn 0.3s ease;
+    max-width: 85%;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.user {
+    flex-direction: row-reverse;
+    align-self: flex-end;
+}
+
+.message.ai {
+    align-self: flex-start;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.message.ai .message-avatar {
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+.message.user .message-avatar {
+    background: var(--color-bg-tertiary);
+}
+
+.message-avatar svg {
+    width: 24px;
+    height: 24px;
+}
+
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.message-content {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: 12px;
+    line-height: var(--line-height-body);
+}
+
+.message.ai .message-content {
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    border-bottom-left-radius: 4px;
+}
+
+.message.user .message-content {
+    background: var(--color-primary);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    padding: 0 var(--spacing-xs);
+}
+
+.message.user .message-meta {
+    justify-content: flex-end;
+}
+
+.message-content h4 {
+    font-size: var(--font-size-body);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-primary);
+}
+
+.message.user .message-content h4 {
+    color: white;
+}
+
+.message-content ul {
+    margin: var(--spacing-sm) 0;
+    padding-left: var(--spacing-lg);
+}
+
+.message-content li {
+    margin: var(--spacing-xs) 0;
+}
+
+.message-content strong {
+    font-weight: 700;
+}
+
+.message-content code {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+.message.user .message-content code {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* タイピングインジケータ */
+.typing-indicator {
+    display: none;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-bg-secondary);
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+    max-width: 80px;
+}
+
+.typing-indicator.active {
+    display: flex;
+}
+
+.typing-dots {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-text-secondary);
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(-6px);
+    }
+}
+
+/* 関連リンクカード */
+.related-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.related-link-card {
+    padding: var(--spacing-md);
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--color-text-primary);
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.related-link-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.related-link-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--color-bg-secondary);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.related-link-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--color-primary);
+}
+
+.related-link-text {
+    flex: 1;
+}
+
+.related-link-title {
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 2px;
+}
+
+.related-link-description {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+}
+
+/* 入力エリア */
+.input-area {
+    border-top: 1px solid var(--color-border);
+    padding: var(--spacing-lg);
+    background: var(--color-bg-primary);
+    flex-shrink: 0;
+}
+
+.input-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: flex-end;
+}
+
+.message-input {
+    flex: 1;
+    padding: var(--spacing-md);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-body);
+    font-family: var(--font-family);
+    resize: none;
+    min-height: 50px;
+    max-height: 150px;
+    transition: border-color var(--transition-fast);
+}
+
+.message-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.btn-send {
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-body);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    min-height: 50px;
+}
+
+.btn-send:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(14, 95, 154, 0.3);
+}
+
+.btn-send:disabled {
+    background: var(--color-bg-tertiary);
+    color: var(--color-text-secondary);
+    cursor: not-allowed;
+}
+
+.btn-send svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .welcome-section {
+        padding: var(--spacing-lg);
+    }
+
+    .welcome-title {
+        font-size: 20px;
+    }
+
+    .quick-questions {
+        grid-template-columns: 1fr;
+    }
+
+    .messages-area {
+        padding: var(--spacing-md);
+    }
+
+    .message {
+        max-width: 90%;
+    }
+
+    .input-area {
+        padding: var(--spacing-md);
+    }
+
+    .input-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-send {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* 空の状態 */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--color-text-secondary);
+}
+
+.empty-state-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--spacing-lg);
+    background: var(--color-bg-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-state-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: var(--color-text-secondary);
+}
+
+.empty-state-title {
+    font-size: var(--font-size-h3);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-primary);
+}
+
+.empty-state-description {
+    margin-bottom: var(--spacing-lg);
+}

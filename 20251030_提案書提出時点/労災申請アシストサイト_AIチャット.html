@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI相談サービス - 労災申請アシストサイト</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* デジタル庁デザインシステム準拠 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* カラーパレット */
+            --color-primary: #0E5F9A;
+            --color-primary-light: #1976D2;
+            --color-primary-dark: #004C8C;
+            --color-text-primary: #1A1A1C;
+            --color-text-secondary: #4A4A4C;
+            --color-bg-primary: #FFFFFF;
+            --color-bg-secondary: #F5F5F7;
+            --color-bg-tertiary: #E8E8EA;
+            --color-border: #D0D0D2;
+            --color-success: #2E7D32;
+            --color-info: #0288D1;
+            --color-warning: #F57C00;
+
+            /* タイポグラフィ */
+            --font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-size-body: 16px;
+            --font-size-small: 14px;
+            --font-size-xs: 12px;
+            --font-size-h2: 24px;
+            --font-size-h3: 20px;
+            --line-height-body: 1.7;
+
+            /* スペーシング */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+
+            /* その他 */
+            --border-radius: 4px;
+            --max-width: 1000px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-body);
+            line-height: var(--line-height-body);
+            color: var(--color-text-primary);
+            background: var(--color-bg-secondary);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ヘッダー */
+        .header {
+            background: var(--color-bg-primary);
+            border-bottom: 1px solid var(--color-border);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+
+        .header-top {
+            background: #004C8C;
+            color: white;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .header-top-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-top a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+            margin-left: 24px;
+        }
+
+        .header-top a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .header-main {
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+
+        .header-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .header h1 {
+            font-size: var(--font-size-h2);
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+        }
+
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-body);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-back {
+            background: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-back:hover {
+            background: var(--color-bg-tertiary);
+        }
+
+        .btn-clear {
+            background: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-clear:hover {
+            background: var(--color-bg-secondary);
+        }
+
+        /* チャットコンテナ */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: var(--max-width);
+            width: 100%;
+            margin: 0 auto;
+            background: var(--color-bg-primary);
+            overflow: hidden;
+        }
+
+        /* ウェルカムセクション */
+        .welcome-section {
+            padding: var(--spacing-xl);
+            background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+            color: white;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .welcome-title {
+            font-size: var(--font-size-h2);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .welcome-description {
+            line-height: var(--line-height-body);
+            margin-bottom: var(--spacing-lg);
+            opacity: 0.95;
+        }
+
+        .quick-questions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-sm);
+        }
+
+        .quick-question-btn {
+            padding: var(--spacing-md);
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-small);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .quick-question-btn svg {
+            flex-shrink: 0;
+        }
+
+        .quick-question-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* サジェスチョンセクション */
+        .suggestions-section {
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-bg-secondary);
+        }
+
+        .suggestions-title {
+            font-size: var(--font-size-small);
+            font-weight: 700;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .suggestions-grid {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .suggestion-chip {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: white;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            border-radius: 20px;
+            font-size: var(--font-size-small);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        /* メッセージエリア */
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .message {
+            display: flex;
+            gap: var(--spacing-md);
+            animation: fadeIn 0.3s ease;
+            max-width: 85%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+            align-self: flex-end;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message.ai .message-avatar {
+            background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+        }
+
+        .message.user .message-avatar {
+            background: var(--color-bg-tertiary);
+        }
+
+        .message-avatar svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .message-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .message-content {
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: 12px;
+            line-height: var(--line-height-body);
+        }
+
+        .message.ai .message-content {
+            background: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user .message-content {
+            background: var(--color-primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+            padding: 0 var(--spacing-xs);
+        }
+
+        .message.user .message-meta {
+            justify-content: flex-end;
+        }
+
+        .message-content h4 {
+            font-size: var(--font-size-body);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+        }
+
+        .message.user .message-content h4 {
+            color: white;
+        }
+
+        .message-content ul {
+            margin: var(--spacing-sm) 0;
+            padding-left: var(--spacing-lg);
+        }
+
+        .message-content li {
+            margin: var(--spacing-xs) 0;
+        }
+
+        .message-content strong {
+            font-weight: 700;
+        }
+
+        .message-content code {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .message.user .message-content code {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* タイピングインジケータ */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--color-bg-secondary);
+            border-radius: 12px;
+            border-bottom-left-radius: 4px;
+            max-width: 80px;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--color-text-secondary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-6px);
+            }
+        }
+
+        /* 関連リンクカード */
+        .related-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .related-link-card {
+            padding: var(--spacing-md);
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            color: var(--color-text-primary);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .related-link-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .related-link-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--color-bg-secondary);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .related-link-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--color-primary);
+        }
+
+        .related-link-text {
+            flex: 1;
+        }
+
+        .related-link-title {
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 2px;
+        }
+
+        .related-link-description {
+            font-size: var(--font-size-small);
+            color: var(--color-text-secondary);
+        }
+
+        /* 入力エリア */
+        .input-area {
+            border-top: 1px solid var(--color-border);
+            padding: var(--spacing-lg);
+            background: var(--color-bg-primary);
+            flex-shrink: 0;
+        }
+
+        .input-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-body);
+            font-family: var(--font-family);
+            resize: none;
+            min-height: 50px;
+            max-height: 150px;
+            transition: border-color 0.2s;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .btn-send {
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-body);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-height: 50px;
+        }
+
+        .btn-send:hover:not(:disabled) {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(14, 95, 154, 0.3);
+        }
+
+        .btn-send:disabled {
+            background: var(--color-bg-tertiary);
+            color: var(--color-text-secondary);
+            cursor: not-allowed;
+        }
+
+        .btn-send svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .welcome-section {
+                padding: var(--spacing-lg);
+            }
+
+            .welcome-title {
+                font-size: 20px;
+            }
+
+            .quick-questions {
+                grid-template-columns: 1fr;
+            }
+
+            .messages-area {
+                padding: var(--spacing-md);
+            }
+
+            .message {
+                max-width: 90%;
+            }
+
+            .input-area {
+                padding: var(--spacing-md);
+            }
+
+            .input-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-send {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* 空の状態 */
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            color: var(--color-text-secondary);
+        }
+
+        .empty-state-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--spacing-lg);
+            background: var(--color-bg-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--color-text-secondary);
+        }
+
+        .empty-state-title {
+            font-size: var(--font-size-h3);
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-text-primary);
+        }
+
+        .empty-state-description {
+            margin-bottom: var(--spacing-lg);
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-top-content">
+                <span>厚生労働省 労働基準局</span>
+                <nav>
+                    <a href="#">文字サイズ変更</a>
+                    <a href="#">English</a>
+                    <a href="#">お問い合わせ</a>
+                </nav>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="header-content">
+                <div class="header-title">
+                    <div class="header-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 17.5C11.4 17.5 11 17.1 11 16.5C11 15.9 11.4 15.5 12 15.5C12.6 15.5 13 15.9 13 16.5C13 17.1 12.6 17.5 12 17.5ZM13.9 11.3C13.1 12 12.7 13 12.8 14H11.3C11.2 12.5 11.8 11.2 12.9 10.2C13.7 9.5 13.6 8.8 13.5 8.4C13 7 10.5 7.3 10.5 8.9H9C9 7.1 10.7 5.7 12.4 6C15.1 6.4 15.9 9.7 13.9 11.3Z" fill="white"/>
+                        </svg>
+                    </div>
+                    <h1>AI相談サービス</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-clear" onclick="clearChat()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="currentColor"/>
+                        </svg>
+                        クリア
+                    </button>
+                    <a href="労災申請アシストサイト_TOP画面.html" class="btn btn-back">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="currentColor"/>
+                        </svg>
+                        戻る
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- チャットコンテナ -->
+    <div class="chat-container">
+        <!-- ウェルカムセクション -->
+        <div class="welcome-section" id="welcomeSection">
+            <h2 class="welcome-title">労災申請アシストサイトAI相談へようこそ</h2>
+            <p class="welcome-description">
+                労災保険の制度、申請手順、サイトの使い方など、何でもお気軽にご質問ください。AIがわかりやすくお答えします。
+            </p>
+            <div class="quick-questions">
+                <button class="quick-question-btn" onclick="sendQuickQuestion('労災保険とは何ですか？')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17 3.5H7V6.5H2V10.2C4.3 11.7 6.8 12.6 9.5 13V11.6H14.5V13C17.2 12.6 19.7 11.7 22 10.2V6.5H17V3.5ZM15.5 6.5H8.5V5H15.5V6.5ZM21.2 12.1002C19.1 13.2002 16.8 13.9002 14.5 14.2002V16.5002H9.5V14.2002C6.8 13.9002 4.3 13.0002 2 11.7002V20.5002H22V11.7002C21.9394 11.7305 21.8697 11.7699 21.7936 11.813L21.7936 11.813C21.6183 11.9121 21.4092 12.0305 21.2 12.1002ZM10.8008 15.1998V12.7998H13.2008V15.1998H10.8008Z" fill="currentColor"/>
+                    </svg>
+                    労災保険とは？
+                </button>
+                <button class="quick-question-btn" onclick="sendQuickQuestion('申請の流れを教えてください')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 22H20V5.2L16.7 2H4V22ZM11.3 19.8L8.4 17.2L9.3 16.2L11.3 18L14.6 14.9L15.5 15.9L11.3 19.8ZM15.9 3.3L18.9 6.3H15.9V3.3ZM7 8.2H17V9.7H7V8.2ZM7 11.7H17V13.2H7V11.7Z" fill="currentColor"/>
+                    </svg>
+                    申請の流れ
+                </button>
+                <button class="quick-question-btn" onclick="sendQuickQuestion('必要な書類は何ですか？')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M22 8.2V4.5H1.5V16.5H13.7L22 8.2ZM10 9.2L6.5 12.7L4 10.3L5 9.4L6.5 10.9L9 8.3L10 9.2ZM15.5 12.9H12V11.6H15.5V12.9ZM18 9.4H12V8.1H18V9.4ZM19.6 12L12.5 19.1V20.5H13.9L21 13.4L19.6 12ZM23.1008 11.2999L21.7008 12.6999L20.3008 11.2999L21.7008 9.8999L23.1008 11.2999Z" fill="currentColor"/>
+                    </svg>
+                    必要書類
+                </button>
+                <button class="quick-question-btn" onclick="sendQuickQuestion('このサイトの使い方を教えてください')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 17.5C11.4 17.5 11 17.1 11 16.5C11 15.9 11.4 15.5 12 15.5C12.6 15.5 13 15.9 13 16.5C13 17.1 12.6 17.5 12 17.5ZM13.9 11.3C13.1 12 12.7 13 12.8 14H11.3C11.2 12.5 11.8 11.2 12.9 10.2C13.7 9.5 13.6 8.8 13.5 8.4C13 7 10.5 7.3 10.5 8.9H9C9 7.1 10.7 5.7 12.4 6C15.1 6.4 15.9 9.7 13.9 11.3Z" fill="currentColor"/>
+                    </svg>
+                    サイトの使い方
+                </button>
+            </div>
+        </div>
+
+        <!-- サジェスチョンセクション -->
+        <div class="suggestions-section" id="suggestionsSection">
+            <div class="suggestions-title">人気のトピック</div>
+            <div class="suggestions-grid">
+                <button class="suggestion-chip" onclick="sendQuickQuestion('給付の種類について教えて')">給付の種類</button>
+                <button class="suggestion-chip" onclick="sendQuickQuestion('通勤災害について')">通勤災害</button>
+                <button class="suggestion-chip" onclick="sendQuickQuestion('申請期限は？')">申請期限</button>
+                <button class="suggestion-chip" onclick="sendQuickQuestion('よくある質問')">FAQ</button>
+                <button class="suggestion-chip" onclick="sendQuickQuestion('事業主が協力しない場合')">事業主の協力</button>
+            </div>
+        </div>
+
+        <!-- メッセージエリア -->
+        <div class="messages-area" id="messagesArea">
+            <!-- メッセージがここに表示されます -->
+        </div>
+
+        <!-- タイピングインジケータ -->
+        <div class="message ai" style="display: none;" id="typingContainer">
+            <div class="message-avatar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 17.5C11.4 17.5 11 17.1 11 16.5C11 15.9 11.4 15.5 12 15.5C12.6 15.5 13 15.9 13 16.5C13 17.1 12.6 17.5 12 17.5ZM13.9 11.3C13.1 12 12.7 13 12.8 14H11.3C11.2 12.5 11.8 11.2 12.9 10.2C13.7 9.5 13.6 8.8 13.5 8.4C13 7 10.5 7.3 10.5 8.9H9C9 7.1 10.7 5.7 12.4 6C15.1 6.4 15.9 9.7 13.9 11.3Z" fill="white"/>
+                </svg>
+            </div>
+            <div class="typing-indicator active">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 入力エリア -->
+        <div class="input-area">
+            <div class="input-container">
+                <textarea
+                    class="message-input"
+                    id="messageInput"
+                    placeholder="質問を入力してください..."
+                    rows="1"
+                ></textarea>
+                <button class="btn btn-send" id="sendButton" onclick="sendMessage()">
+                    <span>送信</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 拡張版知識ベース
+        const knowledgeBase = {
+            '労災保険': {
+                keywords: ['労災保険', '労災', 'ろうさい', '労働者災害補償保険', '労災制度'],
+                answer: `<h4>労災保険（労働者災害補償保険）とは</h4>
+労災保険は、労働者が業務上の事由または通勤によって負傷したり、病気になったり、障害が残ったり、死亡した場合に、被災労働者やその遺族に対して必要な保険給付を行う制度です。
+
+<strong>主な特徴：</strong>
+• 事業主が保険料を全額負担（労働者の負担なし）
+• 原則として労働者を一人でも雇用していれば適用
+• パートタイム労働者・アルバイトも対象
+• 業務災害と通勤災害の両方をカバー
+
+<strong>制度の目的：</strong>
+労働者の安全と健康を守り、万が一の事故や病気の際に速やかに補償を受けられるようにするための重要な社会保険制度です。`,
+                relatedLinks: [
+                    { title: '申請の流れ', description: '労災保険申請の手順を確認', icon: 'document' },
+                    { title: '給付の種類', description: '受けられる給付について', icon: 'money' }
+                ]
+            },
+            '申請手順': {
+                keywords: ['申請', '手続き', '流れ', 'プロセス', 'やり方', '方法', '手順', 'ステップ'],
+                answer: `<h4>労災保険の申請手順</h4>
+
+<strong>1. 事故発生時の対応</strong>
+• 速やかに事業主に災害発生を報告
+• 必要に応じて医療機関を受診
+• 事故状況を記録（日時、場所、状況など）
+
+<strong>2. 必要書類の準備</strong>
+• 給付の種類に応じた請求書（様式）
+• 医師の診断書・証明書
+• 事業主の証明
+• その他添付書類
+
+<strong>3. 労災申請アシストサイトでの申請</strong>
+① ログイン（デジタル庁認証アプリを使用）
+② 「新規申請」を選択
+③ 給付の種類を選択
+④ 必要事項を入力（10ステップの入力フォーム）
+⑤ 書類をアップロード
+⑥ 事業主・医療機関に回覧（必要に応じて）
+⑦ 内容確認後、提出
+
+<strong>4. 審査・決定</strong>
+• 労働基準監督署で審査
+• 通常2週間〜1ヶ月程度
+• 結果通知
+
+<strong>5. 給付の受給</strong>
+• 指定の口座に振込
+
+<strong>ポイント：</strong>
+労災申請アシストサイトでは自動保存機能があり、途中で保存して後から続きを入力できます。`,
+                relatedLinks: [
+                    { title: '必要書類', description: '申請に必要な書類一覧', icon: 'document' },
+                    { title: '申請を始める', description: '今すぐ申請を開始', icon: 'application' }
+                ]
+            },
+            '必要書類': {
+                keywords: ['書類', '必要', '添付', 'ファイル', 'ドキュメント', '様式', '請求書'],
+                answer: `<h4>労災保険申請に必要な主な書類</h4>
+
+<strong>【療養補償給付（治療費）】</strong>
+• 療養補償給付たる療養の給付請求書（様式第5号）
+  または療養の給付請求書（様式第16号の3）
+• 診断書（医師が記入）
+• 事業主の証明
+• 本人確認書類
+
+<strong>【休業補償給付（休業中の賃金補償）】</strong>
+• 休業補償給付支給請求書（様式第8号）
+  または休業給付支給請求書（様式第16号の6）
+• 医師の証明（療養期間・労務不能期間）
+• 賃金台帳の写し
+• 出勤簿の写し
+
+<strong>【障害補償給付】</strong>
+• 障害補償給付支給請求書
+• 診断書
+• レントゲン写真等の検査結果
+• 障害の状態に関する医学的所見
+
+<strong>【その他の給付】</strong>
+• 遺族補償給付：死亡診断書、戸籍謄本、所得証明等
+• 介護補償給付：介護状況報告書、領収書等
+• 葬祭料：葬祭費用の領収書等
+
+<strong>【共通の添付書類】</strong>
+• 本人確認書類（マイナンバーカード等）
+• 振込先口座情報
+• 事故状況説明資料（必要に応じて）
+• 目撃者の証言（必要に応じて）
+
+<strong>労災申請アシストサイトの便利機能：</strong>
+システムが必要書類を自動判定し、アップロード画面でガイドします。`,
+                relatedLinks: [
+                    { title: '各種様式ダウンロード', description: 'PDF様式をダウンロード', icon: 'document' }
+                ]
+            },
+            'サイト使い方': {
+                keywords: ['サイト', '使い方', '操作', 'ログイン', '画面', 'アシストサイト', '使用方法'],
+                answer: `<h4>労災申請アシストサイトの使い方</h4>
+
+<strong>【1. ログイン】</strong>
+• TOPページの「ログイン」ボタンをクリック
+• デジタル庁認証アプリでQRコードを読み取り
+• 初めての方は新規登録が必要です
+• マイナンバーカードによる認証に対応
+
+<strong>【2. 新規申請】</strong>
+① 「新規申請」カードを選択
+② 給付の種類を選択（療養、休業など）
+③ 必要事項を入力（10ステップの分かりやすいフォーム）
+④ 自動保存機能で途中保存も可能
+⑤ バリデーション機能でエラーを防止
+
+<strong>【3. 申請状況確認】</strong>
+• 「申請状況確認」から進捗を確認
+• リアルタイムで審査状況が更新されます
+• 通知機能で重要な更新をお知らせ
+
+<strong>【4. 回覧機能】</strong>
+• 事業主や医療機関に証明を依頼
+• メール通知で連絡
+• オンラインで完結（郵送不要）
+• 回覧状況をリアルタイム確認
+
+<strong>【5. AI相談（このサービス）】</strong>
+• 右下のフローティングボタンでいつでもアクセス
+• 24時間対応
+• 労災制度・申請手順・サイトの使い方を質問可能
+
+<strong>【6. その他の便利機能】</strong>
+• 申請履歴の確認・再利用
+• 医療機関検索
+• 各種様式のダウンロード
+• よくある質問（FAQ）
+
+<strong>サポート：</strong>
+不明な点があれば、このAI相談サービスで24時間いつでも質問できます。`,
+                relatedLinks: [
+                    { title: 'ご利用ガイド', description: '詳しい操作方法', icon: 'help' },
+                    { title: 'TOPに戻る', description: 'サイトTOPページへ', icon: 'home' }
+                ]
+            },
+            '給付種類': {
+                keywords: ['給付', '種類', '補償', '保険金', '受給', '支給'],
+                answer: `<h4>労災保険の主な給付の種類</h4>
+
+<strong>【1. 療養補償給付 / 療養給付】</strong>
+• <strong>内容：</strong>治療費の補償
+• <strong>特徴：</strong>指定医療機関では窓口負担なし
+• <strong>対象：</strong>業務上の傷病の治療
+
+<strong>【2. 休業補償給付 / 休業給付】</strong>
+• <strong>内容：</strong>休業中の賃金補償
+• <strong>支給開始：</strong>休業4日目から
+• <strong>支給額：</strong>給付基礎日額の60%
+• <strong>加算：</strong>休業特別支給金20%を加算
+
+<strong>【3. 障害補償給付 / 障害給付】</strong>
+• <strong>内容：</strong>障害が残った場合の補償
+• <strong>形式：</strong>障害等級に応じて年金または一時金
+• <strong>等級：</strong>第1級〜第14級
+
+<strong>【4. 遺族補償給付 / 遺族給付】</strong>
+• <strong>内容：</strong>労働者が死亡した場合の遺族への補償
+• <strong>形式：</strong>遺族年金または遺族一時金
+• <strong>対象：</strong>配偶者、子、父母、孫、祖父母、兄弟姉妹
+
+<strong>【5. 介護補償給付 / 介護給付】</strong>
+• <strong>内容：</strong>介護が必要な場合の費用補償
+• <strong>対象：</strong>障害等級第1級または第2級で介護を受けている方
+
+<strong>【6. 葬祭料 / 葬祭給付】</strong>
+• <strong>内容：</strong>葬祭費用の補償
+• <strong>支給額：</strong>315,000円 + 給付基礎日額の30日分
+  （または給付基礎日額の60日分のいずれか高い方）
+
+<strong>【7. 傷病補償年金 / 傷病年金】</strong>
+• <strong>内容：</strong>療養開始後1年6ヶ月経過しても治らない場合
+• <strong>要件：</strong>傷病等級第1級〜第3級に該当
+
+<strong>補償給付と給付の違い：</strong>
+• 「補償給付」＝業務災害
+• 「給付」＝通勤災害`,
+                relatedLinks: [
+                    { title: '新規申請', description: '給付の申請を開始', icon: 'application' },
+                    { title: '申請手順', description: '申請の流れを確認', icon: 'document' }
+                ]
+            },
+            '通勤災害': {
+                keywords: ['通勤', '通勤災害', '通勤途中', '通勤中'],
+                answer: `<h4>通勤災害について</h4>
+
+<strong>【通勤災害とは】</strong>
+労働者が通勤により被った負傷、疾病、障害または死亡のことです。
+
+<strong>【通勤の定義】</strong>
+以下の移動が「通勤」と認められます：
+
+1. <strong>住居と就業場所の往復</strong>
+   • 自宅から会社への通勤
+   • 会社から自宅への退勤
+
+2. <strong>就業場所から他の就業場所への移動</strong>
+   • ダブルワークの移動など
+
+3. <strong>単身赴任先住居と帰省先住居の往復</strong>
+   • 赴任先と実家の移動など
+
+<strong>【合理的な経路・方法】</strong>
+• 通常利用する経路
+• 合理的な迂回も認められる
+• 通勤手段（電車、バス、自転車、徒歩など）
+
+<strong>【認められないケース】</strong>
+× 通勤経路を逸脱した場合
+× 通勤を中断した場合
+× 私的な用務を行った場合
+
+<strong>例外：</strong>日用品の購入など、やむを得ない最小限の行為は認められることがあります
+
+<strong>【給付の種類】</strong>
+通勤災害の場合、業務災害と名称が異なります：
+• 療養給付（様式第16号の3）
+• 休業給付（様式第16号の6）
+• 障害給付
+• 遺族給付
+• 介護給付
+• 葬祭給付
+• 傷病年金
+
+<strong>【業務災害との違い】</strong>
+• 一部自己負担が発生する場合がある
+• 給付の名称が異なる（「補償」が付かない）
+• 内容はほぼ同じ
+
+<strong>判断が難しい場合：</strong>
+通勤災害に該当するか不明な場合でも、まずは申請してください。労働基準監督署が判断します。`,
+                relatedLinks: [
+                    { title: '新規申請（通勤災害）', description: '通勤災害の申請を開始', icon: 'application' }
+                ]
+            },
+            'よくある質問': {
+                keywords: ['faq', 'よくある', '質問', '疑問', 'q&a', 'qa'],
+                answer: `<h4>よくある質問（FAQ）</h4>
+
+<strong>Q1. 労災保険は誰が対象ですか？</strong>
+A. 原則として全ての労働者（正社員、パート、アルバイト、派遣社員など）が対象です。雇用形態は問いません。
+
+<strong>Q2. 保険料は誰が払うのですか？</strong>
+A. 事業主が全額負担します。労働者の負担はありません。
+
+<strong>Q3. 申請期限はいつまでですか？</strong>
+A. 給付の種類により異なります：
+• 療養補償給付：療養費用の支出日から2年
+• 休業補償給付：賃金を受けない日ごとに2年
+• その他の給付：権利発生日から5年
+ただし、早めの申請をお勧めします。
+
+<strong>Q4. 会社が協力してくれない場合は？</strong>
+A. 労働者が直接申請することも可能です。事業主の証明がなくても受付されます。労働基準監督署が事実関係を調査します。
+
+<strong>Q5. プライベートの怪我は対象ですか？</strong>
+A. 業務上または通勤中の災害が対象です。私生活上の怪我や病気は対象外です。
+
+<strong>Q6. 審査にどのくらいかかりますか？</strong>
+A. 通常2週間〜1ヶ月程度ですが、事案により異なります。複雑な案件はさらに時間がかかる場合があります。
+
+<strong>Q7. 健康保険と労災保険の違いは？</strong>
+A.
+• 労災保険：業務上・通勤中の傷病（窓口負担なし）
+• 健康保険：私傷病（窓口負担あり）
+業務上の傷病は必ず労災保険を使用してください。
+
+<strong>Q8. パートでも申請できますか？</strong>
+A. はい、できます。雇用形態に関わらず、労働者であれば申請可能です。
+
+<strong>Q9. 申請に費用はかかりますか？</strong>
+A. 申請自体に費用はかかりません。無料で申請できます。
+
+<strong>Q10. 認定されなかった場合は？</strong>
+A. 不服がある場合、審査請求・再審査請求の制度があります。
+
+<strong>その他のご質問：</strong>
+このAI相談サービスで具体的な質問にお答えします。お気軽にお尋ねください。`,
+                relatedLinks: [
+                    { title: 'お問い合わせ', description: '個別の相談はこちら', icon: 'help' }
+                ]
+            },
+            '挨拶': {
+                keywords: ['こんにちは', 'おはよう', 'こんばんは', 'はじめまして', 'hello', 'hi'],
+                answer: `こんにちは！労災申請アシストサイトAI相談サービスです。
+
+労災保険に関する疑問や、サイトの使い方など、何でもお気軽にご質問ください。
+
+<strong>よく質問されるトピック：</strong>
+• 労災保険の制度について
+• 申請の流れと手順
+• 必要な書類
+• サイトの操作方法
+• 給付の種類
+• 通勤災害
+
+具体的なご質問をお聞かせいただければ、詳しくお答えします。`,
+                relatedLinks: []
+            },
+            '感謝': {
+                keywords: ['ありがとう', '感謝', '助かり', 'ありがと'],
+                answer: `どういたしまして！お役に立てて嬉しいです。
+
+他にご不明な点や疑問がございましたら、いつでもお尋ねください。労災申請がスムーズに進むよう、全力でサポートいたします。
+
+<strong>ヒント：</strong>
+右下のフローティングボタンから、いつでもこのAI相談サービスにアクセスできます。`,
+                relatedLinks: [
+                    { title: 'TOPに戻る', description: 'サイトTOPページへ', icon: 'home' }
+                ]
+            }
+        };
+
+        // メッセージを追加する関数（強化版）
+        function addMessage(text, isUser = false, relatedLinks = []) {
+            const messagesArea = document.getElementById('messagesArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+
+            const now = new Date();
+            const timeString = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            let relatedLinksHTML = '';
+            if (relatedLinks && relatedLinks.length > 0) {
+                relatedLinksHTML = '<div class="related-links">';
+                relatedLinks.forEach(link => {
+                    relatedLinksHTML += `
+                        <a href="#" class="related-link-card" onclick="sendQuickQuestion('${link.title}'); return false;">
+                            <div class="related-link-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 22H20V5.2L16.7 2H4V22ZM11.3 19.8L8.4 17.2L9.3 16.2L11.3 18L14.6 14.9L15.5 15.9L11.3 19.8ZM15.9 3.3L18.9 6.3H15.9V3.3ZM7 8.2H17V9.7H7V8.2ZM7 11.7H17V13.2H7V11.7Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="related-link-text">
+                                <div class="related-link-title">${link.title}</div>
+                                <div class="related-link-description">${link.description}</div>
+                            </div>
+                        </a>
+                    `;
+                });
+                relatedLinksHTML += '</div>';
+            }
+
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    ${isUser ?
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/></svg>' :
+                        '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 17.5C11.4 17.5 11 17.1 11 16.5C11 15.9 11.4 15.5 12 15.5C12.6 15.5 13 15.9 13 16.5C13 17.1 12.6 17.5 12 17.5ZM13.9 11.3C13.1 12 12.7 13 12.8 14H11.3C11.2 12.5 11.8 11.2 12.9 10.2C13.7 9.5 13.6 8.8 13.5 8.4C13 7 10.5 7.3 10.5 8.9H9C9 7.1 10.7 5.7 12.4 6C15.1 6.4 15.9 9.7 13.9 11.3Z" fill="white"/></svg>'
+                    }
+                </div>
+                <div class="message-wrapper">
+                    <div class="message-content">
+                        ${text.replace(/\n/g, '<br>')}
+                        ${relatedLinksHTML}
+                    </div>
+                    <div class="message-meta">
+                        <span>${timeString}</span>
+                    </div>
+                </div>
+            `;
+
+            messagesArea.appendChild(messageDiv);
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+
+            // ウェルカムセクションとサジェスチョンを非表示
+            if (messagesArea.children.length > 0) {
+                document.getElementById('welcomeSection').style.display = 'none';
+                document.getElementById('suggestionsSection').style.display = 'none';
+            }
+        }
+
+        // AIの応答を生成する関数（強化版）
+        function generateAIResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+
+            // 挨拶の検出
+            for (const [key, data] of Object.entries(knowledgeBase)) {
+                if (key === '挨拶') {
+                    for (const keyword of data.keywords) {
+                        if (lowerMessage.includes(keyword.toLowerCase())) {
+                            return { answer: data.answer, relatedLinks: data.relatedLinks };
+                        }
+                    }
+                }
+            }
+
+            // 感謝の検出
+            for (const [key, data] of Object.entries(knowledgeBase)) {
+                if (key === '感謝') {
+                    for (const keyword of data.keywords) {
+                        if (lowerMessage.includes(keyword.toLowerCase())) {
+                            return { answer: data.answer, relatedLinks: data.relatedLinks };
+                        }
+                    }
+                }
+            }
+
+            // キーワードマッチング
+            for (const [key, data] of Object.entries(knowledgeBase)) {
+                for (const keyword of data.keywords) {
+                    if (lowerMessage.includes(keyword.toLowerCase())) {
+                        return { answer: data.answer, relatedLinks: data.relatedLinks || [] };
+                    }
+                }
+            }
+
+            // デフォルト応答
+            return {
+                answer: `ご質問ありがとうございます。以下のトピックについて詳しくお答えできます：
+
+<strong>主要トピック：</strong>
+• <strong>労災保険の制度</strong> - 制度の概要と特徴
+• <strong>申請の流れと手順</strong> - 申請のステップバイステップガイド
+• <strong>必要な書類</strong> - 給付別の必要書類一覧
+• <strong>サイトの使い方</strong> - 労災申請アシストサイトの操作方法
+• <strong>給付の種類</strong> - 7種類の給付内容
+• <strong>通勤災害</strong> - 通勤中の災害について
+• <strong>よくある質問</strong> - FAQ
+
+具体的なご質問をお聞かせください。または、上部のクイックボタンからトピックをお選びいただけます。`,
+                relatedLinks: [
+                    { title: '申請を始める', description: '新規申請を開始', icon: 'application' },
+                    { title: 'ご利用ガイド', description: 'サイトの詳しい使い方', icon: 'help' }
+                ]
+            };
+        }
+
+        // メッセージを送信する関数
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // ユーザーメッセージを表示
+            addMessage(message, true);
+            input.value = '';
+            input.style.height = 'auto';
+
+            // 送信ボタンを無効化
+            const sendButton = document.getElementById('sendButton');
+            sendButton.disabled = true;
+
+            // タイピングインジケータを表示
+            const typingContainer = document.getElementById('typingContainer');
+            typingContainer.style.display = 'flex';
+
+            // メッセージエリアをスクロール
+            const messagesArea = document.getElementById('messagesArea');
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+
+            // AI応答をシミュレート（1〜2.5秒の遅延）
+            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
+
+            // タイピングインジケータを非表示
+            typingContainer.style.display = 'none';
+
+            // AI応答を生成して表示
+            const response = generateAIResponse(message);
+            addMessage(response.answer, false, response.relatedLinks);
+
+            // 送信ボタンを有効化
+            sendButton.disabled = false;
+            input.focus();
+        }
+
+        // クイック質問を送信
+        function sendQuickQuestion(question) {
+            const input = document.getElementById('messageInput');
+            input.value = question;
+            sendMessage();
+        }
+
+        // チャットをクリア
+        function clearChat() {
+            if (confirm('チャット履歴をクリアしますか？')) {
+                const messagesArea = document.getElementById('messagesArea');
+                messagesArea.innerHTML = '';
+                document.getElementById('welcomeSection').style.display = 'block';
+                document.getElementById('suggestionsSection').style.display = 'block';
+            }
+        }
+
+        // Enterキーで送信（Shift+Enterで改行）
+        document.getElementById('messageInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // テキストエリアの自動リサイズ
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+        });
+    </script>
+</body>
+</html>
