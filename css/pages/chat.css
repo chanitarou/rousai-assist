@@ -539,7 +539,7 @@ body {
     }
 
     .message {
-        max-width: 90%;
+        max-width: 92%;
         gap: 10px;
     }
 
@@ -549,6 +549,7 @@ body {
         line-height: 1.6;
         word-break: keep-all;
         overflow-wrap: break-word;
+        max-width: 100%;
     }
 
     .message-avatar {
@@ -666,9 +667,23 @@ body {
         min-height: 32px;
     }
 
+    .message {
+        max-width: 95%;
+    }
+
     .message-content {
         font-size: 0.875rem;
         padding: 10px 12px;
+    }
+
+    .message-avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .message-avatar svg {
+        width: 20px;
+        height: 20px;
     }
 
     .related-link-title {
