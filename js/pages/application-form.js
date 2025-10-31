@@ -2069,19 +2069,25 @@ function logout() {
 
 // 開発用：事業主モードに遷移
 function goToEmployerMode() {
-    // 現在のステップを非表示
+    // すべてのステップコンテンツを確実に非表示
     document.querySelectorAll('.step-content').forEach(step => {
         step.classList.remove('active');
+        step.style.display = 'none'; // インラインスタイルで確実に非表示
     });
 
-    // 回覧セクションも非表示
+    // circulation-sectionも確実に非表示（念のため）
     const circulationSection = document.getElementById('circulation-section');
     if (circulationSection) {
         circulationSection.classList.remove('active');
+        circulationSection.style.display = 'none';
     }
 
-    // ステップ6（事業主情報）を表示
-    document.getElementById('step-6').classList.add('active');
+    // ステップ6（事業主情報）のみを表示
+    const step6 = document.getElementById('step-6');
+    if (step6) {
+        step6.classList.add('active');
+        step6.style.display = ''; // インラインスタイルをクリアしてCSSに任せる
+    }
     currentStep = 6;
     updateProgress();
 
@@ -2091,19 +2097,25 @@ function goToEmployerMode() {
 
 // 開発用：医療機関モードに遷移
 function goToMedicalMode() {
-    // 現在のステップを非表示
+    // すべてのステップコンテンツを確実に非表示
     document.querySelectorAll('.step-content').forEach(step => {
         step.classList.remove('active');
+        step.style.display = 'none'; // インラインスタイルで確実に非表示
     });
 
-    // 回覧セクションも非表示
+    // circulation-sectionも確実に非表示（念のため）
     const circulationSection = document.getElementById('circulation-section');
     if (circulationSection) {
         circulationSection.classList.remove('active');
+        circulationSection.style.display = 'none';
     }
 
-    // ステップ7（医療機関情報）を表示
-    document.getElementById('step-7').classList.add('active');
+    // ステップ7（医療機関情報）のみを表示
+    const step7 = document.getElementById('step-7');
+    if (step7) {
+        step7.classList.add('active');
+        step7.style.display = ''; // インラインスタイルをクリアしてCSSに任せる
+    }
     currentStep = 7;
     updateProgress();
 
