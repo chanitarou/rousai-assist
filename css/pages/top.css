@@ -558,15 +558,22 @@
     }
 
     /* ログインメニュー - 超コンパクト1列リスト */
+    .login-dropdown {
+        position: static;
+    }
+
     .login-menu {
-        left: 16px;
-        right: 16px;
+        position: fixed !important;
+        left: 16px !important;
+        right: 16px !important;
+        top: 60px !important;
         min-width: auto;
         width: auto;
         max-width: calc(100vw - 32px);
         padding: 4px;
         margin: 0 auto;
         box-sizing: border-box;
+        z-index: 1001;
     }
 
     .login-menu-item {
@@ -674,12 +681,19 @@
     }
 
     /* ログインメニュー - さらにコンパクト化 */
+    .login-dropdown {
+        position: static;
+    }
+
     .login-menu {
+        position: fixed !important;
         left: 10px !important;
         right: 10px !important;
+        top: 60px !important;
         max-width: calc(100vw - 20px) !important;
         padding: 3px !important;
         box-sizing: border-box !important;
+        z-index: 1001;
     }
 
     .login-menu-item {
