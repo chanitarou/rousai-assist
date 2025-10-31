@@ -122,6 +122,13 @@ body {
     border-radius: var(--border-radius-lg);
     margin-bottom: var(--spacing-xl);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.qr-container:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
 }
 
 .qr-code {
@@ -139,6 +146,41 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+/* デモ環境の案内 */
+.demo-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--color-primary);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-small);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: pulse-notice 2s ease-in-out infinite;
+}
+
+.demo-notice svg {
+    flex-shrink: 0;
+}
+
+.demo-notice strong {
+    font-weight: 700;
+}
+
+@keyframes pulse-notice {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
 }
 
 .qr-instructions {
@@ -326,6 +368,18 @@ body {
     .qr-container {
         padding: 16px;
         margin-bottom: 28px;
+    }
+
+    .demo-notice {
+        font-size: 0.8125rem;
+        padding: 8px 12px;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+
+    .demo-notice svg {
+        width: 14px;
+        height: 14px;
     }
 
     .qr-instructions h3 {
