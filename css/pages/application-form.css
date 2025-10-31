@@ -975,6 +975,7 @@ body {
 @media (max-width: 768px) {
     /* ヘッダーは通常スクロール（固定しない） */
     .header {
+        position: relative !important; /* デスクトップ版のstickyを上書き */
         background: white;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
@@ -1033,9 +1034,9 @@ body {
 
     /* プログレスセクションを固定表示 */
     .progress-section {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1100 !important; /* ヘッダーより前面に表示 */
         background: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
