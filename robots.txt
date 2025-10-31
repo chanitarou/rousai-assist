@@ -1,0 +1,27 @@
+# robots.txt - 全ページのクロールを禁止
+# このサイトはプロトタイプ/デモ環境のため、検索エンジンへのインデックスを許可しません
+
+User-agent: *
+Disallow: /
+
+# すべての検索エンジンに対してクロールを禁止
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Googlebot-Image
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
+
+User-agent: Slurp
+Disallow: /
+
+User-agent: DuckDuckBot
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: YandexBot
+Disallow: /
