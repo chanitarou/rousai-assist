@@ -82,7 +82,12 @@ body {
 /* レスポンシブ設定 */
 @media (max-width: 768px) {
     :root {
-        --font-size-h1: 24px;
-        --font-size-h2: 20px;
+        /* モバイル向けフォントサイズ統一 */
+        --font-size-h1: 24px; /* 1.5rem */
+        --font-size-h2: 20px; /* 1.25rem */
+        --font-size-h3: 18px; /* 1.125rem */
+        --font-size-body: 16px; /* 1rem */
+        --font-size-small: 14px; /* 0.875rem */
+        --font-size-xs: 13px; /* 0.8125rem */
     }
 }

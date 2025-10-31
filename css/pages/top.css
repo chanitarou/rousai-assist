@@ -505,7 +505,7 @@
 
     /* お知らせセクション */
     .news-section {
-        padding: 32px 0;
+        padding: 24px 0; /* 32px→24px 余白削減 */
     }
 
     .news-header {

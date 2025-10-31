@@ -160,6 +160,12 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+/* モバイル向けタップフィードバック */
+.procedure-card:active {
+    transform: scale(0.98);
+    box-shadow: var(--shadow-sm);
+}
+
 .procedure-header {
     padding: var(--spacing-lg);
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
@@ -320,12 +326,12 @@ body {
 
     /* メインコンテンツ */
     .main-container {
-        padding: 16px;
+        padding: 12px; /* 16px→12px 画面スペース確保 */
     }
 
     .page-header {
-        padding: 24px 20px;
-        margin-bottom: 16px;
+        padding: 20px 16px; /* 24px 20px→20px 16px スペース最適化 */
+        margin-bottom: 12px; /* 16px→12px */
     }
 
     .page-title {
@@ -343,8 +349,8 @@ body {
 
     /* フィルター */
     .filter-section {
-        padding: 16px;
-        margin-bottom: 16px;
+        padding: 12px; /* 16px→12px スペース節約 */
+        margin-bottom: 12px; /* 16px→12px */
     }
 
     .filter-header {
@@ -386,15 +392,36 @@ body {
     /* 手続きグリッド */
     .procedures-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 12px; /* 16px→12px カード間隔縮小 */
     }
 
     .procedure-card {
         font-size: 0.9375rem;
+        /* モバイルでクリック領域を明示 */
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+    .procedure-card:active {
+        border-color: var(--color-primary);
+        background: #f8f9fa;
     }
 
     .procedure-header {
-        padding: 16px;
+        padding: 14px; /* 16px→14px */
+        /* クリック可能を示す視覚的ヒント追加 */
+        position: relative;
+    }
+
+    .procedure-header::after {
+        content: "›";
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        color: var(--color-primary);
+        opacity: 0.5;
     }
 
     .procedure-type {
@@ -423,15 +450,15 @@ body {
     }
 
     .procedure-body {
-        padding: 16px;
+        padding: 14px; /* 16px→14px */
     }
 
     .procedure-info {
-        gap: 12px;
+        gap: 10px; /* 12px→10px */
     }
 
     .info-row {
-        gap: 12px;
+        gap: 10px; /* 12px→10px */
     }
 
     .info-label {

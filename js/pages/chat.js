@@ -374,5 +374,34 @@ document.getElementById('messageInput')?.addEventListener('keydown', function(e)
 // テキストエリアの自動リサイズ
 document.getElementById('messageInput')?.addEventListener('input', function() {
     this.style.height = 'auto';
-    this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+    const maxHeight = window.innerWidth <= 768 ? 100 : 150; // モバイルでは100px
+    this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
 });
+
+// モバイルキーボード対応：入力欄フォーカス時にスクロール
+document.getElementById('messageInput')?.addEventListener('focus', function() {
+    // モバイルデバイスでキーボードが表示される際、入力欄を見える位置にスクロール
+    if (window.innerWidth <= 768) {
+        // 少し遅延させてキーボード表示後にスクロール
+        setTimeout(() => {
+            this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+    }
+});
+
+// Visual Viewport API対応（iOS Safari等でのキーボード表示時の最適化）
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        const inputArea = document.querySelector('.input-area');
+        if (inputArea && document.activeElement?.id === 'messageInput') {
+            // キーボード表示時の高さ調整
+            const viewportHeight = window.visualViewport.height;
+            const currentScroll = window.visualViewport.offsetTop;
+
+            // 入力欄が見える位置を維持
+            if (currentScroll > 0) {
+                window.scrollTo(0, currentScroll);
+            }
+        }
+    });
+}
