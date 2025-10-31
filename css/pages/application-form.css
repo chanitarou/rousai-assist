@@ -973,11 +973,8 @@ body {
    レスポンシブデザイン
 ============================================ */
 @media (max-width: 768px) {
-    /* ヘッダーを最小限に（スマホで邪魔にならないよう） */
+    /* ヘッダーは通常スクロール（固定しない） */
     .header {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
         background: white;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
@@ -1032,6 +1029,15 @@ body {
 
     .container {
         padding: 0 var(--spacing-3);
+    }
+
+    /* プログレスセクションを固定表示 */
+    .progress-section {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     /* プログレスヘッダーを2行に分ける */
