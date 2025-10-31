@@ -185,14 +185,14 @@ body {
 }
 
 .procedure-type.accident {
-    background: #f8f9fa;
-    color: #333;
-    border-color: #999;
+    background: #fff3e0; /* オレンジ系の淡い背景 */
+    color: #e65100; /* ダークオレンジ */
+    border-color: #ff9800; /* オレンジ */
 }
 
 .procedure-type.commute {
     background: #e3f2fd;
-    color: var(--color-primary);
+    color: #0d47a1; /* より濃いブルー */
     border-color: var(--color-primary);
 }
 
@@ -398,67 +398,89 @@ body {
     .procedure-card {
         font-size: 0.9375rem;
         /* モバイルでクリック領域を明示 */
-        border: 2px solid transparent;
+        border: 2px solid #e0e0e0; /* transparent→#e0e0e0 境界線を常に表示 */
         transition: all 0.2s ease;
     }
 
     .procedure-card:active {
         border-color: var(--color-primary);
         background: #f8f9fa;
+        transform: scale(0.99); /* タップフィードバック */
     }
 
     .procedure-header {
-        padding: 14px; /* 16px→14px */
+        padding: 16px; /* 14px→16px 視認性向上のため少し増やす */
         /* クリック可能を示す視覚的ヒント追加 */
         position: relative;
+        padding-right: 44px; /* 展開アイコン用のスペース確保 */
     }
 
+    /* 展開/折りたたみアイコン */
     .procedure-header::after {
-        content: "›";
+        content: "▼";
         position: absolute;
-        right: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1.5rem;
+        right: 16px;
+        top: 16px;
+        font-size: 1rem;
         color: var(--color-primary);
-        opacity: 0.5;
+        transition: transform 0.3s ease;
+    }
+
+    /* カードが展開されている時 */
+    .procedure-card.expanded .procedure-header::after {
+        transform: rotate(180deg);
     }
 
     .procedure-type {
-        padding: 5px 12px;
-        font-size: 0.8125rem;
-        margin-bottom: 12px;
+        padding: 6px 14px;
+        font-size: 0.875rem; /* 0.8125rem→0.875rem 視認性向上 */
+        margin-bottom: 10px;
+        font-weight: 600; /* 太字化 */
     }
 
     .procedure-number {
-        font-size: 0.875rem;
-        margin-bottom: 10px;
-        line-height: 1.5;
+        font-size: 1rem; /* 0.875rem→1rem 大きく見やすく */
+        margin-bottom: 8px;
+        line-height: 1.4;
+        font-weight: 700; /* 強調 */
+        color: var(--color-primary);
     }
 
     .procedure-title {
-        font-size: 1.125rem;
-        line-height: 1.3;
-        margin-bottom: 10px;
+        font-size: 1.25rem; /* 1.125rem→1.25rem タイトルを大きく */
+        line-height: 1.4;
+        margin-bottom: 8px;
         word-break: keep-all;
         overflow-wrap: break-word;
+        font-weight: 700; /* 太字化 */
     }
 
     .procedure-subtitle {
-        font-size: 0.9375rem;
+        font-size: 0.875rem; /* 0.9375rem→0.875rem 説明は少し小さく */
         line-height: 1.6;
+        color: var(--color-text-secondary); /* 色を薄くして階層感を */
     }
 
+    /* スマホでは詳細情報を初期非表示にしてコンパクトに */
     .procedure-body {
-        padding: 14px; /* 16px→14px */
+        padding: 0 16px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    /* 展開時 */
+    .procedure-card.expanded .procedure-body {
+        padding: 16px;
+        max-height: 500px; /* 十分な高さ */
     }
 
     .procedure-info {
-        gap: 10px; /* 12px→10px */
+        gap: 12px;
     }
 
     .info-row {
-        gap: 10px; /* 12px→10px */
+        gap: 10px;
     }
 
     .info-label {
@@ -471,8 +493,9 @@ body {
         line-height: 1.6;
     }
 
+    /* スマホでもフッター（ボタン）は常に表示 */
     .procedure-footer {
-        padding: 16px;
+        padding: 12px 16px; /* 縦方向を削減 */
     }
 
     .procedure-action {
@@ -537,10 +560,16 @@ body {
 
     .procedure-header {
         padding: 12px;
+        padding-right: 40px; /* 展開アイコン用のスペース確保 */
+    }
+
+    .procedure-header::after {
+        right: 12px;
+        top: 12px;
     }
 
     .procedure-title {
-        font-size: 1rem;
+        font-size: 1.125rem; /* 1rem→1.125rem 小型スマホでも見やすく */
     }
 
     .procedure-subtitle {

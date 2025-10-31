@@ -2,6 +2,32 @@
  * 手続き一覧画面固有のJavaScript
  */
 
+// モバイル判定
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// カード展開/折りたたみ機能（モバイルのみ）
+document.querySelectorAll('.procedure-card').forEach(card => {
+    const header = card.querySelector('.procedure-header');
+
+    if (header) {
+        header.addEventListener('click', function(e) {
+            // モバイルでのみ展開機能を有効化
+            if (isMobile()) {
+                // ボタンクリックの場合は展開処理をスキップ
+                if (!e.target.closest('.btn-start')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // 展開状態をトグル
+                    card.classList.toggle('expanded');
+                }
+            }
+        });
+    }
+});
+
 // フィルタータグのクリック処理
 document.querySelectorAll('.filter-tag').forEach(tag => {
     tag.addEventListener('click', function() {
@@ -34,6 +60,8 @@ document.querySelectorAll('.filter-tag').forEach(tag => {
 document.querySelectorAll('.btn-start').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
+        e.stopPropagation(); // カード展開処理への伝播を防ぐ
+
         const card = this.closest('.procedure-card');
         // 16号の6の場合は遷移しない
         if (card && card.id === 'procedure-16-6') {
@@ -59,5 +87,14 @@ if (procedure166) {
 document.querySelector('.btn-logout')?.addEventListener('click', function() {
     if (confirm('ログアウトしてもよろしいですか？')) {
         window.location.href = 'index.html';
+    }
+});
+
+// ウィンドウリサイズ時に展開状態をリセット（デスクトップに戻った時）
+window.addEventListener('resize', function() {
+    if (!isMobile()) {
+        document.querySelectorAll('.procedure-card').forEach(card => {
+            card.classList.remove('expanded');
+        });
     }
 });
