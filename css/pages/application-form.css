@@ -226,6 +226,25 @@ body {
     color: var(--color-text);
 }
 
+.progress-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    flex-wrap: wrap;
+}
+
+.progress-main-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+}
+
+.progress-dev-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+}
+
 .progress-counter {
     font-size: var(--font-size-sm);
     color: var(--color-text-secondary);
@@ -1013,6 +1032,33 @@ body {
 
     .container {
         padding: 0 var(--spacing-3);
+    }
+
+    /* プログレスヘッダーを2行に分ける */
+    .progress-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-3);
+    }
+
+    .progress-controls {
+        width: 100%;
+        flex-direction: column;
+        gap: var(--spacing-3);
+        align-items: stretch;
+    }
+
+    .progress-main-controls {
+        width: 100%;
+        justify-content: space-between;
+        gap: var(--spacing-2);
+    }
+
+    .progress-dev-controls {
+        width: 100%;
+        justify-content: flex-start;
+        gap: var(--spacing-2);
+        flex-wrap: wrap;
     }
 
     .progress-steps {
