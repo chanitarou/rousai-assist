@@ -794,6 +794,17 @@
                         <p class="card-description">診断内容を入力してください</p>
                     </div>
 
+                    <!-- エラーサマリー -->
+                    <div class="error-summary" id="errorSummaryStep8" style="display: none;">
+                        <div class="error-summary-header">
+                            <svg class="error-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>入力内容に不備があります</span>
+                        </div>
+                        <ul class="error-summary-list" id="errorListStep8"></ul>
+                    </div>
+
                     <form>
                     <div class="form-group">
                         <label for="injuryPart" class="form-label form-label-required">傷病の部位及び傷病名</label>
@@ -878,12 +889,12 @@
                         </div>
                         <div class="error-message" id="treatmentStatus-error"></div>
                     </div>
+                    </form>
 
                     <div class="btn-group">
                         <button class="btn btn-secondary" onclick="previousStep()">前へ</button>
                         <button class="btn btn-primary" onclick="submitMedicalForm()">入力完了</button>
                     </div>
-                    </form>
                 </div>
             </div>
 
