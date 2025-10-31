@@ -2429,3 +2429,35 @@ function submitMedicalForm() {
     localStorage.setItem('completedBy', 'medical');
     window.location.href = '労災申請アシストサイト_回覧完了画面.html';
 }
+
+// ==============================================
+// 一時保存機能
+// ==============================================
+
+/**
+ * 手動で一時保存を実行
+ * 現在のステップのデータを保存し、トースト通知を表示
+ */
+function manualSave() {
+    // 現在のステップのデータを保存
+    saveCurrentStepData();
+
+    // トースト通知を表示
+    showToast();
+}
+
+/**
+ * トースト通知を表示
+ * 一時保存成功メッセージを3秒間表示
+ */
+function showToast() {
+    const toast = document.getElementById('saveToast');
+
+    // トーストを表示
+    toast.classList.add('show');
+
+    // 3秒後に非表示
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}

@@ -1031,6 +1031,32 @@ body {
     .btn {
         width: 100%;
     }
+
+    /* 一時保存ボタンのモバイル対応 */
+    .btn-save-temp {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        gap: 4px;
+    }
+
+    .btn-save-temp svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* トースト通知のモバイル対応 */
+    .toast {
+        bottom: 20px;
+        right: 20px;
+        left: 20px;
+        padding: 12px 16px;
+        font-size: 0.875rem;
+    }
+
+    .toast svg {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 /* ============================================
@@ -1051,6 +1077,76 @@ body {
 :focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
+}
+
+/* ============================================
+   一時保存ボタン
+============================================ */
+.btn-save-temp {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--color-success);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-save-temp:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-save-temp:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-save-temp svg {
+    flex-shrink: 0;
+}
+
+/* ============================================
+   トースト通知
+============================================ */
+.toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: var(--color-success);
+    color: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(22, 163, 74, 0.3);
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.toast svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
 }
 
 /* ============================================
