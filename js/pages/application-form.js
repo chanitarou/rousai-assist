@@ -1010,7 +1010,7 @@ function validateCurrentStep() {
         }
     }
 
-    // 郵便番号・電話番号・記入日の複合バリデーション（ステップ7の場合）
+    // 郵便番号・電話番号・記入日・医師氏名の複合バリデーション（ステップ7の場合）
     if (currentStep === 7) {
         // 記入日のバリデーション
         const medicalDateYear = document.getElementById('medicalDate-year');
@@ -1053,6 +1053,30 @@ function validateCurrentStep() {
             if (postalError) {
                 postalError.textContent = '【医療機関 郵便番号】は前半3桁、後半4桁で入力してください。例：123-4567';
                 postalError.classList.add('show');
+            }
+            isValid = false;
+        }
+
+        // 医師氏名の複合バリデーション
+        const doctorLastName = document.getElementById('doctorLastName');
+        const doctorFirstName = document.getElementById('doctorFirstName');
+
+        if (!doctorLastName?.value.trim() || !doctorFirstName?.value.trim()) {
+            if (doctorLastName && !doctorLastName.value.trim()) {
+                doctorLastName.classList.add('error');
+                const error = document.getElementById('doctorLastName-error');
+                if (error) {
+                    error.textContent = '【姓】を入力してください';
+                    error.classList.add('show');
+                }
+            }
+            if (doctorFirstName && !doctorFirstName.value.trim()) {
+                doctorFirstName.classList.add('error');
+                const error = document.getElementById('doctorFirstName-error');
+                if (error) {
+                    error.textContent = '【名】を入力してください';
+                    error.classList.add('show');
+                }
             }
             isValid = false;
         }

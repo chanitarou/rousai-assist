@@ -651,18 +651,22 @@
 
                     <div class="form-group">
                         <label class="form-label form-label-required">事業主の氏名</label>
-                        <div style="display: flex; gap: var(--spacing-2);">
-                            <div style="flex: 1;">
-                                <input type="text" id="employerPosition" class="form-input" placeholder="役職（例：代表取締役）">
+                        <div style="display: flex; flex-direction: column; gap: var(--spacing-2);">
+                            <!-- 役職（1段目） -->
+                            <div>
+                                <input type="text" id="employerPosition" class="form-input" placeholder="役職（例：代表取締役、総務部長）" style="width: 100%;">
                                 <div class="error-message" id="employerPosition-error"></div>
                             </div>
-                            <div style="flex: 1;">
-                                <input type="text" id="employerLastName" class="form-input" placeholder="姓">
-                                <div class="error-message" id="employerLastName-error"></div>
-                            </div>
-                            <div style="flex: 1;">
-                                <input type="text" id="employerFirstName" class="form-input" placeholder="名">
-                                <div class="error-message" id="employerFirstName-error"></div>
+                            <!-- 姓・名（2段目） -->
+                            <div style="display: flex; gap: var(--spacing-2);">
+                                <div style="flex: 1;">
+                                    <input type="text" id="employerLastName" class="form-input" placeholder="姓">
+                                    <div class="error-message" id="employerLastName-error"></div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <input type="text" id="employerFirstName" class="form-input" placeholder="名">
+                                    <div class="error-message" id="employerFirstName-error"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
