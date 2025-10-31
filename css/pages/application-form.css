@@ -1072,10 +1072,11 @@ body {
     }
 
     /* プログレスセクションを固定表示 - 縦方向の余白を大幅削減 */
+    /* ※ 2025年10月修正: position: relative に変更してコンテンツが隠れないようにする */
     .progress-section {
-        position: sticky !important;
+        position: relative !important;
         top: 0 !important;
-        z-index: 1100 !important; /* ヘッダーより前面に表示 */
+        z-index: 100 !important; /* ヘッダーより前面だが、コンテンツを隠さない */
         background: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         padding: var(--spacing-2) 0 !important; /* 上下の余白を8pxに削減 */
