@@ -842,41 +842,16 @@ function previousStep() {
 }
 
 // エラーサマリーを表示（デバッグ用）
+// ※ 2025年10月修正: ユーザー向けにはエラーサマリーを表示しない（コンソールログのみ）
 function showErrorSummary(message, stepElement) {
-    // 既存のエラーサマリーを削除
-    const existingSummary = stepElement.querySelector('.debug-error-summary');
-    if (existingSummary) {
-        existingSummary.remove();
-    }
-
-    // 新しいエラーサマリーを作成
-    const summary = document.createElement('div');
-    summary.className = 'debug-error-summary';
-    summary.style.cssText = `
-        background-color: #fee;
-        border: 2px solid #f00;
-        color: #c00;
-        padding: 16px;
-        margin-bottom: 24px;
-        border-radius: 4px;
-        font-weight: bold;
-        font-size: 14px;
-    `;
-    summary.textContent = message;
-
-    // カードの先頭に挿入
-    const card = stepElement.querySelector('.card');
-    if (card) {
-        card.insertBefore(summary, card.firstChild);
-    }
+    // デバッグ用のエラーサマリーは画面に表示しない
+    // コンソールログのみで十分
+    console.log('[ERROR SUMMARY]', message);
 }
 
 // エラーサマリーを非表示（デバッグ用）
 function hideErrorSummary(stepElement) {
-    const summary = stepElement.querySelector('.debug-error-summary');
-    if (summary) {
-        summary.remove();
-    }
+    // 何もしない（画面表示を削除したため）
 }
 
 // バリデーション
