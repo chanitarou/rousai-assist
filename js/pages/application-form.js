@@ -742,7 +742,11 @@ const validationRules = {
 
 // 次のステップへ
 function nextStep() {
-    if (validateCurrentStep()) {
+    console.log('[DEBUG] nextStep called, currentStep:', currentStep);
+    const isValid = validateCurrentStep();
+    console.log('[DEBUG] validateCurrentStep returned:', isValid);
+
+    if (isValid) {
         saveCurrentStepData();
 
         // ステップ5の場合は回覧セクションを表示
@@ -752,17 +756,30 @@ function nextStep() {
             return;
         }
 
-        document.getElementById(`step-${currentStep}`).classList.remove('active');
+        const prevStepElement = document.getElementById(`step-${currentStep}`);
+        console.log('[DEBUG] Removing active from step-' + currentStep, prevStepElement);
+        if (prevStepElement) {
+            prevStepElement.classList.remove('active');
+        }
+
         currentStep++;
+        console.log('[DEBUG] New currentStep:', currentStep, 'totalSteps:', totalSteps);
 
         if (currentStep <= totalSteps) {
             const nextStepElement = document.getElementById(`step-${currentStep}`);
+            console.log('[DEBUG] Next step element (step-' + currentStep + '):', nextStepElement);
             if (nextStepElement) {
                 nextStepElement.classList.add('active');
+                console.log('[DEBUG] Added active class to step-' + currentStep);
+                console.log('[DEBUG] Element display:', window.getComputedStyle(nextStepElement).display);
+            } else {
+                console.error('[ERROR] Step element not found: step-' + currentStep);
             }
             updateProgress();
             window.scrollTo(0, 0);
         }
+    } else {
+        console.log('[DEBUG] Validation failed for step-' + currentStep);
     }
 }
 
@@ -824,9 +841,54 @@ function previousStep() {
     }
 }
 
+// エラーサマリーを表示（デバッグ用）
+function showErrorSummary(message, stepElement) {
+    // 既存のエラーサマリーを削除
+    const existingSummary = stepElement.querySelector('.debug-error-summary');
+    if (existingSummary) {
+        existingSummary.remove();
+    }
+
+    // 新しいエラーサマリーを作成
+    const summary = document.createElement('div');
+    summary.className = 'debug-error-summary';
+    summary.style.cssText = `
+        background-color: #fee;
+        border: 2px solid #f00;
+        color: #c00;
+        padding: 16px;
+        margin-bottom: 24px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 14px;
+    `;
+    summary.textContent = message;
+
+    // カードの先頭に挿入
+    const card = stepElement.querySelector('.card');
+    if (card) {
+        card.insertBefore(summary, card.firstChild);
+    }
+}
+
+// エラーサマリーを非表示（デバッグ用）
+function hideErrorSummary(stepElement) {
+    const summary = stepElement.querySelector('.debug-error-summary');
+    if (summary) {
+        summary.remove();
+    }
+}
+
 // バリデーション
 function validateCurrentStep() {
     const stepElement = document.getElementById(`step-${currentStep}`);
+    console.log('[DEBUG] validateCurrentStep: step-' + currentStep, stepElement);
+
+    if (!stepElement) {
+        console.error('[ERROR] Step element not found: step-' + currentStep);
+        return false;
+    }
+
     let isValid = true;
 
     // エラー状態をリセット
@@ -1189,6 +1251,32 @@ function validateCurrentStep() {
                 }
             }
         }, 100);
+    }
+
+    console.log('[DEBUG] validateCurrentStep for step-' + currentStep + ' result:', isValid);
+    if (!isValid) {
+        console.log('[DEBUG] Validation failed. Check error messages above.');
+        // エラーフィールドをリスト表示
+        const errorFields = stepElement.querySelectorAll('.form-input.error, .form-select.error');
+        console.log('[DEBUG] Error fields count:', errorFields.length);
+        const errorFieldIds = [];
+        errorFields.forEach((field, index) => {
+            const fieldId = field.id || field.name;
+            console.log(`[DEBUG] Error field ${index + 1}:`, fieldId, field);
+            if (fieldId) errorFieldIds.push(fieldId);
+        });
+
+        // エラーサマリーを画面上部に表示（デバッグ用）
+        if (errorFieldIds.length > 0) {
+            const errorSummary = `【デバッグ】ステップ${currentStep}で${errorFieldIds.length}件のエラーがあります: ${errorFieldIds.join(', ')}`;
+            console.error('[ERROR]', errorSummary);
+
+            // エラーサマリーを画面上部に表示
+            showErrorSummary(errorSummary, stepElement);
+        }
+    } else {
+        // エラーサマリーを非表示
+        hideErrorSummary(stepElement);
     }
 
     return isValid;
