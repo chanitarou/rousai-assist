@@ -11,7 +11,7 @@
 
 // グローバル変数
 let currentStep = 1;
-const totalSteps = 10;
+const totalSteps = 9;
 let formData = {};
 
 // モバイルデバイス判定（スマホ・タブレット対応）
@@ -30,7 +30,7 @@ const steps = [
     { id: 6, label: '事業主情報', role: 'employer' },
     { id: 7, label: '医療機関', role: 'medical' },
     { id: 8, label: '診断証明', role: 'medical' },
-    { id: 10, label: '確認・提出', role: 'worker' }
+    { id: 9, label: '確認・提出', role: 'worker' }
 ];
 
 // 労災保険指定医療機関データ（30件のサンプルデータ）
