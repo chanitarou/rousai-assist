@@ -1010,8 +1010,26 @@ function validateCurrentStep() {
         }
     }
 
-    // 郵便番号・電話番号の複合バリデーション（ステップ7の場合）
+    // 郵便番号・電話番号・記入日の複合バリデーション（ステップ7の場合）
     if (currentStep === 7) {
+        // 記入日のバリデーション
+        const medicalDateYear = document.getElementById('medicalDate-year');
+        const medicalDateMonth = document.getElementById('medicalDate-month');
+        const medicalDateDay = document.getElementById('medicalDate-day');
+
+        if (!medicalDateYear?.value || !medicalDateMonth?.value || !medicalDateDay?.value) {
+            if (medicalDateYear && !medicalDateYear.value) medicalDateYear.classList.add('error');
+            if (medicalDateMonth && !medicalDateMonth.value) medicalDateMonth.classList.add('error');
+            if (medicalDateDay && !medicalDateDay.value) medicalDateDay.classList.add('error');
+
+            const medicalDateError = document.getElementById('medicalDate-error');
+            if (medicalDateError) {
+                medicalDateError.textContent = '【記入日】の年・月・日をすべて選択してください。';
+                medicalDateError.classList.add('show');
+            }
+            isValid = false;
+        }
+
         // 郵便番号の複合バリデーション
         const postalFields = ['hospitalPostalCode1', 'hospitalPostalCode2'];
         let allPostalFieldsFilled = true;
@@ -2330,7 +2348,7 @@ async function searchHospitalAddress() {
 function submitEmployerForm() {
 
     // バリデーション
-    const employerDate = document.getElementById('employerDate').value;
+    const employerDate = getDateValue('employerDate'); // 年・月・日セレクトボックスから取得
     const businessName = document.getElementById('businessName').value;
     const businessPostalCode1 = document.getElementById('businessPostalCode1').value;
     const businessPostalCode2 = document.getElementById('businessPostalCode2').value;
@@ -2345,14 +2363,20 @@ function submitEmployerForm() {
 
     // エラーメッセージをクリア
     document.querySelectorAll('#step-6 .error-message').forEach(el => el.classList.remove('show'));
-    document.querySelectorAll('#step-6 .form-input').forEach(el => el.classList.remove('error'));
+    document.querySelectorAll('#step-6 .form-input, #step-6 .form-select').forEach(el => el.classList.remove('error'));
 
     let hasError = false;
 
     if (!employerDate) {
         hasError = true;
-        document.getElementById('employerDate').classList.add('error');
-        document.getElementById('employerDate-error').textContent = '【記入日】を入力してください';
+        // 年・月・日のセレクトボックスにエラーを設定
+        const yearSelect = document.getElementById('employerDate-year');
+        const monthSelect = document.getElementById('employerDate-month');
+        const daySelect = document.getElementById('employerDate-day');
+        if (yearSelect) yearSelect.classList.add('error');
+        if (monthSelect) monthSelect.classList.add('error');
+        if (daySelect) daySelect.classList.add('error');
+        document.getElementById('employerDate-error').textContent = '【記入日】を入力してください（年・月・日をすべて選択）';
         document.getElementById('employerDate-error').classList.add('show');
     }
 
@@ -2415,7 +2439,7 @@ function submitEmployerForm() {
 
     if (hasError) {
         setTimeout(() => {
-            const firstErrorField = document.querySelector('#step-6 .form-input.error');
+            const firstErrorField = document.querySelector('#step-6 .form-input.error, #step-6 .form-select.error');
             if (firstErrorField) {
                 firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 // スマホではキーボード自動表示を防ぐためフォーカスしない
@@ -2436,8 +2460,8 @@ function submitEmployerForm() {
 function submitMedicalForm() {
     // バリデーション
     const injuryPart = document.getElementById('injuryPart').value;
-    const treatmentStartDate = document.getElementById('treatmentStartDate').value;
-    const treatmentEndDate = document.getElementById('treatmentEndDate').value;
+    const treatmentStartDate = getDateValue('treatmentStartDate'); // 年・月・日セレクトボックスから取得
+    const treatmentEndDate = getDateValue('treatmentEndDate'); // 年・月・日セレクトボックスから取得
     const treatmentDays = document.getElementById('treatmentDays').value;
 
     // ラジオボタンから療養の現況を取得
@@ -2459,15 +2483,27 @@ function submitMedicalForm() {
 
     if (!treatmentStartDate) {
         hasError = true;
-        document.getElementById('treatmentStartDate').classList.add('error');
-        document.getElementById('treatmentStartDate-error').textContent = '【開始日】を入力してください';
+        // 年・月・日のセレクトボックスにエラーを設定
+        const yearSelect = document.getElementById('treatmentStartDate-year');
+        const monthSelect = document.getElementById('treatmentStartDate-month');
+        const daySelect = document.getElementById('treatmentStartDate-day');
+        if (yearSelect) yearSelect.classList.add('error');
+        if (monthSelect) monthSelect.classList.add('error');
+        if (daySelect) daySelect.classList.add('error');
+        document.getElementById('treatmentStartDate-error').textContent = '【開始日】を入力してください（年・月・日をすべて選択）';
         document.getElementById('treatmentStartDate-error').classList.add('show');
     }
 
     if (!treatmentEndDate) {
         hasError = true;
-        document.getElementById('treatmentEndDate').classList.add('error');
-        document.getElementById('treatmentEndDate-error').textContent = '【終了日】を入力してください';
+        // 年・月・日のセレクトボックスにエラーを設定
+        const yearSelect = document.getElementById('treatmentEndDate-year');
+        const monthSelect = document.getElementById('treatmentEndDate-month');
+        const daySelect = document.getElementById('treatmentEndDate-day');
+        if (yearSelect) yearSelect.classList.add('error');
+        if (monthSelect) monthSelect.classList.add('error');
+        if (daySelect) daySelect.classList.add('error');
+        document.getElementById('treatmentEndDate-error').textContent = '【終了日】を入力してください（年・月・日をすべて選択）';
         document.getElementById('treatmentEndDate-error').classList.add('show');
     }
 
