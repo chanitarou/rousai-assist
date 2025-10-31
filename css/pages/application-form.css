@@ -1262,6 +1262,103 @@ body {
 }
 
 /* ============================================
+   日付セレクトボックス
+============================================ */
+.date-select-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.date-select {
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1px solid var(--color-gray-300);
+    border-radius: 4px;
+    background-color: white;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.date-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 76, 140, 0.1);
+}
+
+.date-select.error {
+    border-color: var(--color-error);
+    background-color: var(--color-error-bg);
+}
+
+.date-select.error:focus {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* 年セレクトボックス */
+#birthDate-year,
+#injuryDate-year,
+#leaveStartDate-year,
+#leaveEndDate-year,
+#employerDate-year,
+#medicalDate-year,
+#treatmentStartDate-year,
+#treatmentEndDate-year {
+    min-width: 100px;
+    flex: 0 0 auto;
+}
+
+/* 月・日セレクトボックス */
+.date-select-group select[id$="-month"],
+.date-select-group select[id$="-day"] {
+    min-width: 70px;
+    flex: 0 0 auto;
+}
+
+.date-separator {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    font-weight: 500;
+    user-select: none;
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .date-select-group {
+        gap: 6px;
+    }
+
+    .date-select {
+        padding: 12px 10px;
+        font-size: 1rem;
+        min-height: 48px; /* タッチターゲット最適化 */
+    }
+
+    /* 年セレクトボックス（モバイル） */
+    #birthDate-year,
+    #injuryDate-year,
+    #leaveStartDate-year,
+    #leaveEndDate-year,
+    #employerDate-year,
+    #medicalDate-year,
+    #treatmentStartDate-year,
+    #treatmentEndDate-year {
+        min-width: 90px;
+    }
+
+    /* 月・日セレクトボックス（モバイル） */
+    .date-select-group select[id$="-month"],
+    .date-select-group select[id$="-day"] {
+        min-width: 65px;
+    }
+
+    .date-separator {
+        font-size: 0.8125rem;
+    }
+}
+
+/* ============================================
    印刷スタイル
 ============================================ */
 @media print {

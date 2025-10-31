@@ -310,6 +310,7 @@ const medicalInstitutions = [
 // 初期化
 document.addEventListener('DOMContentLoaded', function() {
     initializeProgress();
+    initializeDateSelects(); // 日付セレクトボックスを初期化
     loadFormData();
     setupAutoSave();
     setupRealtimeValidation();
@@ -412,17 +413,35 @@ const validationRules = {
         message: '【名（フリガナ）】は全角カタカナで入力してください。例：タロウ',
         fieldName: '名（フリガナ）'
     },
-    birthDate: {
+    'birthDate-year': {
         required: true,
-        validator: function(value) {
-            if (!value) return false;
-            const date = new Date(value);
+        customValidator: function() {
+            const year = document.getElementById('birthDate-year')?.value;
+            const month = document.getElementById('birthDate-month')?.value;
+            const day = document.getElementById('birthDate-day')?.value;
+
+            if (!year || !month || !day) return false;
+
+            const dateValue = getDateValue('birthDate');
+            if (!dateValue) return false;
+
+            const date = new Date(dateValue);
             const today = new Date();
             const age = today.getFullYear() - date.getFullYear();
             return date < today && age >= 15 && age <= 100;
         },
-        message: '【生年月日】を正しく入力してください。15歳以上100歳以下の日付を選択してください。',
+        message: '【生年月日】を正しく入力してください。年・月・日をすべて選択し、15歳以上100歳以下の日付を選択してください。',
         fieldName: '生年月日'
+    },
+    'birthDate-month': {
+        required: true,
+        message: '【生年月日】の月を選択してください。',
+        fieldName: '生年月日（月）'
+    },
+    'birthDate-day': {
+        required: true,
+        message: '【生年月日】の日を選択してください。',
+        fieldName: '生年月日（日）'
     },
     tel1: {
         required: true,
@@ -831,6 +850,45 @@ function validateCurrentStep() {
                 genderError.classList.add('show');
             }
             isValid = false;
+        }
+
+        // 生年月日のバリデーション
+        const birthYear = document.getElementById('birthDate-year');
+        const birthMonth = document.getElementById('birthDate-month');
+        const birthDay = document.getElementById('birthDate-day');
+
+        if (!birthYear?.value || !birthMonth?.value || !birthDay?.value) {
+            if (birthYear && !birthYear.value) birthYear.classList.add('error');
+            if (birthMonth && !birthMonth.value) birthMonth.classList.add('error');
+            if (birthDay && !birthDay.value) birthDay.classList.add('error');
+
+            const birthDateError = document.getElementById('birthDate-error');
+            if (birthDateError) {
+                birthDateError.textContent = '【生年月日】の年・月・日をすべて選択してください。';
+                birthDateError.classList.add('show');
+            }
+            isValid = false;
+        } else {
+            // 年齢チェック（15歳以上100歳以下）
+            const dateValue = getDateValue('birthDate');
+            if (dateValue) {
+                const date = new Date(dateValue);
+                const today = new Date();
+                const age = today.getFullYear() - date.getFullYear();
+
+                if (date >= today || age < 15 || age > 100) {
+                    birthYear.classList.add('error');
+                    birthMonth.classList.add('error');
+                    birthDay.classList.add('error');
+
+                    const birthDateError = document.getElementById('birthDate-error');
+                    if (birthDateError) {
+                        birthDateError.textContent = '【生年月日】を正しく選択してください。15歳以上100歳以下の日付を選択してください。';
+                        birthDateError.classList.add('show');
+                    }
+                    isValid = false;
+                }
+            }
         }
 
         // 郵便番号の複合バリデーション
@@ -1555,8 +1613,15 @@ function validateField(input) {
     let isValid = true;
     let errorMessage = '';
 
+    // customValidatorがある場合（日付セレクトボックスなど）
+    if (rule.customValidator) {
+        isValid = rule.customValidator();
+        if (!isValid) {
+            errorMessage = rule.message;
+        }
+    }
     // 空欄チェック
-    if (rule.required && !input.value.trim()) {
+    else if (rule.required && !input.value.trim()) {
         isValid = false;
         errorMessage = rule.message;
     }
@@ -2472,4 +2537,168 @@ function showToast() {
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3000);
+}
+
+// ==============================================
+// 日付セレクトボックス機能
+// ==============================================
+
+/**
+ * 指定した年月の日数を取得（閏年も考慮）
+ * @param {number} year - 年
+ * @param {number} month - 月（1-12）
+ * @returns {number} - その月の日数
+ */
+function getDaysInMonth(year, month) {
+    if (!year || !month) return 31; // デフォルトは31日
+    return new Date(year, month, 0).getDate();
+}
+
+/**
+ * 年・月・日セレクトボックスに選択肢を生成
+ * @param {string} baseId - 日付フィールドのベースID（例: "birthDate"）
+ * @param {number} startYear - 開始年
+ * @param {number} endYear - 終了年
+ * @param {boolean} sortDesc - 年を降順にするか（生年月日用）
+ */
+function populateDateSelects(baseId, startYear, endYear, sortDesc = false) {
+    const yearSelect = document.getElementById(`${baseId}-year`);
+    const monthSelect = document.getElementById(`${baseId}-month`);
+    const daySelect = document.getElementById(`${baseId}-day`);
+
+    if (!yearSelect || !monthSelect || !daySelect) return;
+
+    // 年の選択肢を生成
+    const years = [];
+    for (let y = startYear; y <= endYear; y++) {
+        years.push(y);
+    }
+    if (sortDesc) years.reverse(); // 降順に並べ替え（生年月日用）
+
+    years.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+    });
+
+    // 月の選択肢を生成（1-12）
+    for (let m = 1; m <= 12; m++) {
+        const option = document.createElement('option');
+        option.value = m;
+        option.textContent = m;
+        monthSelect.appendChild(option);
+    }
+
+    // 日の選択肢を生成（初期は1-31）
+    for (let d = 1; d <= 31; d++) {
+        const option = document.createElement('option');
+        option.value = d;
+        option.textContent = d;
+        daySelect.appendChild(option);
+    }
+
+    // 年・月が変更されたら日の選択肢を更新
+    yearSelect.addEventListener('change', () => updateDayOptions(baseId));
+    monthSelect.addEventListener('change', () => updateDayOptions(baseId));
+}
+
+/**
+ * 月・年に応じて日の選択肢を更新
+ * @param {string} baseId - 日付フィールドのベースID
+ */
+function updateDayOptions(baseId) {
+    const yearSelect = document.getElementById(`${baseId}-year`);
+    const monthSelect = document.getElementById(`${baseId}-month`);
+    const daySelect = document.getElementById(`${baseId}-day`);
+
+    if (!yearSelect || !monthSelect || !daySelect) return;
+
+    const year = parseInt(yearSelect.value);
+    const month = parseInt(monthSelect.value);
+    const currentDay = parseInt(daySelect.value) || null;
+
+    if (!year || !month) return; // 年または月が未選択の場合は何もしない
+
+    // その月の最大日数を取得
+    const maxDays = getDaysInMonth(year, month);
+
+    // 現在の日の選択肢をクリア（最初の「日」オプションは残す）
+    while (daySelect.options.length > 1) {
+        daySelect.remove(1);
+    }
+
+    // 新しい日の選択肢を追加
+    for (let d = 1; d <= maxDays; d++) {
+        const option = document.createElement('option');
+        option.value = d;
+        option.textContent = d;
+        daySelect.appendChild(option);
+    }
+
+    // 以前選択していた日が有効な範囲内であれば再選択
+    if (currentDay && currentDay <= maxDays) {
+        daySelect.value = currentDay;
+    } else if (currentDay > maxDays) {
+        daySelect.value = ''; // 無効な日の場合はクリア
+    }
+}
+
+/**
+ * 年・月・日を結合してYYYY-MM-DD形式で取得
+ * @param {string} baseId - 日付フィールドのベースID
+ * @returns {string|null} - YYYY-MM-DD形式の日付文字列、未選択の場合はnull
+ */
+function getDateValue(baseId) {
+    const year = document.getElementById(`${baseId}-year`)?.value;
+    const month = document.getElementById(`${baseId}-month`)?.value;
+    const day = document.getElementById(`${baseId}-day`)?.value;
+
+    if (!year || !month || !day) return null;
+
+    // 月と日を2桁にゼロパディング
+    const paddedMonth = month.padStart(2, '0');
+    const paddedDay = day.padStart(2, '0');
+
+    return `${year}-${paddedMonth}-${paddedDay}`;
+}
+
+/**
+ * YYYY-MM-DD形式の日付文字列を年・月・日セレクトボックスに設定
+ * @param {string} baseId - 日付フィールドのベースID
+ * @param {string} dateString - YYYY-MM-DD形式の日付文字列
+ */
+function setDateValue(baseId, dateString) {
+    if (!dateString) return;
+
+    const [year, month, day] = dateString.split('-');
+    const yearSelect = document.getElementById(`${baseId}-year`);
+    const monthSelect = document.getElementById(`${baseId}-month`);
+    const daySelect = document.getElementById(`${baseId}-day`);
+
+    if (yearSelect && year) yearSelect.value = parseInt(year);
+    if (monthSelect && month) monthSelect.value = parseInt(month);
+    if (daySelect && day) daySelect.value = parseInt(day);
+}
+
+/**
+ * すべての日付セレクトボックスを初期化
+ */
+function initializeDateSelects() {
+    const currentYear = new Date().getFullYear();
+
+    // 生年月日：1920年～現在年（降順）
+    populateDateSelects('birthDate', 1920, currentYear, true);
+
+    // その他の日付：現在年-5年～現在年+1年（昇順）
+    const recentStartYear = currentYear - 5;
+    const recentEndYear = currentYear + 1;
+
+    populateDateSelects('injuryDate', recentStartYear, recentEndYear, false);
+    populateDateSelects('leaveStartDate', recentStartYear, recentEndYear, false);
+    populateDateSelects('leaveEndDate', recentStartYear, recentEndYear, false);
+    populateDateSelects('employerDate', recentStartYear, recentEndYear, false);
+    populateDateSelects('medicalDate', recentStartYear, recentEndYear, false);
+    populateDateSelects('treatmentStartDate', recentStartYear, recentEndYear, false);
+    populateDateSelects('treatmentEndDate', recentStartYear, recentEndYear, false);
 }

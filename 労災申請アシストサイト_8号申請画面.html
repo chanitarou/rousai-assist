@@ -141,9 +141,22 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="birthDate" class="form-label form-label-required">生年月日</label>
-                            <input type="date" id="birthDate" class="form-input" aria-required="true" placeholder="例：2000-01-15">
-                            <p class="form-help">カレンダーアイコンをクリックして日付を選択してください</p>
+                            <label class="form-label form-label-required">生年月日</label>
+                            <div class="date-select-group">
+                                <select id="birthDate-year" class="form-select date-select" aria-required="true" aria-label="生年">
+                                    <option value="">年</option>
+                                </select>
+                                <span class="date-separator">年</span>
+                                <select id="birthDate-month" class="form-select date-select" aria-required="true" aria-label="生月">
+                                    <option value="">月</option>
+                                </select>
+                                <span class="date-separator">月</span>
+                                <select id="birthDate-day" class="form-select date-select" aria-required="true" aria-label="生日">
+                                    <option value="">日</option>
+                                </select>
+                                <span class="date-separator">日</span>
+                            </div>
+                            <p class="form-help">年・月・日を選択してください</p>
                             <div class="error-message" id="birthDate-error"></div>
                         </div>
 
@@ -255,9 +268,22 @@
 
                     <form>
                         <div class="form-group">
-                            <label for="injuryDate" class="form-label form-label-required">負傷または発病年月日</label>
-                            <input type="date" id="injuryDate" class="form-input" placeholder="例：2025-01-15">
-                            <p class="form-help">カレンダーアイコンをクリックして日付を選択してください</p>
+                            <label class="form-label form-label-required">負傷または発病年月日</label>
+                            <div class="date-select-group">
+                                <select id="injuryDate-year" class="form-select date-select" aria-required="true" aria-label="負傷年">
+                                    <option value="">年</option>
+                                </select>
+                                <span class="date-separator">年</span>
+                                <select id="injuryDate-month" class="form-select date-select" aria-required="true" aria-label="負傷月">
+                                    <option value="">月</option>
+                                </select>
+                                <span class="date-separator">月</span>
+                                <select id="injuryDate-day" class="form-select date-select" aria-required="true" aria-label="負傷日">
+                                    <option value="">日</option>
+                                </select>
+                                <span class="date-separator">日</span>
+                            </div>
+                            <p class="form-help">年・月・日を選択してください</p>
                             <div class="error-message" id="injuryDate-error"></div>
                         </div>
 
@@ -324,15 +350,39 @@
                         <div class="form-group">
                             <label class="form-label form-label-required">休業期間</label>
                             <div class="form-row">
-                                <div>
-                                    <label for="leaveStartDate" class="form-label">開始日</label>
-                                    <input type="date" id="leaveStartDate" class="form-input" placeholder="例：2025-01-15">
-                                    <p class="form-help">カレンダーから選択</p>
+                                <div style="flex: 1;">
+                                    <label class="form-label">開始日</label>
+                                    <div class="date-select-group">
+                                        <select id="leaveStartDate-year" class="form-select date-select" aria-required="true" aria-label="休業開始年">
+                                            <option value="">年</option>
+                                        </select>
+                                        <span class="date-separator">年</span>
+                                        <select id="leaveStartDate-month" class="form-select date-select" aria-required="true" aria-label="休業開始月">
+                                            <option value="">月</option>
+                                        </select>
+                                        <span class="date-separator">月</span>
+                                        <select id="leaveStartDate-day" class="form-select date-select" aria-required="true" aria-label="休業開始日">
+                                            <option value="">日</option>
+                                        </select>
+                                        <span class="date-separator">日</span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label for="leaveEndDate" class="form-label">終了日（予定）</label>
-                                    <input type="date" id="leaveEndDate" class="form-input" placeholder="例：2025-01-30">
-                                    <p class="form-help">カレンダーから選択</p>
+                                <div style="flex: 1;">
+                                    <label class="form-label">終了日（予定）</label>
+                                    <div class="date-select-group">
+                                        <select id="leaveEndDate-year" class="form-select date-select" aria-required="true" aria-label="休業終了年">
+                                            <option value="">年</option>
+                                        </select>
+                                        <span class="date-separator">年</span>
+                                        <select id="leaveEndDate-month" class="form-select date-select" aria-required="true" aria-label="休業終了月">
+                                            <option value="">月</option>
+                                        </select>
+                                        <span class="date-separator">月</span>
+                                        <select id="leaveEndDate-day" class="form-select date-select" aria-required="true" aria-label="休業終了日">
+                                            <option value="">日</option>
+                                        </select>
+                                        <span class="date-separator">日</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="error-message" id="leavePeriod-error"></div>
@@ -547,9 +597,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="employerDate" class="form-label form-label-required">記入日</label>
-                        <input type="date" id="employerDate" class="form-input" placeholder="例：2025-01-15">
-                        <p class="form-help">カレンダーアイコンをクリックして日付を選択してください</p>
+                        <label class="form-label form-label-required">記入日</label>
+                        <div class="date-select-group">
+                            <select id="employerDate-year" class="form-select date-select" aria-required="true" aria-label="記入年">
+                                <option value="">年</option>
+                            </select>
+                            <span class="date-separator">年</span>
+                            <select id="employerDate-month" class="form-select date-select" aria-required="true" aria-label="記入月">
+                                <option value="">月</option>
+                            </select>
+                            <span class="date-separator">月</span>
+                            <select id="employerDate-day" class="form-select date-select" aria-required="true" aria-label="記入日">
+                                <option value="">日</option>
+                            </select>
+                            <span class="date-separator">日</span>
+                        </div>
+                        <p class="form-help">年・月・日を選択してください</p>
                         <div class="error-message" id="employerDate-error"></div>
                     </div>
 
@@ -633,9 +696,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="medicalDate" class="form-label form-label-required">記入日</label>
-                        <input type="date" id="medicalDate" class="form-input" placeholder="例：2025-01-15">
-                        <p class="form-help">カレンダーアイコンをクリックして日付を選択してください</p>
+                        <label class="form-label form-label-required">記入日</label>
+                        <div class="date-select-group">
+                            <select id="medicalDate-year" class="form-select date-select" aria-required="true" aria-label="記入年">
+                                <option value="">年</option>
+                            </select>
+                            <span class="date-separator">年</span>
+                            <select id="medicalDate-month" class="form-select date-select" aria-required="true" aria-label="記入月">
+                                <option value="">月</option>
+                            </select>
+                            <span class="date-separator">月</span>
+                            <select id="medicalDate-day" class="form-select date-select" aria-required="true" aria-label="記入日">
+                                <option value="">日</option>
+                            </select>
+                            <span class="date-separator">日</span>
+                        </div>
+                        <p class="form-help">年・月・日を選択してください</p>
                         <div class="error-message" id="medicalDate-error"></div>
                     </div>
 
@@ -723,16 +799,40 @@
                     <div class="form-group">
                         <label class="form-label form-label-required">療養の期間</label>
                         <div class="form-row">
-                            <div>
-                                <label for="treatmentStartDate" class="form-label">開始日</label>
-                                <input type="date" id="treatmentStartDate" class="form-input" placeholder="例：2025-01-15">
-                                <p class="form-help">カレンダーから選択</p>
+                            <div style="flex: 1;">
+                                <label class="form-label">開始日</label>
+                                <div class="date-select-group">
+                                    <select id="treatmentStartDate-year" class="form-select date-select" aria-required="true" aria-label="療養開始年">
+                                        <option value="">年</option>
+                                    </select>
+                                    <span class="date-separator">年</span>
+                                    <select id="treatmentStartDate-month" class="form-select date-select" aria-required="true" aria-label="療養開始月">
+                                        <option value="">月</option>
+                                    </select>
+                                    <span class="date-separator">月</span>
+                                    <select id="treatmentStartDate-day" class="form-select date-select" aria-required="true" aria-label="療養開始日">
+                                        <option value="">日</option>
+                                    </select>
+                                    <span class="date-separator">日</span>
+                                </div>
                                 <div class="error-message" id="treatmentStartDate-error"></div>
                             </div>
-                            <div>
-                                <label for="treatmentEndDate" class="form-label">終了日</label>
-                                <input type="date" id="treatmentEndDate" class="form-input" placeholder="例：2025-01-30">
-                                <p class="form-help">カレンダーから選択</p>
+                            <div style="flex: 1;">
+                                <label class="form-label">終了日</label>
+                                <div class="date-select-group">
+                                    <select id="treatmentEndDate-year" class="form-select date-select" aria-required="true" aria-label="療養終了年">
+                                        <option value="">年</option>
+                                    </select>
+                                    <span class="date-separator">年</span>
+                                    <select id="treatmentEndDate-month" class="form-select date-select" aria-required="true" aria-label="療養終了月">
+                                        <option value="">月</option>
+                                    </select>
+                                    <span class="date-separator">月</span>
+                                    <select id="treatmentEndDate-day" class="form-select date-select" aria-required="true" aria-label="療養終了日">
+                                        <option value="">日</option>
+                                    </select>
+                                    <span class="date-separator">日</span>
+                                </div>
                                 <div class="error-message" id="treatmentEndDate-error"></div>
                             </div>
                         </div>
