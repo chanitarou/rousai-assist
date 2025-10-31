@@ -776,6 +776,7 @@ function nextStep() {
             console.log('[DEBUG] Next step element (step-' + currentStep + '):', nextStepElement);
             if (nextStepElement) {
                 nextStepElement.classList.add('active');
+                nextStepElement.style.display = ''; // インラインスタイルをクリアしてCSSに任せる
                 console.log('[DEBUG] Added active class to step-' + currentStep);
                 console.log('[DEBUG] Element display:', window.getComputedStyle(nextStepElement).display);
             } else {
@@ -832,6 +833,7 @@ function nextStepDev() {
         const nextStepElement = document.getElementById(`step-${currentStep}`);
         if (nextStepElement) {
             nextStepElement.classList.add('active');
+            nextStepElement.style.display = ''; // インラインスタイルをクリアしてCSSに任せる
         }
         updateProgress();
         window.scrollTo(0, 0);
@@ -851,7 +853,11 @@ function previousStep() {
     }
 
     if (currentStep >= 1) {
-        document.getElementById(`step-${currentStep}`).classList.add('active');
+        const prevStepElement = document.getElementById(`step-${currentStep}`);
+        if (prevStepElement) {
+            prevStepElement.classList.add('active');
+            prevStepElement.style.display = ''; // インラインスタイルをクリアしてCSSに任せる
+        }
         updateProgress();
         window.scrollTo(0, 0);
     }
