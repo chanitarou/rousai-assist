@@ -1,22 +1,26 @@
-name: Gemini Ryoichi Bot Comment Handler
+name: Gemini Debug Bot
 
 on:
   issue_comment:
     types: [created]
 
 jobs:
-  gemini_ryoichi_bot:
+  gemini_debug:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up job
-        run: echo "Starting Gemini bot..."
+      - name: Print trigger info
+        run: |
+          echo "Triggered by: ${{ github.event.comment.body }}"
 
-      - name: Generate Gemini response
+      - name: Call Gemini API (debug mode)
         id: gemini
         run: |
           COMMENT_TEXT="${{ github.event.comment.body }}"
           COMMENT="@${{ github.event.comment.user.login }} $COMMENT_TEXT"
+
+          echo "=== Sending to Gemini ==="
+          echo "$COMMENT"
 
           RAW=$(curl -s -X POST \
             -H "Content-Type: application/json" \
@@ -27,24 +31,21 @@ jobs:
                 \"parts\": [{\"text\": \"$COMMENT\"}]
               }]
             }" \
-            https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent)
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent")
 
-          echo "RAW RESPONSE:"
+          echo "=== RAW RESPONSE START ==="
           echo "$RAW"
+          echo "=== RAW RESPONSE END ==="
 
-          OUT=$(echo "$RAW" | jq -r '.candidates[0].content.parts[0].text // empty')
-
+          # パースはまだしない（まず内容を見る）
           echo "REPLY<<EOF" >> $GITHUB_OUTPUT
-          echo "$OUT" >> $GITHUB_OUTPUT
+          echo "$RAW" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Post reply as gemini-ryoichi-bot
-        if: steps.gemini.outputs.REPLY != ''
+      - name: Post Gemini raw reply
         run: |
           gh api \
             repos/${{ github.repository }}/issues/comments \
             -f issue_number="${{ github.event.issue.number }}" \
-            -f body="${{ steps.gemini.outputs.REPLY }}" \
-            --jq '.id' \
-            --method POST \
+            -f body="${{ steps.gemini.outputs.REPLY }}"
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
