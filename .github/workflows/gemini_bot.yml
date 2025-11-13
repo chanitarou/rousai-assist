@@ -1,47 +1,89 @@
-name: Gemini Debug Bot
-
-permissions:
-  contents: write
-  issues: write
+name: Gemini Ryoichi Bot Comment Handler
 
 on:
   issue_comment:
     types: [created]
 
 jobs:
-  gemini_debug:
+  gemini_bot:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up job
+        run: echo "Running Gemini bot..."
+
       - name: Print trigger info
         run: |
-          echo "Triggered by: ${{ github.event.comment.body }}"
+          echo "Issue Number: ${{ github.event.issue.number }}"
+          echo "Comment: ${{ github.event.comment.body }}"
+          echo "User: ${{ github.event.comment.user.login }}"
 
-      - name: Call Gemini API (debug mode)
+      # 呼び出しコメントを拾う
+      - name: Check if bot is invoked
+        id: check_invoked
+        run: |
+          COMMENT="${{ github.event.comment.body }}"
+          if echo "$COMMENT" | grep -iq "@gemini-ryoichi-bot"; then
+            echo "invoked=true" >> $GITHUB_OUTPUT
+          else
+            echo "invoked=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Stop if not invoked
+        if: steps.check_invoked.outputs.invoked == 'false'
+        run: echo "Bot not invoked. Skipping."
+
+      ###########################
+      #  Gemini API 呼び出し
+      ###########################
+      - name: Call Gemini API
+        if: steps.check_invoked.outputs.invoked == 'true'
         id: gemini
         run: |
           COMMENT_TEXT="${{ github.event.comment.body }}"
-          COMMENT="@${{ github.event.comment.user.login }} $COMMENT_TEXT"
+          PROMPT="User said: \"$COMMENT_TEXT\". Reply as kindly helpful AI."
 
-          RAW=$(curl -s -X POST \
+          echo "Calling Gemini API..."
+          RESPONSE=$(curl -s -X POST \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
             -d "{
-              \"model\": \"gemini-1.5-flash\",
+              \"model\": \"gemini-1.5-flash-latest\",
               \"contents\": [{
-                \"parts\": [{\"text\": \"$COMMENT\"}]
+                \"parts\": [{\"text\": \"$PROMPT\"}]
               }]
             }" \
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent")
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent")
 
-          echo "$RAW" > raw_reply.txt
+          echo "Raw response:"
+          echo "$RESPONSE"
 
-      - name: Post Gemini raw reply
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 出力ファイルに保存
+          echo "$RESPONSE" > gemini_raw.json
+
+          # JSON から本文を抽出（本文がない場合は fallback）
+          REPLY=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text // "ERROR: No content"')
+
+          echo "reply=$REPLY" >> $GITHUB_OUTPUT
+
+      ###########################
+      # Issue に返信を投稿
+      ###########################
+      - name: Post reply as gemini-ryoichi-bot
+        if: steps.check_invoked.outputs.invoked == 'true'
         run: |
-          BODY=$(cat raw_reply.txt)
+          echo "Replying: ${{ steps.gemini.outputs.reply }}"
 
           gh api \
             repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-            -f body="$BODY"
+            -f body="${{ steps.gemini.outputs.reply }}" \
+            -H "Accept: application/vnd.github+json" \
+            -F "owner=${{ github.repository_owner }}" \
+            -F "repo=${{ github.event.repository.name }}" \
+            --jq '.html_url' \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Job complete
+        run: echo "Done!"
