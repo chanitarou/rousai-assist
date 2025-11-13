@@ -56,6 +56,13 @@ jobs:
           echo "--- RAW RESPONSE ---"
           cat response.json
 
+      - name: DEBUG Dump response
+        if: steps.check.outputs.invoke == 'true'
+        run: |
+          echo "----- DEBUG RESPONSE -----"
+          cat response.json
+
+
       - name: Parse reply (Node.js)
         if: steps.check.outputs.invoke == 'true'
         run: |
