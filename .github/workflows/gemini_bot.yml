@@ -33,19 +33,10 @@ jobs:
             }" \
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent")
 
-          echo "=== RAW RESPONSE START ==="
-          echo "$RAW"
-          echo "=== RAW RESPONSE END ==="
-
-          # パースはまだしない（まず内容を見る）
-          echo "REPLY<<EOF" >> $GITHUB_OUTPUT
-          echo "$RAW" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo "RAW=$RAW" >> $GITHUB_ENV
 
       - name: Post Gemini raw reply
         run: |
-          gh api \
-            repos/${{ github.repository }}/issues/comments \
-            -f issue_number="${{ github.event.issue.number }}" \
-            -f body="${{ steps.gemini.outputs.REPLY }}"
+          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+            -f body="${RAW}" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
