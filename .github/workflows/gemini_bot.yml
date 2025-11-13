@@ -1,7 +1,3 @@
-permissions:
-  issues: write
-  pull-requests: write
-
 name: Gemini Ryoichi Bot Comment Handler
 
 on:
@@ -9,7 +5,7 @@ on:
     types: [created]
 
 permissions:
-  issues: write
+  issues: write       # ← 403対策（絶対必要）
   pull-requests: write
 
 jobs:
@@ -17,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Check invocation
         id: check
         run: |
@@ -35,7 +30,7 @@ jobs:
         if: steps.check.outputs.invoke == 'true'
         run: |
           COMMENT="${{ github.event.comment.body }}"
-
+          
           curl -s -X POST \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
@@ -47,7 +42,7 @@ jobs:
             "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent" \
             > response.json
 
-          echo "Gemini RAW Response:"
+          echo "Gemini raw response:"
           cat response.json
 
       - name: Post reply as gemini-ryoichi-bot
@@ -56,7 +51,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           BODY=$(jq -r '.candidates[0].content.parts[0].text // "ERROR: No content"' response.json)
-
           echo "Replying: $BODY"
 
           gh api \
