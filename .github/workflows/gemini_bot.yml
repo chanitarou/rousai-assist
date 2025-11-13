@@ -1,8 +1,4 @@
-name: Gemini Ryoichi Bot Comment Handler
-
-permissions:
-  contents: read
-  issues: write
+name: Gemini_Ryoichi Bot Comment Handler
 
 on:
   issue_comment:
@@ -13,16 +9,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ----------------------------
+      # Setup
+      # ----------------------------
       - name: Set up job
         run: echo "Job started"
 
+      # ----------------------------
+      # Pull request & comment info
+      # ----------------------------
       - name: Print trigger info
         run: |
           echo "Issue Number: ${{ github.event.issue.number }}"
-          echo "Comment:"
-          echo "${{ github.event.comment.body }}" | sed 's/^/  /'
-          echo "User: ${{ github.event.comment.user.login }}"
+          echo "Comment: ${{ github.event.comment.body }}"
 
+      # ----------------------------
+      # Check if bot is mentioned
+      # ----------------------------
       - name: Check if bot is invoked
         id: invoked
         run: |
@@ -33,34 +36,80 @@ jobs:
             echo "invoked=false" >> $GITHUB_OUTPUT
           fi
 
+      # ----------------------------
+      # Stop workflow if not invoked
+      # ----------------------------
       - name: Stop if not invoked
         if: steps.invoked.outputs.invoked == 'false'
-        run: echo "Bot not invoked. Stopping."
+        run: |
+          echo "Bot not invoked — stopping."
+          exit 0
 
+      # ----------------------------
+      # Setup Node.js for Gemini API call
+      # ----------------------------
       - name: Set up Node
-        if: steps.invoked.outputs.invoked == 'true'
         uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
+      # ----------------------------
+      # Install required packages
+      # ----------------------------
+      - name: Install dependencies
+        run: |
+          npm install @google/generative-ai
+
+      # ----------------------------
+      # Call Gemini API
+      # ----------------------------
       - name: Call Gemini API
         id: gemini
-        if: steps.invoked.outputs.invoked == 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          RESPONSE=$(curl -s -X POST \
-            -H "Content-Type: application/json" \
-            -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
-            -d "{ \"contents\": [{ \"parts\": [{ \"text\": \"${{ github.event.comment.body }}\" }] }] }" \
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent")
+          cat << 'EOF' > call_gemini.js
+          import { GoogleGenerativeAI } from "@google/generative-ai";
+          import fs from "fs";
 
-          echo "$RESPONSE" > response.json
-          cat response.json
+          const apiKey = process.env.GEMINI_API_KEY;
+          const genAI = new GoogleGenerativeAI(apiKey);
+          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
+          const prompt = process.argv[2];
+
+          async function run() {
+            try {
+              const result = await model.generateContent(prompt);
+              const text = result.response.text();
+              fs.writeFileSync("response.txt", text);
+            } catch (err) {
+              fs.writeFileSync("response.txt", "ERROR: " + err.message);
+            }
+          }
+          run();
+          EOF
+
+          COMMENT="${{ github.event.comment.body }}"
+          node call_gemini.js "$COMMENT"
+
+      # ----------------------------
+      # Post Gemini reply to GitHub Issue
+      # ----------------------------
       - name: Post reply as gemini-ryoichi-bot
         if: steps.invoked.outputs.invoked == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          BODY=$(cat response.json | jq -r '.candidates[0].content.parts[0].text // "ERROR: No content"')
+          BODY=$(cat response.txt)
           echo "Replying: $BODY"
 
           gh api \
             repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-            -f body="$BODY" \
-            --jq '.id'
+            -f body="$BODY"
+
+      # ----------------------------
+      # Finish
+      # ----------------------------
+      - name: Job complete
+        run: echo "Done"
