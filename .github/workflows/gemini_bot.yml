@@ -5,8 +5,7 @@ on:
     types: [created]
 
 permissions:
-  issues: write       # ← 403対策（絶対必要）
-  pull-requests: write
+  issues: write
 
 jobs:
   gemini_bot:
@@ -29,28 +28,49 @@ jobs:
       - name: Call Gemini API
         if: steps.check.outputs.invoke == 'true'
         run: |
+          echo "Calling Gemini..."
           COMMENT="${{ github.event.comment.body }}"
-          
+
           curl -s -X POST \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
             -d "{
-              \"contents\": [{
-                \"parts\": [{\"text\": \"${COMMENT}\"}]
-              }]
+              \"contents\": [
+                {
+                  \"parts\": [{\"text\": \"${COMMENT}\"}]
+                }
+              ]
             }" \
             "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent" \
             > response.json
 
-          echo "Gemini raw response:"
+          echo "--- RAW RESPONSE ---"
           cat response.json
+          echo "-------------------"
+
+      - name: Extract text safely
+        if: steps.check.outputs.invoke == 'true'
+        run: |
+          # Gemini のどの構造でも text を抜ける最強パーサー
+          jq -r '
+            (
+              .candidates[0].content.parts[0].text,
+              .candidates[0].content.parts[0].text[0],
+              .candidates[0].output_text,
+              .candidates[0].text,
+              .text
+            ) // "ERROR: No content"
+          ' response.json > parsed.txt
+
+          echo "--- PARSED ---"
+          cat parsed.txt
 
       - name: Post reply as gemini-ryoichi-bot
         if: steps.check.outputs.invoke == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          BODY=$(jq -r '.candidates[0].content.parts[0].text // "ERROR: No content"' response.json)
+          BODY=$(cat parsed.txt)
           echo "Replying: $BODY"
 
           gh api \
