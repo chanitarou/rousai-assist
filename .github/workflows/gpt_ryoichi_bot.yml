@@ -6,11 +6,9 @@ on:
 
 jobs:
   gpt_ryoichi_bot:
-    # 🔥 特定のメンションを含むコメントだけを処理
     if: contains(github.event.comment.body, '@gpt-ryoichi-bot')
     runs-on: ubuntu-latest
 
-    # 🔥 Bot がコメント投稿できるように権限を付与
     permissions:
       contents: write
       issues: write
@@ -18,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # GPT API 呼び出し
+      # GPT API を呼ぶ
       - name: Generate GPT response
         id: gpt
         run: |
@@ -37,10 +35,11 @@ jobs:
           echo "$RESPONSE" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      # GPT-ryoichi-bot アカウントとしてコメント投稿
+      # GPT-ryoichi-bot アカウントとしてコメント投稿（curl版）
       - name: Post reply as gpt-ryoichi-bot
         run: |
-          gh api \
-            repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-            -f body="${{ steps.gpt.outputs.response }}" \
-            -H "Authorization: token ${{ secrets.GPT_BOT_TOKEN }}"
+          curl -s -X POST \
+            -H "Authorization: token ${{ secrets.GPT_BOT_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"${{ steps.gpt.outputs.response }}\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments"
