@@ -19,9 +19,6 @@ jobs:
           COMMENT_TEXT="${{ github.event.comment.body }}"
           COMMENT="@${{ github.event.comment.user.login }} $COMMENT_TEXT"
 
-          echo "=== Sending to Gemini ==="
-          echo "$COMMENT"
-
           RAW=$(curl -s -X POST \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
@@ -33,10 +30,17 @@ jobs:
             }" \
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent")
 
-          echo "RAW=$RAW" >> $GITHUB_ENV
+          echo "=== RAW RESPONSE START ==="
+          echo "$RAW"
+          echo "=== RAW RESPONSE END ==="
+
+          # RAW の内容をコメント投稿用に安全にエスケープしつつ、一時ファイルへ保存
+          printf "%s" "$RAW" > raw_reply.txt
 
       - name: Post Gemini raw reply
         run: |
-          gh api repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
-            -f body="${RAW}" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
+          BODY=$(cat raw_reply.txt)
+
+          gh api \
+            repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+            -f body="$BODY"
