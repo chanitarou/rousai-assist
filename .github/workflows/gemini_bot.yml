@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Gemini API 呼び出し
       - name: Generate Gemini response
         id: gemini
         run: |
@@ -32,13 +31,16 @@ jobs:
           echo "RAW RESPONSE:"
           echo "$RAW"
 
-          RESPONSE=$(echo "$RAW" | jq -r '.candidates[0].content.parts[0].text // "ERROR: No content"')
+          RESPONSE=$(echo "$RAW" | jq -r '
+            .candidates[0].content.parts[0].text // 
+            .candidates[0].content[0].text // 
+            "ERROR: No content"
+          ')
 
           echo "response<<EOF" >> $GITHUB_OUTPUT
           echo "$RESPONSE" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      # Gemini bot アカウントでコメント投稿
       - name: Post reply as gemini-ryoichi-bot
         run: |
           BODY="${{ steps.gemini.outputs.response }}"
