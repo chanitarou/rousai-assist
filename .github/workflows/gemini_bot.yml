@@ -1,25 +1,50 @@
-- name: Generate Gemini response
-  id: gemini
-  run: |
-    COMMENT="@gpt-ryoichi-bot $COMMENT_TEXT"
+name: Gemini Ryoichi Bot Comment Handler
 
-    RAW=$(curl -s -X POST \
-      -H "Content-Type: application/json" \
-      -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
-      -d "{
-        \"model\": \"gemini-1.5-flash\",
-        \"contents\": [{
-          \"parts\": [{\"text\": \"$COMMENT\"}]
-        }]
-      }" \
-      https://generativelanguage.googleapis.com/v1beta/models/generateContent)
+on:
+  issue_comment:
+    types: [created]
 
-    echo "RAW RESPONSE:"
-    echo "$RAW"
+jobs:
+  gemini_ryoichi_bot:
+    runs-on: ubuntu-latest
 
-    # 正しいレスポンス形式を jq で抜き出し
-    OUT=$(echo "$RAW" | jq -r '.candidates[0].content.parts[0].text // empty')
+    steps:
+      - name: Set up job
+        run: echo "Starting Gemini bot..."
 
-    echo "REPLY<<EOF" >> $GITHUB_OUTPUT
-    echo "$OUT" >> $GITHUB_OUTPUT
-    echo "EOF" >> $GITHUB_OUTPUT
+      - name: Generate Gemini response
+        id: gemini
+        run: |
+          COMMENT_TEXT="${{ github.event.comment.body }}"
+          COMMENT="@${{ github.event.comment.user.login }} $COMMENT_TEXT"
+
+          RAW=$(curl -s -X POST \
+            -H "Content-Type: application/json" \
+            -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
+            -d "{
+              \"model\": \"gemini-1.5-flash\",
+              \"contents\": [{
+                \"parts\": [{\"text\": \"$COMMENT\"}]
+              }]
+            }" \
+            https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent)
+
+          echo "RAW RESPONSE:"
+          echo "$RAW"
+
+          OUT=$(echo "$RAW" | jq -r '.candidates[0].content.parts[0].text // empty')
+
+          echo "REPLY<<EOF" >> $GITHUB_OUTPUT
+          echo "$OUT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Post reply as gemini-ryoichi-bot
+        if: steps.gemini.outputs.REPLY != ''
+        run: |
+          gh api \
+            repos/${{ github.repository }}/issues/comments \
+            -f issue_number="${{ github.event.issue.number }}" \
+            -f body="${{ steps.gemini.outputs.REPLY }}" \
+            --jq '.id' \
+            --method POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
