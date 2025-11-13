@@ -50,7 +50,7 @@ jobs:
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
             -d @request.json \
-            "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent" \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent" \
             > response.json
 
           echo "--- RAW RESPONSE ---"
@@ -63,7 +63,6 @@ jobs:
           const fs = require('fs');
           const raw = JSON.parse(fs.readFileSync('response.json', 'utf8'));
 
-          // text 候補をすべてチェック
           const text =
             raw?.candidates?.[0]?.content?.parts?.[0]?.text ||
             raw?.candidates?.[0]?.output_text ||
@@ -80,7 +79,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          BODY=$(cat reply.txt)
+          BODY="$(cat reply.txt)"
           gh api \
             repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
             -f body="$BODY"
