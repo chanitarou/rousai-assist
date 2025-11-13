@@ -1,5 +1,9 @@
 name: Gemini Debug Bot
 
+permissions:
+  contents: write
+  issues: write
+
 on:
   issue_comment:
     types: [created]
@@ -30,12 +34,7 @@ jobs:
             }" \
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent")
 
-          echo "=== RAW RESPONSE START ==="
-          echo "$RAW"
-          echo "=== RAW RESPONSE END ==="
-
-          # Save raw response for next step
-          printf "%s" "$RAW" > raw_reply.txt
+          echo "$RAW" > raw_reply.txt
 
       - name: Post Gemini raw reply
         env:
