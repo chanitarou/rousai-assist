@@ -1,4 +1,4 @@
-name: Gemini Ryoichi Bot Comment Handler
+name: Gemini Bot
 
 on:
   issue_comment:
@@ -23,56 +23,64 @@ jobs:
 
       - name: Stop if not invoked
         if: steps.check.outputs.invoke == 'false'
-        run: echo "Bot not invoked. Stopping."
+        run: echo "Bot not invoked. Stop."
+
+      - name: Set up Node
+        if: steps.check.outputs.invoke == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
       - name: Call Gemini API
         if: steps.check.outputs.invoke == 'true'
         run: |
-          echo "Calling Gemini..."
-          COMMENT="${{ github.event.comment.body }}"
+          cat > request.json <<EOF
+          {
+            "contents": [
+              {
+                "parts": [{ "text": "${{ github.event.comment.body }}" }]
+              }
+            ]
+          }
+          EOF
 
           curl -s -X POST \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
-            -d "{
-              \"contents\": [
-                {
-                  \"parts\": [{\"text\": \"${COMMENT}\"}]
-                }
-              ]
-            }" \
+            -d @request.json \
             "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent" \
             > response.json
 
           echo "--- RAW RESPONSE ---"
           cat response.json
-          echo "-------------------"
 
-      - name: Extract text safely
+      - name: Extract text using Node.js
         if: steps.check.outputs.invoke == 'true'
         run: |
-          # Gemini のどの構造でも text を抜ける最強パーサー
-          jq -r '
-            (
-              .candidates[0].content.parts[0].text,
-              .candidates[0].content.parts[0].text[0],
-              .candidates[0].output_text,
-              .candidates[0].text,
-              .text
-            ) // "ERROR: No content"
-          ' response.json > parsed.txt
+          node <<'EOF'
+          const fs = require('fs');
 
-          echo "--- PARSED ---"
-          cat parsed.txt
+          const raw = JSON.parse(fs.readFileSync('response.json', 'utf8'));
 
-      - name: Post reply as gemini-ryoichi-bot
+          // すべてのパターンをチェック
+          const text =
+            raw?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            raw?.candidates?.[0]?.text ||
+            raw?.candidates?.[0]?.output_text ||
+            raw?.text ||
+            "ERROR: No content";
+
+          console.log("PARSED:", text);
+
+          fs.writeFileSync("parsed.txt", text);
+          EOF
+
+      - name: Post reply
         if: steps.check.outputs.invoke == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           BODY=$(cat parsed.txt)
-          echo "Replying: $BODY"
-
           gh api \
             repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
             -f body="$BODY"
