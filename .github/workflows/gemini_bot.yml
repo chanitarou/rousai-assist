@@ -38,7 +38,9 @@ jobs:
           {
             "contents": [
               {
-                "parts": [{ "text": "${{ github.event.comment.body }}" }]
+                "parts": [
+                  { "text": "${{ github.event.comment.body }}" }
+                ]
               }
             ]
           }
@@ -54,25 +56,23 @@ jobs:
           echo "--- RAW RESPONSE ---"
           cat response.json
 
-      - name: Extract text using Node.js
+      - name: Parse reply (Node.js)
         if: steps.check.outputs.invoke == 'true'
         run: |
-          node <<'EOF'
+          node << 'EOF'
           const fs = require('fs');
-
           const raw = JSON.parse(fs.readFileSync('response.json', 'utf8'));
 
-          // すべてのパターンをチェック
+          // text 候補をすべてチェック
           const text =
             raw?.candidates?.[0]?.content?.parts?.[0]?.text ||
-            raw?.candidates?.[0]?.text ||
             raw?.candidates?.[0]?.output_text ||
+            raw?.candidates?.[0]?.text ||
             raw?.text ||
             "ERROR: No content";
 
           console.log("PARSED:", text);
-
-          fs.writeFileSync("parsed.txt", text);
+          fs.writeFileSync("reply.txt", text);
           EOF
 
       - name: Post reply
@@ -80,7 +80,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          BODY=$(cat parsed.txt)
+          BODY=$(cat reply.txt)
           gh api \
             repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
             -f body="$BODY"
