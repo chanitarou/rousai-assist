@@ -325,47 +325,68 @@
 - 個人情報の暗号化が必要
 - XSS、CSRF対策の実装が必要
 
-## ファイル構造（2025年10月リファクタリング後）
+## ファイル構造（2025年11月リファクタリング後）
 
 ```
 C:\Users\rtani\ClaudeCode\RosaiAssist\
-├── index.html                             # メインランディングページ（旧：労災アシストTOP画面_新.html）
-├── 労災申請アシストサイト_AIチャット.html        # AIチャットボット画面
-├── 労災申請アシストサイト_ログイン画面.html      # QRコードログイン
-├── 労災申請アシストサイト_手続き一覧画面.html    # 手続き選択
-├── 労災申請アシストサイト_8号申請画面.html      # 多段階申請フォーム（最新版・強化版バリデーション）
-├── 労災申請アシストサイト_回覧完了画面.html      # 回覧依頼完了画面
+├── index.html                             # メインランディングページ
+├── 労災申請アシストサイト_*.html              # 各画面のHTMLファイル
 ├── css/
-│   ├── design-system.css                  # デジタル庁デザインシステム準拠の共通スタイル
+│   ├── design-system.css                  # デジタル庁デザインシステム準拠（ブレークポイント、z-index追加）
 │   ├── common.css                         # 全ページ共通のスタイル
-│   └── pages/
-│       ├── index.css                      # トップページ固有のスタイル
-│       ├── login.css                      # ログイン画面固有のスタイル
-│       ├── procedures.css                 # 手続き一覧画面固有のスタイル
-│       ├── application-form.css           # 申請画面固有のスタイル
-│       ├── chat.css                       # AIチャット画面固有のスタイル
-│       └── circulation.css                # 回覧完了画面固有のスタイル
+│   ├── utilities.css                      # ユーティリティクラス（新規）
+│   └── pages/                             # ページ固有のスタイル
+│       ├── index.css
+│       ├── login.css
+│       ├── procedures.css
+│       ├── application-form.css
+│       ├── chat.css
+│       └── circulation.css
 ├── js/
-│   ├── common.js                          # 全ページ共通のJavaScript
+│   ├── core/                              # コアユーティリティ（新規）
+│   │   ├── Logger.js                      # ロガークラス
+│   │   ├── EventManager.js                # イベント管理
+│   │   ├── DOMCache.js                    # DOM検索キャッシュ
+│   │   └── A11yHelper.js                  # アクセシビリティヘルパー
+│   ├── common.js                          # 全ページ共通
 │   └── pages/
-│       ├── index.js                       # トップページ固有のスクリプト
-│       ├── login.js                       # ログイン画面固有のスクリプト
-│       ├── procedures.js                  # 手続き一覧画面固有のスクリプト
-│       ├── application-form.js            # 申請画面固有のスクリプト
-│       ├── chat.js                        # AIチャット画面固有のスクリプト
-│       └── circulation.js                 # 回覧完了画面固有のスクリプト
-├── images/                                # 画像ファイル（QRコードなど）
+│       ├── application-form/              # 申請フォームモジュール（新規）
+│       │   ├── FormState.js               # 状態管理
+│       │   └── MedicalInstitutionService.js # 医療機関サービス
+│       ├── application-form.js            # 既存ファイル（将来的に分割予定）
+│       ├── index.js
+│       ├── login.js
+│       ├── procedures.js
+│       ├── chat.js
+│       └── circulation.js
+├── data/                                  # データファイル（新規）
+│   └── medical-institutions.json          # 医療機関データ（30件）
+├── tests/                                 # テストファイル（新規）
+│   ├── FormState.test.js
+│   └── MedicalInstitutionService.test.js
+├── images/                                # 画像ファイル
+├── package.json                           # NPM設定（新規）
+├── jest.config.js                         # Jest設定（新規）
+├── .eslintrc.json                         # ESLint設定（新規）
+├── .prettierrc.json                       # Prettier設定（新規）
 ├── CLAUDE.md                              # このファイル
-├── README_REFACTORING.md                  # リファクタリング実施記録
-├── REFACTORING_GUIDE.md                   # リファクタリングガイド
-├── REFACTORING_SUMMARY.md                 # リファクタリング要約
-├── QUICK_START.md                         # クイックスタートガイド
-├── robots.txt                             # 検索エンジンクロール制御
-└── 労災申請アシストサイト_8号申請画面.html.bak  # バックアップファイル
+├── REFACTORING_PHASE2.md                  # フェーズ2リファクタリング記録（新規）
+├── README_REFACTORING.md
+├── REFACTORING_GUIDE.md
+├── REFACTORING_SUMMARY.md
+├── QUICK_START.md
+└── robots.txt
 ```
 
 ### 重要な変更点
-- **2025年10月**: 大規模リファクタリング実施
+- **2025年11月（フェーズ2）**: モジュール化とテスト環境整備 [Issue #22]
+  - コアユーティリティクラスの追加（Logger, EventManager, DOMCache, A11yHelper）
+  - FormState, MedicalInstitutionServiceモジュールの作成
+  - 医療機関データのJSON化（約270行削減）
+  - Jest/ESLint/Prettierによるテスト・品質管理環境の構築
+  - CSS変数の拡張（ブレークポイント、z-index、タッチターゲットサイズ）
+  - ユーティリティCSS追加
+- **2025年10月（フェーズ1）**: 大規模リファクタリング実施
   - CSS/JSを外部ファイルに分離（保守性向上）
   - ファイル名を統一的な命名規則に変更
   - フォルダ構造を整理（css/pages/、js/pages/）
