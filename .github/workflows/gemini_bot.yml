@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ------------------------------
-      # ① Bot が呼ばれたかチェック
-      # ------------------------------
       - name: Check invocation
         id: check
         run: |
@@ -28,23 +25,16 @@ jobs:
         if: steps.check.outputs.invoke == 'false'
         run: echo "Bot not invoked. Stop."
 
-      # ------------------------------
-      # ② Node.js（JSONパース用）
-      # ------------------------------
       - name: Set up Node
         if: steps.check.outputs.invoke == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      # ------------------------------
-      # ③ Gemini API を呼ぶ
-      # ------------------------------
       - name: Call Gemini API
         if: steps.check.outputs.invoke == 'true'
         run: |
-          echo "Creating request.json…"
-
+          echo "--- CREATE REQUEST ---"
           cat > request.json <<EOF
           {
             "contents": [
@@ -57,8 +47,7 @@ jobs:
           }
           EOF
 
-          echo "--- Sending request to Gemini ---"
-
+          echo "--- SEND REQUEST ---"
           curl -s -X POST \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
@@ -67,52 +56,36 @@ jobs:
             > response.json
 
           echo "--- RAW RESPONSE (response.json) ---"
-          cat response.json || echo "response.json DOES NOT EXIST"
+          cat response.json
 
-      # ------------------------------
-      # ④ Gemini レスポンスをパース
-      # ------------------------------
       - name: Parse reply
         if: steps.check.outputs.invoke == 'true'
         run: |
           node << 'EOF'
           const fs = require('fs');
+          const raw = JSON.parse(fs.readFileSync('response.json', 'utf8'));
 
-          let rawText = fs.readFileSync("response.json", "utf8");
-
-          console.log("RAW JSON:", rawText);
-
-          let json;
-          try {
-            json = JSON.parse(rawText);
-          } catch (e) {
-            fs.writeFileSync("reply.txt", "ERROR: Gemini JSON parse failed");
-            process.exit(0);
-          }
-
-          // 多数ある場合のフォールバック
           const text =
-            json?.candidates?.[0]?.content?.parts?.[0]?.text ||
-            json?.candidates?.[0]?.output_text ||
-            json?.candidates?.[0]?.text ||
-            json?.text ||
+            raw?.candidates?.[0]?.content?.parts?.[0]?.text ||
+            raw?.candidates?.[0]?.output_text ||
+            raw?.candidates?.[0]?.text ||
+            raw?.text ||
             "ERROR: No content";
 
           console.log("PARSED:", text);
-
           fs.writeFileSync("reply.txt", text);
           EOF
 
-      # ------------------------------
-      # ⑤ Issue に返信 (GitHub CLI)
-      # ------------------------------
-      - name: Post reply
+      - name: Post reply as gemini-ryoichi-bot
         if: steps.check.outputs.invoke == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GEMINI_BOT_TOKEN }}
         run: |
           BODY=$(cat reply.txt)
-          echo "Replying: $BODY"
+
+          echo "POST BODY:"
+          echo "$BODY"
+
           gh api \
             repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
             -f body="$BODY"
