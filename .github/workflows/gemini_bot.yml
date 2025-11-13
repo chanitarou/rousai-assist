@@ -34,10 +34,12 @@ jobs:
           echo "$RAW"
           echo "=== RAW RESPONSE END ==="
 
-          # RAW の内容をコメント投稿用に安全にエスケープしつつ、一時ファイルへ保存
+          # Save raw response for next step
           printf "%s" "$RAW" > raw_reply.txt
 
       - name: Post Gemini raw reply
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           BODY=$(cat raw_reply.txt)
 
