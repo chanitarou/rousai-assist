@@ -1,0 +1,51 @@
+name: Gemini Ryoichi Bot Comment Handler
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  gemini_ryoichi_bot:
+    if: contains(github.event.comment.body, '@gemini-ryoichi-bot')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Gemini API 呼び出し
+      - name: Generate Gemini response
+        id: gemini
+        run: |
+          COMMENT="${{ github.event.comment.body }}"
+
+          JSON=$(jq -n --arg content "$COMMENT" \
+            '{contents:[{role:"user", parts:[{text:$content}]}]}')
+
+          RAW=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${{ secrets.GEMINI_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d "$JSON")
+
+          echo "RAW RESPONSE:"
+          echo "$RAW"
+
+          RESPONSE=$(echo "$RAW" | jq -r '.candidates[0].content.parts[0].text // "ERROR: No content"')
+
+          echo "response<<EOF" >> $GITHUB_OUTPUT
+          echo "$RESPONSE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # Gemini bot アカウントでコメント投稿
+      - name: Post reply as gemini-ryoichi-bot
+        run: |
+          BODY="${{ steps.gemini.outputs.response }}"
+          BODY_ESCAPED=$(echo "$BODY" | sed 's/"/\\"/g')
+
+          curl -s -X POST \
+            -H "Authorization: token ${{ secrets.GEMINI_BOT_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"body\": \"$BODY_ESCAPED\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments"
