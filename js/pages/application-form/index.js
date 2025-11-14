@@ -18,6 +18,8 @@ import { Logger } from '../../core/Logger.js';
 import { EventManager } from '../../core/EventManager.js';
 import { DOMCache } from '../../core/DOMCache.js';
 import { A11yHelper } from '../../core/A11yHelper.js';
+import { DateUtils } from '../../core/DateUtils.js';
+import { FileUploadManager } from '../../core/FileUploadManager.js';
 
 // ==========================================
 // グローバルインスタンス
@@ -76,11 +78,11 @@ async function initializeApplication() {
         // 自動保存の開始
         formState.startAutosave();
 
-        // 日付セレクトボックスの初期化
-        initializeDateSelects();
+        // 日付セレクトボックスの初期化（DateUtilsを使用）
+        DateUtils.initializeDateSelects();
 
-        // ファイルアップロードの初期化
-        setupFileUpload();
+        // ファイルアップロードの初期化（FileUploadManagerを使用）
+        FileUploadManager.initializeFileUploads();
 
         // 医療機関検索の初期化
         setupMedicalSearchListeners();
@@ -562,222 +564,95 @@ window.setupMedicalSearchListeners = function() {
 
 // ==========================================
 // ファイルアップロード関連のグローバル関数
+// （FileUploadManagerモジュールへのラッパー）
 // ==========================================
 
 /**
  * ファイルアップロードのセットアップ（グローバル関数）
+ * @deprecated FileUploadManager.setupFileUploadを使用してください
  */
-window.setupFileUpload = function() {
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-
-    fileInputs.forEach(input => {
-        eventManager.on(input, 'change', (e) => {
-            const files = Array.from(e.target.files);
-            const listId = input.id.replace('Input', 'List');
-            displayFileList(files, listId);
-        });
-    });
-
-    logger.debug('ファイルアップロードをセットアップしました');
+window.setupFileUpload = function(inputId, listId) {
+    FileUploadManager.setupFileUpload(inputId, listId);
+    logger.debug(`ファイルアップロードをセットアップしました: ${inputId}`);
 };
 
 /**
  * ファイルリストを表示（グローバル関数）
+ * @deprecated FileUploadManager.displayFileListを使用してください
  */
-window.displayFileList = function(files, listId) {
-    const listElement = document.getElementById(listId);
-    if (!listElement) return;
-
-    if (files.length === 0) {
-        listElement.innerHTML = '<div class="file-item-empty">ファイルが選択されていません</div>';
-        return;
-    }
-
-    listElement.innerHTML = files.map((file, index) => `
-        <div class="file-item">
-            <span class="file-icon">📄</span>
-            <span class="file-name">${file.name}</span>
-            <span class="file-size">(${formatFileSize(file.size)})</span>
-            <button type="button" class="btn-remove-file" onclick="removeFile('${listId}', ${index})">削除</button>
-        </div>
-    `).join('');
+window.displayFileList = function(files, listId, inputId = '') {
+    FileUploadManager.displayFileList(files, listId, inputId);
 };
 
 /**
  * ファイルサイズをフォーマット（グローバル関数）
+ * @deprecated FileUploadManager.formatFileSizeを使用してください
  */
 window.formatFileSize = function(bytes) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return FileUploadManager.formatFileSize(bytes);
 };
 
 /**
  * ファイルを削除（グローバル関数）
+ * @deprecated FileUploadManager.removeFileを使用してください
  */
 window.removeFile = function(listId, index) {
-    const inputId = listId.replace('List', 'Input');
-    const input = document.getElementById(inputId);
-
-    if (input && input.files) {
-        // FileListは読み取り専用なので、新しいFileListを作成
-        const dataTransfer = new DataTransfer();
-        Array.from(input.files).forEach((file, i) => {
-            if (i !== index) {
-                dataTransfer.items.add(file);
-            }
-        });
-        input.files = dataTransfer.files;
-
-        // リストを再表示
-        displayFileList(Array.from(input.files), listId);
-    }
+    const inputId = listId.replace('List', '').replace('FileList', 'File');
+    FileUploadManager.removeFile(listId, inputId, index);
 };
 
 // ==========================================
 // 日付セレクトボックス関連のグローバル関数
+// （DateUtilsモジュールへのラッパー）
 // ==========================================
 
 /**
  * 日付セレクトボックスを初期化（グローバル関数）
+ * @deprecated DateUtils.initializeDateSelectsを使用してください
  */
 window.initializeDateSelects = function() {
-    // 生年月日（1900年～現在）
-    populateDateSelects('birthDate', 1900, new Date().getFullYear(), true);
-
-    // 記入日（現在年のみ、降順）
-    const currentYear = new Date().getFullYear();
-    populateDateSelects('employerFillingDate', currentYear, currentYear, true);
-    populateDateSelects('hospitalFillingDate', currentYear, currentYear, true);
-
-    // 療養期間（現在年±5年）
-    populateDateSelects('treatmentStartDate', currentYear - 5, currentYear + 5);
-    populateDateSelects('treatmentEndDate', currentYear - 5, currentYear + 5);
-
+    DateUtils.initializeDateSelects();
     logger.debug('日付セレクトボックスを初期化しました');
 };
 
 /**
  * 日付セレクトボックスを生成（グローバル関数）
+ * @deprecated DateUtils.populateDateSelectsを使用してください
  */
 window.populateDateSelects = function(baseId, startYear, endYear, sortDesc = false) {
-    const yearSelect = document.getElementById(`${baseId}Year`);
-    const monthSelect = document.getElementById(`${baseId}Month`);
-    const daySelect = document.getElementById(`${baseId}Day`);
-
-    if (!yearSelect || !monthSelect || !daySelect) return;
-
-    // 年の選択肢を生成
-    yearSelect.innerHTML = '<option value="">--</option>';
-    const years = [];
-    for (let year = startYear; year <= endYear; year++) {
-        years.push(year);
-    }
-    if (sortDesc) years.reverse();
-
-    years.forEach(year => {
-        const option = document.createElement('option');
-        option.value = year;
-        option.textContent = `${year}年`;
-        yearSelect.appendChild(option);
-    });
-
-    // 月の選択肢を生成
-    monthSelect.innerHTML = '<option value="">--</option>';
-    for (let month = 1; month <= 12; month++) {
-        const option = document.createElement('option');
-        option.value = month;
-        option.textContent = `${month}月`;
-        monthSelect.appendChild(option);
-    }
-
-    // 日の選択肢を生成（初期は31日まで）
-    daySelect.innerHTML = '<option value="">--</option>';
-    for (let day = 1; day <= 31; day++) {
-        const option = document.createElement('option');
-        option.value = day;
-        option.textContent = `${day}日`;
-        daySelect.appendChild(option);
-    }
-
-    // 年・月が変更されたら日の選択肢を更新
-    eventManager.on(yearSelect, 'change', () => updateDayOptions(baseId));
-    eventManager.on(monthSelect, 'change', () => updateDayOptions(baseId));
+    DateUtils.populateDateSelects(baseId, startYear, endYear, sortDesc);
 };
 
 /**
  * 日の選択肢を更新（グローバル関数）
+ * @deprecated DateUtils.updateDayOptionsを使用してください
  */
 window.updateDayOptions = function(baseId) {
-    const yearSelect = document.getElementById(`${baseId}Year`);
-    const monthSelect = document.getElementById(`${baseId}Month`);
-    const daySelect = document.getElementById(`${baseId}Day`);
-
-    if (!yearSelect || !monthSelect || !daySelect) return;
-
-    const year = parseInt(yearSelect.value);
-    const month = parseInt(monthSelect.value);
-
-    if (!year || !month) return;
-
-    const daysInMonth = getDaysInMonth(year, month);
-    const currentDay = parseInt(daySelect.value);
-
-    // 日の選択肢を再生成
-    daySelect.innerHTML = '<option value="">--</option>';
-    for (let day = 1; day <= daysInMonth; day++) {
-        const option = document.createElement('option');
-        option.value = day;
-        option.textContent = `${day}日`;
-        daySelect.appendChild(option);
-    }
-
-    // 選択されていた日が有効な場合は復元
-    if (currentDay && currentDay <= daysInMonth) {
-        daySelect.value = currentDay;
-    }
+    DateUtils.updateDayOptions(baseId);
 };
 
 /**
  * 指定された年月の日数を取得（グローバル関数）
+ * @deprecated DateUtils.getDaysInMonthを使用してください
  */
 window.getDaysInMonth = function(year, month) {
-    return new Date(year, month, 0).getDate();
+    return DateUtils.getDaysInMonth(year, month);
 };
 
 /**
  * 日付セレクトボックスから値を取得（グローバル関数）
+ * @deprecated DateUtils.getDateValueを使用してください
  */
 window.getDateValue = function(baseId) {
-    const year = document.getElementById(`${baseId}Year`)?.value;
-    const month = document.getElementById(`${baseId}Month`)?.value;
-    const day = document.getElementById(`${baseId}Day`)?.value;
-
-    if (!year || !month || !day) return null;
-
-    const paddedMonth = month.toString().padStart(2, '0');
-    const paddedDay = day.toString().padStart(2, '0');
-
-    return `${year}-${paddedMonth}-${paddedDay}`;
+    return DateUtils.getDateValue(baseId);
 };
 
 /**
  * 日付セレクトボックスに値をセット（グローバル関数）
+ * @deprecated DateUtils.setDateValueを使用してください
  */
 window.setDateValue = function(baseId, dateString) {
-    if (!dateString) return;
-
-    const [year, month, day] = dateString.split('-');
-
-    const yearSelect = document.getElementById(`${baseId}Year`);
-    const monthSelect = document.getElementById(`${baseId}Month`);
-    const daySelect = document.getElementById(`${baseId}Day`);
-
-    if (yearSelect) yearSelect.value = year;
-    if (monthSelect) monthSelect.value = parseInt(month);
-    if (daySelect) daySelect.value = parseInt(day);
+    DateUtils.setDateValue(baseId, dateString);
 };
 
 // ==========================================
