@@ -13,18 +13,18 @@ jobs:
 
     steps:
       - name: Check invocation
-  id: check
-  run: |
-    BODY="${{ github.event.comment.body }}"
-    
-    echo "Comment body:"
-    echo "$BODY"
+        id: check
+        run: |
+          BODY="${{ github.event.comment.body }}"
+          
+          echo "Comment body:"
+          echo "$BODY"
 
-    if echo "$BODY" | grep -qi "@gemini-ryoichi-bot"; then
-      echo "invoke=true" >> $GITHUB_OUTPUT
-    else
-      echo "invoke=false" >> $GITHUB_OUTPUT
-    fi
+          if echo "$BODY" | grep -qi "@gemini-ryoichi-bot"; then
+            echo "invoke=true" >> $GITHUB_OUTPUT
+          else
+            echo "invoke=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Stop if not invoked
         if: steps.check.outputs.invoke == 'false'
