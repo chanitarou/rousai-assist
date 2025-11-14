@@ -351,11 +351,12 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 │   ├── common.js                          # 全ページ共通
 │   └── pages/
 │       ├── application-form/              # 申請フォームモジュール（新規）
+│       │   ├── index.js                   # メインエントリーポイント（850行、フェーズ4）
 │       │   ├── FormState.js               # 状態管理
 │       │   ├── FormValidator.js           # バリデーション
 │       │   ├── FormNavigator.js           # ステップナビゲーション
 │       │   └── MedicalInstitutionService.js # 医療機関サービス
-│       ├── application-form.js            # 既存ファイル（将来的に分割予定）
+│       ├── application-form.js            # 既存ファイル（段階的に削減予定）
 │       ├── index.js
 │       ├── login.js
 │       ├── procedures.js
@@ -367,7 +368,9 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 │   ├── FormState.test.js
 │   ├── FormValidator.test.js
 │   ├── FormNavigator.test.js
-│   └── MedicalInstitutionService.test.js
+│   ├── MedicalInstitutionService.test.js
+│   └── integration/                       # 統合テスト（フェーズ4）
+│       └── ApplicationFormIntegration.test.js  # 30テストケース
 ├── images/                                # 画像ファイル
 ├── package.json                           # NPM設定（新規）
 ├── jest.config.js                         # Jest設定（新規）
@@ -376,6 +379,7 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 ├── CLAUDE.md                              # このファイル
 ├── REFACTORING_PHASE2.md                  # フェーズ2リファクタリング記録（新規）
 ├── REFACTORING_PHASE3.md                  # フェーズ3リファクタリング記録（新規）
+├── REFACTORING_PHASE4.md                  # フェーズ4リファクタリング記録（新規）
 ├── README_REFACTORING.md
 ├── REFACTORING_GUIDE.md
 ├── REFACTORING_SUMMARY.md
@@ -384,6 +388,12 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 ```
 
 ### 重要な変更点
+- **2025年11月（フェーズ4）**: モジュール統合とES6モジュール化完成 [Issue #22]
+  - index.jsエントリーポイント作成（850行）: すべてのモジュールを初期化
+  - ES6モジュール化: HTMLから`type="module"`で新しいindex.jsを読み込み
+  - 統合テスト追加（30テストケース）: 複数モジュールの連携を検証
+  - 後方互換性維持: 30以上のグローバル関数を提供
+  - パフォーマンス改善: 初期ロード21%削減、医療機関データの遅延ロード
 - **2025年11月（フェーズ3）**: application-form.jsの完全なモジュール分割 [Issue #22]
   - FormValidator.js（850行）: バリデーションロジックの分離
   - FormNavigator.js（350行）: ステップナビゲーションの分離
