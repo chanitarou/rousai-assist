@@ -12,56 +12,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ----------------------------
-      # コメント本文を安全にファイルに保存
-      # ----------------------------
+      # --------------------------------
+      # 1. コメント本文を安全に body.txt に保存
+      # --------------------------------
       - name: Save comment body
         id: save
         run: |
-          echo "${{ github.event.comment.body }}" > body.txt
+          # イベント JSON から .comment.body をそのまま取り出す
+          jq -r '.comment.body' "$GITHUB_EVENT_PATH" > body.txt
 
-      # ----------------------------
-      # メンション検知（安全版）
-      # ----------------------------
+      # --------------------------------
+      # 2. メンション検知（grep）
+      # --------------------------------
       - name: Check invocation
         id: check
         run: |
           if grep -qi "@gemini-ryoichi-bot" body.txt; then
-            echo "invoke=true" >> $GITHUB_OUTPUT
+            echo "invoke=true" >> "$GITHUB_OUTPUT"
           else
-            echo "invoke=false" >> $GITHUB_OUTPUT
+            echo "invoke=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Stop if not invoked
         if: steps.check.outputs.invoke == 'false'
         run: echo "Bot not invoked. Stop."
 
+      # --------------------------------
+      # 3. Node セットアップ
+      # --------------------------------
       - name: Set up Node
         if: steps.check.outputs.invoke == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      # ----------------------------
-      # Gemini API 呼び出し
-      # ----------------------------
+      # --------------------------------
+      # 4. Gemini API 呼び出し
+      # --------------------------------
       - name: Call Gemini API
         if: steps.check.outputs.invoke == 'true'
         run: |
-          TEXT=$(cat body.txt | sed 's/"/\\"/g')
+          echo "--- CREATE REQUEST ---"
 
-          cat > request.json <<EOF
-          {
-            "contents": [
-              {
-                "parts": [
-                  { "text": "$TEXT" }
-                ]
-              }
-            ]
-          }
-          EOF
+          # body.txt をそのまま text として JSON に埋め込む
+          jq -n --rawfile text body.txt \
+            '{contents: [{parts: [{text: $text}]}]}' > request.json
 
+          cat request.json
+
+          echo "--- SEND REQUEST ---"
           curl -s -X POST \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
@@ -69,27 +68,42 @@ jobs:
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
             > response.json
 
-          echo "--- RAW RESPONSE ---"
+          echo "--- RAW RESPONSE (response.json) ---"
           cat response.json
 
+      # --------------------------------
+      # 5. レスポンスをパース
+      # --------------------------------
       - name: Parse reply
         if: steps.check.outputs.invoke == 'true'
         run: |
           node << 'EOF'
           const fs = require('fs');
           const raw = JSON.parse(fs.readFileSync('response.json', 'utf8'));
+
           const text =
             raw?.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "No content";
+            raw?.candidates?.[0]?.output_text ||
+            raw?.candidates?.[0]?.text ||
+            raw?.text ||
+            "ERROR: No content";
+
+          console.log("PARSED:", text);
           fs.writeFileSync("reply.txt", text);
           EOF
 
+      # --------------------------------
+      # 6. gemini-ryoichi-bot として返信
+      # --------------------------------
       - name: Post reply as gemini-ryoichi-bot
         if: steps.check.outputs.invoke == 'true'
         env:
           GH_TOKEN: ${{ secrets.GEMINI_BOT_TOKEN }}
         run: |
           BODY=$(cat reply.txt)
+          echo "POST BODY:"
+          echo "$BODY"
+
           gh api \
             repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
             -f body="$BODY"
