@@ -12,13 +12,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # --------------------------------
-      # メンションされているかどうかだけ判定
-      # --------------------------------
+      # ----------------------------
+      # コメント本文を安全にファイルに保存
+      # ----------------------------
+      - name: Save comment body
+        id: save
+        run: |
+          echo "${{ github.event.comment.body }}" > body.txt
+
+      # ----------------------------
+      # メンション検知（安全版）
+      # ----------------------------
       - name: Check invocation
         id: check
         run: |
-          if [[ "${{ contains(github.event.comment.body, '@gemini-ryoichi-bot') }}" == 'true' ]]; then
+          if grep -qi "@gemini-ryoichi-bot" body.txt; then
             echo "invoke=true" >> $GITHUB_OUTPUT
           else
             echo "invoke=false" >> $GITHUB_OUTPUT
@@ -34,23 +42,26 @@ jobs:
         with:
           node-version: 20
 
+      # ----------------------------
+      # Gemini API 呼び出し
+      # ----------------------------
       - name: Call Gemini API
         if: steps.check.outputs.invoke == 'true'
         run: |
-          echo "--- CREATE REQUEST ---"
+          TEXT=$(cat body.txt | sed 's/"/\\"/g')
+
           cat > request.json <<EOF
           {
             "contents": [
               {
                 "parts": [
-                  { "text": "${{ github.event.comment.body }}" }
+                  { "text": "$TEXT" }
                 ]
               }
             ]
           }
           EOF
 
-          echo "--- SEND REQUEST ---"
           curl -s -X POST \
             -H "Content-Type: application/json" \
             -H "x-goog-api-key: ${{ secrets.GEMINI_API_KEY }}" \
@@ -58,7 +69,7 @@ jobs:
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
             > response.json
 
-          echo "--- RAW RESPONSE (response.json) ---"
+          echo "--- RAW RESPONSE ---"
           cat response.json
 
       - name: Parse reply
@@ -67,15 +78,9 @@ jobs:
           node << 'EOF'
           const fs = require('fs');
           const raw = JSON.parse(fs.readFileSync('response.json', 'utf8'));
-
           const text =
             raw?.candidates?.[0]?.content?.parts?.[0]?.text ||
-            raw?.candidates?.[0]?.output_text ||
-            raw?.candidates?.[0]?.text ||
-            raw?.text ||
-            "ERROR: No content";
-
-          console.log("PARSED:", text);
+            "No content";
           fs.writeFileSync("reply.txt", text);
           EOF
 
@@ -85,10 +90,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GEMINI_BOT_TOKEN }}
         run: |
           BODY=$(cat reply.txt)
-
-          echo "POST BODY:"
-          echo "$BODY"
-
           gh api \
             repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
             -f body="$BODY"
