@@ -3,22 +3,22 @@
  *
  * このファイルは労災保険給付（様式第8号）の申請フォームの残存機能を提供します。
  *
- * 【重要】フェーズ4のモジュール化により、以下の機能は別モジュールに移行されました：
+ * 【重要】フェーズ6のモジュール化により、以下の機能は別モジュールに移行されました：
  * - FormState.js: フォーム状態管理、自動保存
  * - FormValidator.js: バリデーションロジック
  * - FormNavigator.js: ステップナビゲーション、プログレスバー管理
  * - MedicalInstitutionService.js: 医療機関検索
+ * - DateUtils.js: 日付セレクトボックス操作
+ * - FileUploadManager.js: ファイルアップロード処理
  * - index.js: メインエントリーポイント、初期化処理
  *
  * このファイルには以下の機能のみが残されています：
  * - ユーティリティ関数（isMobileDevice, showToast, logout）
- * - ファイルアップロード処理
- * - 日付セレクトボックス操作
  * - フォーム送信処理（回覧依頼、申請送信、事業主・医療機関フォーム送信）
  * - モード切替（事業主モード、医療機関モード）
  *
  * @file application-form.js
- * @version 2.0.0 (Phase 5 Refactored)
+ * @version 3.0.0 (Phase 6 Refactored)
  * @requires js/common.js
  * @requires js/pages/application-form/index.js (ES6 module)
  */
@@ -76,220 +76,6 @@ function logout() {
     if (confirm('ログアウトしますか？\n入力中のデータは保存されます。')) {
         window.location.href = '労災アシストTOP画面_新.html';
     }
-}
-
-// ============================================================================
-// ファイルアップロード処理
-// ============================================================================
-
-/**
- * ファイルアップロードのセットアップ
- * @param {string} inputId - ファイル入力要素のID
- * @param {string} listId - ファイルリスト表示要素のID
- */
-function setupFileUpload(inputId, listId) {
-    const fileInput = document.getElementById(inputId);
-    if (!fileInput) return;
-
-    fileInput.addEventListener('change', (e) => {
-        const files = Array.from(e.target.files);
-        displayFileList(files, listId);
-    });
-}
-
-/**
- * 選択されたファイルのリストを表示
- * @param {File[]} files - ファイルの配列
- * @param {string} listId - 表示先要素のID
- */
-function displayFileList(files, listId) {
-    const listElement = document.getElementById(listId);
-    if (!listElement) return;
-
-    listElement.innerHTML = '';
-
-    files.forEach((file, index) => {
-        const fileItem = document.createElement('div');
-        fileItem.className = 'file-item';
-        fileItem.innerHTML = `
-            <span class="file-name">${file.name}</span>
-            <span class="file-size">${formatFileSize(file.size)}</span>
-            <button type="button" class="btn-remove" onclick="removeFile('${listId}', ${index})">削除</button>
-        `;
-        listElement.appendChild(fileItem);
-    });
-}
-
-/**
- * ファイルサイズをフォーマット
- * @param {number} bytes - バイト数
- * @returns {string} フォーマットされたサイズ（例: "1.5 MB"）
- */
-function formatFileSize(bytes) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-}
-
-/**
- * ファイルリストから指定されたファイルを削除
- * 注: この関数はindex.jsでも提供されています（後方互換性のため）
- * @param {string} listId - ファイルリストのID
- * @param {number} index - 削除するファイルのインデックス
- */
-function removeFile(listId, index) {
-    // この機能はindex.jsで実装されています
-    // HTMLからの直接呼び出しに対応するため、この関数は保持されています
-    console.warn('removeFile: この関数はindex.jsに移行されました');
-}
-
-// ============================================================================
-// 日付セレクトボックス操作
-// ============================================================================
-
-/**
- * 指定された年月の日数を取得
- * @param {number} year - 年
- * @param {number} month - 月（1-12）
- * @returns {number} その月の日数
- */
-function getDaysInMonth(year, month) {
-    return new Date(year, month, 0).getDate();
-}
-
-/**
- * 日付セレクトボックスを生成
- * @param {string} baseId - セレクトボックスのベースID（例: 'birthDate'）
- * @param {number} startYear - 開始年
- * @param {number} endYear - 終了年
- * @param {boolean} sortDesc - 降順ソート（デフォルト: false）
- */
-function populateDateSelects(baseId, startYear, endYear, sortDesc = false) {
-    const yearSelect = document.getElementById(`${baseId}Year`);
-    const monthSelect = document.getElementById(`${baseId}Month`);
-    const daySelect = document.getElementById(`${baseId}Day`);
-
-    if (!yearSelect || !monthSelect || !daySelect) return;
-
-    // 年の選択肢を生成
-    yearSelect.innerHTML = '<option value="">--</option>';
-    const years = [];
-    for (let y = startYear; y <= endYear; y++) {
-        years.push(y);
-    }
-    if (sortDesc) years.reverse();
-
-    years.forEach(year => {
-        const option = document.createElement('option');
-        option.value = year;
-        option.textContent = `${year}年`;
-        yearSelect.appendChild(option);
-    });
-
-    // 月の選択肢を生成
-    monthSelect.innerHTML = '<option value="">--</option>';
-    for (let m = 1; m <= 12; m++) {
-        const option = document.createElement('option');
-        option.value = m;
-        option.textContent = `${m}月`;
-        monthSelect.appendChild(option);
-    });
-
-    // 日の選択肢を生成（初期状態は31日まで）
-    updateDayOptions(baseId);
-
-    // 年・月が変更されたら日の選択肢を更新
-    yearSelect.addEventListener('change', () => updateDayOptions(baseId));
-    monthSelect.addEventListener('change', () => updateDayOptions(baseId));
-}
-
-/**
- * 日の選択肢を更新（選択された年月に応じて）
- * @param {string} baseId - セレクトボックスのベースID
- */
-function updateDayOptions(baseId) {
-    const yearSelect = document.getElementById(`${baseId}Year`);
-    const monthSelect = document.getElementById(`${baseId}Month`);
-    const daySelect = document.getElementById(`${baseId}Day`);
-
-    if (!yearSelect || !monthSelect || !daySelect) return;
-
-    const year = parseInt(yearSelect.value) || new Date().getFullYear();
-    const month = parseInt(monthSelect.value) || 1;
-    const currentDay = parseInt(daySelect.value) || '';
-
-    const daysInMonth = getDaysInMonth(year, month);
-
-    daySelect.innerHTML = '<option value="">--</option>';
-    for (let d = 1; d <= daysInMonth; d++) {
-        const option = document.createElement('option');
-        option.value = d;
-        option.textContent = `${d}日`;
-        if (d === currentDay) {
-            option.selected = true;
-        }
-        daySelect.appendChild(option);
-    }
-}
-
-/**
- * 日付セレクトボックスから日付文字列を取得
- * @param {string} baseId - セレクトボックスのベースID
- * @returns {string} 日付文字列（YYYY-MM-DD形式）、未選択の場合は空文字列
- */
-function getDateValue(baseId) {
-    const year = document.getElementById(`${baseId}Year`)?.value;
-    const month = document.getElementById(`${baseId}Month`)?.value;
-    const day = document.getElementById(`${baseId}Day`)?.value;
-
-    if (!year || !month || !day) return '';
-
-    const paddedMonth = month.padStart(2, '0');
-    const paddedDay = day.padStart(2, '0');
-    return `${year}-${paddedMonth}-${paddedDay}`;
-}
-
-/**
- * 日付セレクトボックスに日付文字列をセット
- * @param {string} baseId - セレクトボックスのベースID
- * @param {string} dateString - 日付文字列（YYYY-MM-DD形式）
- */
-function setDateValue(baseId, dateString) {
-    if (!dateString) return;
-
-    const [year, month, day] = dateString.split('-');
-    const yearSelect = document.getElementById(`${baseId}Year`);
-    const monthSelect = document.getElementById(`${baseId}Month`);
-    const daySelect = document.getElementById(`${baseId}Day`);
-
-    if (yearSelect) yearSelect.value = year;
-    if (monthSelect) monthSelect.value = parseInt(month, 10);
-    if (daySelect) daySelect.value = parseInt(day, 10);
-}
-
-/**
- * すべての日付セレクトボックスを初期化
- */
-function initializeDateSelects() {
-    const currentYear = new Date().getFullYear();
-
-    // 生年月日（過去120年～現在）
-    populateDateSelects('birthDate', currentYear - 120, currentYear, false);
-
-    // 負傷日・休業期間（過去5年～現在）
-    populateDateSelects('injuryDate', currentYear - 5, currentYear, false);
-    populateDateSelects('absenceStart', currentYear - 5, currentYear, false);
-    populateDateSelects('absenceEnd', currentYear - 5, currentYear, false);
-
-    // 事業主・医療機関の記入日（現在のみ）
-    populateDateSelects('employerDate', currentYear, currentYear, false);
-    populateDateSelects('medicalDate', currentYear, currentYear, false);
-
-    // 療養期間（過去5年～現在）
-    populateDateSelects('treatmentStart', currentYear - 5, currentYear, false);
-    populateDateSelects('treatmentEnd', currentYear - 5, currentYear, false);
 }
 
 // ============================================================================
@@ -449,7 +235,7 @@ function submitEmployerForm() {
         employerName,
         employerPosition,
         businessName,
-        employerDate: getDateValue('employerDate'),
+        employerDate: window.getDateValue ? window.getDateValue('employerDate') : '',
         submittedAt: new Date().toISOString()
     };
 
@@ -500,8 +286,8 @@ function submitMedicalForm() {
         doctorFirstName,
         injuryPart,
         injuryName,
-        treatmentStart: getDateValue('treatmentStart'),
-        treatmentEnd: getDateValue('treatmentEnd'),
+        treatmentStart: window.getDateValue ? window.getDateValue('treatmentStart') : '',
+        treatmentEnd: window.getDateValue ? window.getDateValue('treatmentEnd') : '',
         treatmentDays: document.getElementById('treatmentDays')?.value,
         treatmentStatus: document.querySelector('input[name="treatmentStatus"]:checked')?.value,
         submittedAt: new Date().toISOString()
@@ -533,12 +319,29 @@ function submitMedicalForm() {
 }
 
 // ============================================================================
-// セットアップ処理
+// レガシーサポート
 // ============================================================================
 
 /**
+ * 以下の関数はモジュールに移行されました。
+ * 後方互換性のため、index.jsでグローバル関数として提供されています。
+ */
+
+/**
+ * ファイル削除
+ * @deprecated この関数はFileUploadManager.jsに移行されました
+ */
+function removeFile(listId, index) {
+    console.warn('removeFile: この関数はFileUploadManager.jsに移行されました');
+    // index.jsで提供されるグローバル関数を呼び出し
+    if (typeof window.removeFile === 'function') {
+        window.removeFile(listId, index);
+    }
+}
+
+/**
  * リアルタイムバリデーションのセットアップ
- * 注: この関数はindex.jsに移行されました
+ * @deprecated この関数はindex.jsに移行されました
  */
 function setupRealtimeValidation() {
     console.warn('setupRealtimeValidation: この関数はindex.jsに移行されました');
@@ -546,7 +349,7 @@ function setupRealtimeValidation() {
 
 /**
  * 医療機関検索リスナーのセットアップ
- * 注: この関数はindex.jsに移行されました
+ * @deprecated この関数はindex.jsに移行されました
  */
 function setupMedicalSearchListeners() {
     console.warn('setupMedicalSearchListeners: この関数はindex.jsに移行されました');

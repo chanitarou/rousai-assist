@@ -347,7 +347,9 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 │   │   ├── Logger.js                      # ロガークラス
 │   │   ├── EventManager.js                # イベント管理
 │   │   ├── DOMCache.js                    # DOM検索キャッシュ
-│   │   └── A11yHelper.js                  # アクセシビリティヘルパー
+│   │   ├── A11yHelper.js                  # アクセシビリティヘルパー
+│   │   ├── DateUtils.js                   # 日付操作（フェーズ6）
+│   │   └── FileUploadManager.js           # ファイルアップロード（フェーズ6）
 │   ├── common.js                          # 全ページ共通
 │   └── pages/
 │       ├── application-form/              # 申請フォームモジュール（新規）
@@ -369,6 +371,8 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 │   ├── FormValidator.test.js
 │   ├── FormNavigator.test.js
 │   ├── MedicalInstitutionService.test.js
+│   ├── DateUtils.test.js                  # 日付操作テスト（29テスト、フェーズ6）
+│   ├── FileUploadManager.test.js          # ファイルアップロードテスト（17テスト、フェーズ6）
 │   └── integration/                       # 統合テスト（フェーズ4）
 │       └── ApplicationFormIntegration.test.js  # 30テストケース
 ├── images/                                # 画像ファイル
@@ -381,6 +385,7 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 ├── REFACTORING_PHASE3.md                  # フェーズ3リファクタリング記録（新規）
 ├── REFACTORING_PHASE4.md                  # フェーズ4リファクタリング記録（新規）
 ├── REFACTORING_PHASE5.md                  # フェーズ5リファクタリング記録（新規）
+├── REFACTORING_PHASE6.md                  # フェーズ6リファクタリング記録（新規）
 ├── README_REFACTORING.md
 ├── REFACTORING_GUIDE.md
 ├── REFACTORING_SUMMARY.md
@@ -389,6 +394,13 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 ```
 
 ### 重要な変更点
+- **2025年11月（フェーズ6）**: 日付・ファイル操作のモジュール化完了、リファクタリング完結 [Issue #22]
+  - DateUtils.js、FileUploadManager.jsの作成（420行）
+  - application-form.js: 560行 → 363行（**35.2%削減**）
+  - 新規テスト: 46テストケース（DateUtils: 29、FileUploadManager: 17）
+  - 累計テスト: 168テストケース
+  - 全体削減: 2,849行 → 363行（**87.3%削減**）
+  - リファクタリング目標達成: 可読性、再利用性、バグ削減、保守性、パフォーマンス
 - **2025年11月（フェーズ5）**: application-form.jsの大規模クリーンアップ [Issue #22]
   - 移行済みコードの削除: 2,849行 → 560行（**80.3%削減**）
   - グローバル変数、医療機関データ、重複関数を完全削除
