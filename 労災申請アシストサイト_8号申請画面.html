@@ -975,6 +975,9 @@
 
     <!-- External JavaScript files -->
     <script src="js/common.js?v=20250131"></script>
-    <script src="js/pages/application-form.js?v=20250131"></script>
+    <!-- 新しいモジュール化されたエントリーポイント -->
+    <script type="module" src="js/pages/application-form/index.js?v=20251114"></script>
+    <!-- 後方互換性のため既存ファイルも読み込み（段階的移行用） -->
+    <!-- <script src="js/pages/application-form.js?v=20250131"></script> -->
 </body>
 </html>
