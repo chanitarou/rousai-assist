@@ -16,7 +16,6 @@ jobs:
         id: check
         run: |
           BODY="${{ github.event.comment.body }}"
-          
           echo "Comment body:"
           echo "$BODY"
 
@@ -87,7 +86,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GEMINI_BOT_TOKEN }}
         run: |
           BODY=$(cat reply.txt)
-
           echo "POST BODY:"
           echo "$BODY"
 
