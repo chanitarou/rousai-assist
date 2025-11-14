@@ -12,14 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # --------------------------------
+      # メンションされているかどうかだけ判定
+      # --------------------------------
       - name: Check invocation
         id: check
         run: |
-          BODY="${{ github.event.comment.body }}"
-          echo "Comment body:"
-          echo "$BODY"
-
-          if echo "$BODY" | grep -qi "@gemini-ryoichi-bot"; then
+          if [[ "${{ contains(github.event.comment.body, '@gemini-ryoichi-bot') }}" == 'true' ]]; then
             echo "invoke=true" >> $GITHUB_OUTPUT
           else
             echo "invoke=false" >> $GITHUB_OUTPUT
@@ -86,6 +85,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GEMINI_BOT_TOKEN }}
         run: |
           BODY=$(cat reply.txt)
+
           echo "POST BODY:"
           echo "$BODY"
 
