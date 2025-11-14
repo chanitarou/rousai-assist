@@ -1,0 +1,30 @@
+{
+  "name": "rousai-assist",
+  "version": "1.0.0",
+  "description": "労災申請アシストサイト - 日本の労働者災害補償申請支援システムのプロトタイプ",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint js/**/*.js",
+    "lint:fix": "eslint js/**/*.js --fix",
+    "format": "prettier --write \"**/*.{js,css,html,md}\"",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "労災",
+    "申請",
+    "デジタル庁",
+    "design-system"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "prettier": "^3.2.5"
+  }
+}

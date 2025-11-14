@@ -69,6 +69,23 @@
     --transition-fast: 150ms ease-in-out;
     --transition-normal: 200ms ease-in-out;
     --transition-slow: 300ms ease-in-out;
+
+    /* ブレークポイント（JavaScript からも参照可能） */
+    --breakpoint-sm: 375px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+
+    /* Z-index レイヤー定義 */
+    --z-index-base: 1;
+    --z-index-dropdown: 1000;
+    --z-index-sticky: 1010;
+    --z-index-modal: 1020;
+    --z-index-toast: 1030;
+
+    /* タッチターゲットサイズ（WCAG準拠） */
+    --touch-target-min: 44px;
+    --touch-target-recommended: 48px;
 }
 
 body {
