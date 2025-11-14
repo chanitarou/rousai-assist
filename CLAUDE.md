@@ -380,6 +380,7 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 ├── REFACTORING_PHASE2.md                  # フェーズ2リファクタリング記録（新規）
 ├── REFACTORING_PHASE3.md                  # フェーズ3リファクタリング記録（新規）
 ├── REFACTORING_PHASE4.md                  # フェーズ4リファクタリング記録（新規）
+├── REFACTORING_PHASE5.md                  # フェーズ5リファクタリング記録（新規）
 ├── README_REFACTORING.md
 ├── REFACTORING_GUIDE.md
 ├── REFACTORING_SUMMARY.md
@@ -388,6 +389,12 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 ```
 
 ### 重要な変更点
+- **2025年11月（フェーズ5）**: application-form.jsの大規模クリーンアップ [Issue #22]
+  - 移行済みコードの削除: 2,849行 → 560行（**80.3%削減**）
+  - グローバル変数、医療機関データ、重複関数を完全削除
+  - ファイルサイズ87.5%削減（120KB → 15KB）
+  - 残存機能: ビジネスロジック（送信処理）、日付操作、ファイルアップロード、ユーティリティ
+  - Single Source of Truth確立
 - **2025年11月（フェーズ4）**: モジュール統合とES6モジュール化完成 [Issue #22]
   - index.jsエントリーポイント作成（850行）: すべてのモジュールを初期化
   - ES6モジュール化: HTMLから`type="module"`で新しいindex.jsを読み込み
