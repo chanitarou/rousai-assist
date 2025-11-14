@@ -352,6 +352,8 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 │   └── pages/
 │       ├── application-form/              # 申請フォームモジュール（新規）
 │       │   ├── FormState.js               # 状態管理
+│       │   ├── FormValidator.js           # バリデーション
+│       │   ├── FormNavigator.js           # ステップナビゲーション
 │       │   └── MedicalInstitutionService.js # 医療機関サービス
 │       ├── application-form.js            # 既存ファイル（将来的に分割予定）
 │       ├── index.js
@@ -363,6 +365,8 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 │   └── medical-institutions.json          # 医療機関データ（30件）
 ├── tests/                                 # テストファイル（新規）
 │   ├── FormState.test.js
+│   ├── FormValidator.test.js
+│   ├── FormNavigator.test.js
 │   └── MedicalInstitutionService.test.js
 ├── images/                                # 画像ファイル
 ├── package.json                           # NPM設定（新規）
@@ -371,6 +375,7 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 ├── .prettierrc.json                       # Prettier設定（新規）
 ├── CLAUDE.md                              # このファイル
 ├── REFACTORING_PHASE2.md                  # フェーズ2リファクタリング記録（新規）
+├── REFACTORING_PHASE3.md                  # フェーズ3リファクタリング記録（新規）
 ├── README_REFACTORING.md
 ├── REFACTORING_GUIDE.md
 ├── REFACTORING_SUMMARY.md
@@ -379,6 +384,11 @@ C:\Users\rtani\ClaudeCode\RosaiAssist\
 ```
 
 ### 重要な変更点
+- **2025年11月（フェーズ3）**: application-form.jsの完全なモジュール分割 [Issue #22]
+  - FormValidator.js（850行）: バリデーションロジックの分離
+  - FormNavigator.js（350行）: ステップナビゲーションの分離
+  - 65個のユニットテスト追加（FormValidator: 40、FormNavigator: 25）
+  - 約600行のコード分離により保守性が大幅に向上
 - **2025年11月（フェーズ2）**: モジュール化とテスト環境整備 [Issue #22]
   - コアユーティリティクラスの追加（Logger, EventManager, DOMCache, A11yHelper）
   - FormState, MedicalInstitutionServiceモジュールの作成
