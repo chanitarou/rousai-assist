@@ -56,7 +56,8 @@ async function initializeApplication() {
         // モジュールのインスタンス作成
         formState = new FormState(9);
         formValidator = new FormValidator();
-        formNavigator = new FormNavigator(formState, formValidator);
+        // バリデーション関数を渡す（オブジェクトではなく関数）
+        formNavigator = new FormNavigator(formState, (stepNumber) => formValidator.validateStep(stepNumber));
         medicalService = new MedicalInstitutionService();
 
         // 医療機関データを遅延ロード
@@ -102,6 +103,12 @@ async function initializeApplication() {
  * UI要素の初期化
  */
 function initializeUI() {
+    // すべてのステップを非アクティブ化
+    const allSteps = document.querySelectorAll('.step-content');
+    allSteps.forEach(step => {
+        step.classList.remove('active');
+    });
+
     // 最初のステップを表示
     formNavigator.activateStep(1);
 
