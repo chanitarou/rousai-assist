@@ -92,6 +92,9 @@ function manualSave() {
     showToast('データを保存しました', 'success');
 }
 
+// グローバル関数として公開
+window.manualSave = manualSave;
+
 /**
  * 回覧依頼送信処理
  * 被災労働者が入力完了後、事業主と医療機関に回覧依頼を送信
@@ -131,6 +134,9 @@ function submitCirculation() {
     }
 }
 
+// グローバル関数として公開
+window.submitCirculation = submitCirculation;
+
 /**
  * 最終申請送信処理
  * すべての入力が完了後、労働基準監督署へ申請を送信
@@ -159,6 +165,9 @@ function submitApplication() {
         showToast('申請の送信に失敗しました', 'error');
     }
 }
+
+// グローバル関数として公開
+window.submitApplication = submitApplication;
 
 /**
  * 事業主モードへ切り替え
@@ -220,19 +229,21 @@ function goToMedicalMode() {
  * 事業主が証明事項を記入後、データを保存
  */
 function submitEmployerForm() {
-    // 必須フィールドのバリデーション
-    const employerName = document.getElementById('employerName')?.value;
+    // 必須フィールドのバリデーション（HTMLの実際のフィールドIDに合わせて修正）
+    const employerLastName = document.getElementById('employerLastName')?.value;
+    const employerFirstName = document.getElementById('employerFirstName')?.value;
     const employerPosition = document.getElementById('employerPosition')?.value;
     const businessName = document.getElementById('businessName')?.value;
 
-    if (!employerName || !employerPosition || !businessName) {
+    if (!employerLastName || !employerFirstName || !businessName) {
         showToast('すべての必須項目を入力してください', 'error');
         return;
     }
 
     // データの保存
     const employerData = {
-        employerName,
+        employerLastName,
+        employerFirstName,
         employerPosition,
         businessName,
         employerDate: window.getDateValue ? window.getDateValue('employerDate') : '',
@@ -263,6 +274,9 @@ function submitEmployerForm() {
         showToast('事業主情報の保存に失敗しました', 'error');
     }
 }
+
+// グローバル関数として公開
+window.submitEmployerForm = submitEmployerForm;
 
 /**
  * 医療機関フォーム送信処理
@@ -317,6 +331,9 @@ function submitMedicalForm() {
         showToast('診断証明の保存に失敗しました', 'error');
     }
 }
+
+// グローバル関数として公開
+window.submitMedicalForm = submitMedicalForm;
 
 // ============================================================================
 // レガシーサポート
