@@ -35,9 +35,9 @@ export class DateUtils {
      * DateUtils.populateDateSelects('birthDate', 1900, 2024, false);
      */
     static populateDateSelects(baseId, startYear, endYear, sortDesc = false) {
-        const yearSelect = document.getElementById(`${baseId}Year`);
-        const monthSelect = document.getElementById(`${baseId}Month`);
-        const daySelect = document.getElementById(`${baseId}Day`);
+        const yearSelect = document.getElementById(`${baseId}-year`);
+        const monthSelect = document.getElementById(`${baseId}-month`);
+        const daySelect = document.getElementById(`${baseId}-day`);
 
         if (!yearSelect || !monthSelect || !daySelect) {
             console.warn(
@@ -90,9 +90,9 @@ export class DateUtils {
      * DateUtils.updateDayOptions('birthDate');
      */
     static updateDayOptions(baseId) {
-        const yearSelect = document.getElementById(`${baseId}Year`);
-        const monthSelect = document.getElementById(`${baseId}Month`);
-        const daySelect = document.getElementById(`${baseId}Day`);
+        const yearSelect = document.getElementById(`${baseId}-year`);
+        const monthSelect = document.getElementById(`${baseId}-month`);
+        const daySelect = document.getElementById(`${baseId}-day`);
 
         if (!yearSelect || !monthSelect || !daySelect) {
             console.warn(
@@ -128,9 +128,9 @@ export class DateUtils {
      * DateUtils.getDateValue('birthDate'); // => "1990-05-15"
      */
     static getDateValue(baseId) {
-        const yearEl = document.getElementById(`${baseId}Year`);
-        const monthEl = document.getElementById(`${baseId}Month`);
-        const dayEl = document.getElementById(`${baseId}Day`);
+        const yearEl = document.getElementById(`${baseId}-year`);
+        const monthEl = document.getElementById(`${baseId}-month`);
+        const dayEl = document.getElementById(`${baseId}-day`);
 
         if (!yearEl || !monthEl || !dayEl) {
             console.warn(
@@ -162,9 +162,9 @@ export class DateUtils {
         if (!dateString) return;
 
         const [year, month, day] = dateString.split('-');
-        const yearSelect = document.getElementById(`${baseId}Year`);
-        const monthSelect = document.getElementById(`${baseId}Month`);
-        const daySelect = document.getElementById(`${baseId}Day`);
+        const yearSelect = document.getElementById(`${baseId}-year`);
+        const monthSelect = document.getElementById(`${baseId}-month`);
+        const daySelect = document.getElementById(`${baseId}-day`);
 
         if (yearSelect) yearSelect.value = year;
         if (monthSelect) monthSelect.value = parseInt(month, 10);
@@ -197,13 +197,13 @@ export class DateUtils {
             false
         );
         DateUtils.populateDateSelects(
-            'absenceStart',
+            'leaveStartDate',
             currentYear - 5,
             currentYear,
             false
         );
         DateUtils.populateDateSelects(
-            'absenceEnd',
+            'leaveEndDate',
             currentYear - 5,
             currentYear,
             false
@@ -225,13 +225,13 @@ export class DateUtils {
 
         // 療養期間（過去5年～現在）
         DateUtils.populateDateSelects(
-            'treatmentStart',
+            'treatmentStartDate',
             currentYear - 5,
             currentYear,
             false
         );
         DateUtils.populateDateSelects(
-            'treatmentEnd',
+            'treatmentEndDate',
             currentYear - 5,
             currentYear,
             false
