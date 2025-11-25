@@ -67,6 +67,9 @@ async function initializeApplication() {
         // 既存のフォームデータを復元
         loadFormData();
 
+        // プログレス要素の生成
+        generateProgressSteps();
+
         // UI初期化
         initializeUI();
 
@@ -97,6 +100,45 @@ async function initializeApplication() {
         logger.error('アプリケーションの初期化に失敗しました', error);
         alert('申請フォームの初期化に失敗しました。ページを再読み込みしてください。');
     }
+}
+
+/**
+ * プログレスステップの生成
+ */
+function generateProgressSteps() {
+    const progressStepsContainer = document.getElementById('progressSteps');
+    if (!progressStepsContainer) {
+        logger.warn('progressSteps container not found');
+        return;
+    }
+
+    // プログレス要素をクリア
+    progressStepsContainer.innerHTML = '';
+
+    // STEP_DEFINITIONSからプログレスアイテムを生成
+    STEP_DEFINITIONS.forEach((step) => {
+        const progressStep = document.createElement('div');
+        progressStep.className = 'progress-step';
+        progressStep.setAttribute('data-step', step.id);
+
+        const indicator = document.createElement('div');
+        indicator.className = 'progress-step-indicator';
+        indicator.textContent = step.id;
+
+        const label = document.createElement('div');
+        label.className = 'progress-step-label';
+        label.textContent = step.label;
+
+        const line = document.createElement('div');
+        line.className = 'progress-step-line';
+
+        progressStep.appendChild(indicator);
+        progressStep.appendChild(label);
+        progressStep.appendChild(line);
+        progressStepsContainer.appendChild(progressStep);
+    });
+
+    logger.debug('Progress steps generated:', STEP_DEFINITIONS.length);
 }
 
 /**
