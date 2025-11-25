@@ -40,7 +40,8 @@ export class FormNavigator {
     constructor(formState, validateFn = null) {
         this.formState = formState;
         this.validateFn = validateFn;
-        this.totalSteps = 9;
+        this.totalSteps = 9; // 進捗表示用のステップ数（1-8, 10 → 9ステップとして表示）
+        this.maxStepNumber = 10; // 実際のHTMLステップの最大値
     }
 
     /**
@@ -81,7 +82,7 @@ export class FormNavigator {
         this.formState.setCurrentStep(nextStep);
 
         // 次のステップをアクティブ化
-        if (nextStep <= this.totalSteps) {
+        if (nextStep <= this.maxStepNumber) {
             this.activateStep(nextStep);
             this.updateProgress();
             window.scrollTo(0, 0);
@@ -234,7 +235,7 @@ export class FormNavigator {
         }
 
         // ステップテキスト更新
-        const currentStepText = document.getElementById('current-step');
+        const currentStepText = document.getElementById('currentStep');
         if (currentStepText) {
             currentStepText.textContent = progressStep;
         }
@@ -361,13 +362,20 @@ export class FormNavigator {
      * @param {number} targetStep - 移動先のステップ番号
      */
     goToStep(targetStep) {
-        if (targetStep < 1 || targetStep > this.totalSteps) {
+        if (targetStep < 1 || targetStep > this.maxStepNumber) {
             logger.error(`Invalid step number: ${targetStep}`);
             return false;
         }
 
-        const currentStep = this.formState.getCurrentStep();
-        this.deactivateStep(currentStep);
+        // すべてのステップを非アクティブ化（クリーンアップ）
+        const allSteps = document.querySelectorAll('.step-content');
+        allSteps.forEach(step => {
+            step.classList.remove('active');
+        });
+
+        // 回覧セクションも非表示にする
+        this.hideCirculationSection();
+
         this.formState.setCurrentStep(targetStep);
         this.activateStep(targetStep);
         this.updateProgress();

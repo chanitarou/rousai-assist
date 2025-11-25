@@ -682,7 +682,7 @@ window.logout = function() {
  */
 window.goToEmployerMode = function() {
     if (formNavigator) {
-        // ステップ6へ移動
+        // ステップ6へ移動（goToStepがクリーンアップを行う）
         formNavigator.goToStep(6);
     }
 };
@@ -692,7 +692,7 @@ window.goToEmployerMode = function() {
  */
 window.goToMedicalMode = function() {
     if (formNavigator) {
-        // ステップ7へ移動
+        // ステップ7へ移動（goToStepがクリーンアップを行う）
         formNavigator.goToStep(7);
     }
 };
