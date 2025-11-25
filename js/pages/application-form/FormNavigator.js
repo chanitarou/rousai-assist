@@ -262,7 +262,7 @@ export class FormNavigator {
      * @param {number} currentProgressStep - 現在の進捗ステップ
      */
     updateProgressItems(currentProgressStep) {
-        const progressItems = document.querySelectorAll('.progress-item');
+        const progressItems = document.querySelectorAll('.progress-step');
         progressItems.forEach((item, index) => {
             const stepNum = index + 1;
             if (stepNum < currentProgressStep) {
@@ -338,7 +338,7 @@ export class FormNavigator {
      */
     initializeProgress() {
         const currentStep = this.formState.getCurrentStep();
-        const progressItems = document.querySelectorAll('.progress-item');
+        const progressItems = document.querySelectorAll('.progress-step');
 
         // HTMLの進捗アイテムは9個（ステップ1-8、ステップ10）
         // data-step属性に基づいて各アイテムを更新
